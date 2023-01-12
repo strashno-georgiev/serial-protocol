@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <TargetMCU>STM32F769</TargetMCU>
+    <BoardManu>ST</BoardManu>
+    <BoardName>STM32F769I_Discovery</BoardName>
+    <SccProjectName />
+    <SccLocalPath />
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Windows/GUI/</OutDir>
+    <IntDir>.\Output/emWinSimulation_$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(TargetMCU)_$(BoardManu)_$(BoardName)_emWin_Simulation</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Windows/GUI/</OutDir>
+    <IntDir>.\Output/emWinSimulation_$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(TargetMCU)_$(BoardManu)_$(BoardName)_emWin_Simulation_DEBUG</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MinSpace</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>Setup;..\..\..\Application\Inc;..\..\..\GUI;..\..\..\OS\Inc;..\..\..\IP\Inc;..\..\..\SEGGER\Inc;..\..\..\GUI\Inc;..\..\..\GUI\Setup\$(TargetMCU)_$(BoardManu)_$(BoardName);..\..\..\Config;..\..\..\Windows\GUI;..\..\..\Application\SEGGERDEMO;..\..\..\Application\SEGGERDEMO\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Output/emWinSimulation_$(Configuration)/</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Output\emWinSimulation_$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Output/emWinSimulation_$(Configuration)/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Output/emWinSimulation_$(Configuration)/</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Output\emWinSimulation_$(Configuration)\$(TargetName).tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0407</Culture>
+      <ResourceOutputFileName>Output/emWinSimulation_$(Configuration)/$(TargetName).res</ResourceOutputFileName>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>Output/emWinSimulation_$(Configuration)/$(TargetName).bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <OutputFile>Windows/GUI/$(TargetName).exe</OutputFile>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>Setup;..\..\..\Application\Inc;..\..\..\GUI;..\..\..\OS\Inc;..\..\..\IP\Inc;..\..\..\SEGGER\Inc;..\..\..\GUI\Inc;..\..\..\GUI\Setup\$(TargetMCU)_$(BoardManu)_$(BoardName);..\..\..\Config;..\..\..\Windows\GUI;..\..\..\Application\SEGGERDEMO;..\..\..\Application\SEGGERDEMO\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Output/emWinSimulation_$(Configuration)/</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Output\emWinSimulation_$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Output/emWinSimulation_$(Configuration)/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Output/emWinSimulation_$(Configuration)/</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Output\emWinSimulation_$(Configuration)\$(TargetName).tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <ResourceOutputFileName>Output/emWinSimulation_$(Configuration)/$(TargetName).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>Output/emWinSimulation_$(Configuration)/$(TargetName).bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <OutputFile>Windows/GUI/$(TargetName).exe</OutputFile>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_AntialiasedText.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Automotive.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_BarGraph.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Bitmap.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_ColorBar.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Cursor.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Fading.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Graph.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_IconView.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_ImageFlow.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Intro.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Listview.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_RadialMenu.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Resource.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Skinning.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Speedometer.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_TransparentDialog.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_Treeview.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_VScreen.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_WashingMachine.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO_ZoomAndRotate.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\Src\IMAGE_SeggerLogo_300x150_565c.c" />
+    <ClCompile Include="..\..\..\Application\SEGGERDEMO\SEGGERDEMO.c" />
+    <ClCompile Include="..\..\..\Windows\GUI\SIM_X.c" />
+    <ClCompile Include="..\..\..\GUI\Setup\$(TargetMCU)_$(BoardManu)_$(BoardName)\GUIConf.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Application\SEGGERDEMO\Src\GUIDEMO.h" />
+    <ClInclude Include="..\..\..\Application\SEGGERDEMO\SysConfDefaults.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\..\Windows\GUI\GUISIMx86.res" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\Windows\GUI\GUISIMx86.lib" />
+    <Library Include="..\..\..\Windows\GUI\GUIx86.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

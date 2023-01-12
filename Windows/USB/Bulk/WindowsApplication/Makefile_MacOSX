@@ -1,0 +1,11 @@
+# Makefile for Mac OSX
+
+
+all: Exe/Test
+
+INCDIR = ../Inc
+API    = ../USBBULK_API_MacOSX/USBBULK_MacOSX.c
+LIBS   = -lpthread -framework CoreFoundation -framework IOKit
+
+Exe/Test: Src/Test.c $(API)
+	cc -Wall -O -I$(INCDIR) $^ -o $@ $(LIBS)

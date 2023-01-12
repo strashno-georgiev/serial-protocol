@@ -1,0 +1,8 @@
+speed 8000
+si SWD
+r
+sleep 10
+loadfile Start_STM32F769I_Discovery_OS_StartLEDBlink.hex
+r
+g
+q

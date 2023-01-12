@@ -1,0 +1,11 @@
+# Makefile for Mac OSX
+#
+# Set OS_VER to your version of macOS!
+#
+
+all: Exe/HIDEcho1
+OS_VER = 10.13
+LIBS   = -lpthread -framework CoreFoundation -framework IOKit -mmacosx-version-min=$(OS_VER)
+
+Exe/HIDEcho1: Application/HIDEcho1.c USBHID/USBHID_macOS.c
+	cc -Wall -O -IUSBHID $^ -o $@ $(LIBS)
