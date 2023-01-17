@@ -28,7 +28,7 @@ static OS_TASK         TCB_UARTTx, TCB_UARTRx;
 
 static UART_HandleTypeDef USART6_huart, UART5_huart; //2 * 112 bytes
 static char message[128];
-static char txmsg[16];
+static char txmsg[120];
 
 static void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance);
 
@@ -44,7 +44,7 @@ static void LPTask(void) {
   while (1) {
     BSP_ToggleLED(1);
     printf("LPTask - %d\n", HAL_GetTick());
-    OS_TASK_Delay(200);
+    OS_TASK_Delay(500);
     //OS_TASK_Terminate(NULL);
   }
 }
@@ -53,10 +53,10 @@ static void UART_transmit_task(void) {
   printf("Transmit task\n");
   
   while(1) {
-    strcpy(txmsg, "Hello");
+    strcpy(txmsg, "Hello, PC, I'm MCU\n");
     printf("Transmit starting\n");
     printf("%d\n", HAL_GetTick());
-    HAL_UART_Transmit(&USART6_huart, (uint8_t*)txmsg, 16, 32);  //blocks here
+    HAL_UART_Transmit(&USART6_huart, (uint8_t*)txmsg, strlen(txmsg)+1, 32);  //blocks here
     printf("Transmit done\n");
     printf("%d\n", HAL_GetTick());
 
@@ -70,8 +70,8 @@ static void UART_receive_task(void) {
   printf("%d\n", HAL_RCC_GetPCLK1Freq());
   printf("%d\n", HAL_RCC_GetPCLK2Freq());
   while(1) {
-    HAL_UART_Receive(&USART6_huart, (uint8_t*)message, 128, 32); //blocks here
-    printf("Message is: %s", message);
+    while(HAL_UART_Receive(&USART6_huart, (uint8_t*)message, 16, 32) != HAL_OK); //blocks here
+    printf("Message is: %s\n", message);
 
     OS_TASK_Terminate(NULL);
   }
@@ -115,8 +115,8 @@ void MainTask(void) {
     printf("Error in UART5 init\n");
   }
 
-  OS_TASK_CREATE(&TCBHP, "HP Task", 100, HPTask, StackHP);
-  OS_TASK_CREATE(&TCBLP, "LP Task",  50, LPTask, StackLP);
+  //OS_TASK_CREATE(&TCBHP, "HP Task", 100, HPTask, StackHP);
+  //OS_TASK_CREATE(&TCBLP, "LP Task",  50, LPTask, StackLP);
 
   OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 90, UART_receive_task, StackUARTRx);
   OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 90, UART_transmit_task, StackUARTTx);
@@ -127,7 +127,7 @@ void MainTask(void) {
 static void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
   UART_InitTypeDef uart_init;
   
-  uart_init.BaudRate = ;               // 1 250 000
+  uart_init.BaudRate = 19200;               // 1 250 000
   uart_init.WordLength = UART_WORDLENGTH_8B;  //Defined in uart_ex.h
   uart_init.StopBits = UART_STOPBITS_1;       //uart.h
   uart_init.Parity = UART_PARITY_NONE;
