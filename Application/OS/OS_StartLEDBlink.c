@@ -51,16 +51,20 @@ static void LPTask(void) {
 
 static void UART_transmit_task(void) {
   printf("Transmit task\n");
-  
+  OS_TASK_Delay(500);
+  int i=0;
   while(1) {
+    OS_TASK_Delay(1000);
     strcpy(txmsg, "Hello, PC, I'm MCU\n");
     printf("Transmit starting\n");
     printf("%d\n", HAL_GetTick());
-    HAL_UART_Transmit(&USART6_huart, (uint8_t*)txmsg, strlen(txmsg)+1, 32);  //blocks here
+    if(HAL_UART_Transmit(&UART5_huart, (uint8_t*)txmsg, 2, 1) != HAL_OK) {
+      printf("Error in transmit\n");
+    }  //blocks here
     printf("Transmit done\n");
     printf("%d\n", HAL_GetTick());
 
-    OS_TASK_Terminate(NULL);
+    //OS_TASK_Terminate(NULL);
   }
 }
 
@@ -69,11 +73,12 @@ static void UART_receive_task(void) {
   printf("%d\n", HAL_GetTick());
   printf("%d\n", HAL_RCC_GetPCLK1Freq());
   printf("%d\n", HAL_RCC_GetPCLK2Freq());
+  //OS_TASK_Delay(1000);
   while(1) {
-    while(HAL_UART_Receive(&USART6_huart, (uint8_t*)message, 16, 32) != HAL_OK); //blocks here
+    while(HAL_UART_Receive(&USART6_huart, (uint8_t*)message, 5, 32) != HAL_OK); //blocks here
     printf("Message is: %s\n", message);
 
-    OS_TASK_Terminate(NULL);
+    //OS_TASK_Terminate(NULL);
   }
 }
 
@@ -174,13 +179,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
     d2init.Mode = GPIO_MODE_AF_PP;
     d2init.Pull = GPIO_PULLUP;
     d2init.Speed = GPIO_SPEED_FREQ_HIGH;
-    d2init.Alternate = GPIO_AF1_UART5;
+    d2init.Alternate = GPIO_AF8_UART5; //From alternate function mapping in Datasheet
 
     c12init.Pin = GPIO_PIN_12;
     c12init.Mode = GPIO_MODE_AF_PP;
     c12init.Pull = GPIO_PULLUP;
     c12init.Speed = GPIO_SPEED_FREQ_HIGH;
-    c12init.Alternate = GPIO_AF1_UART5;
+    c12init.Alternate = GPIO_AF8_UART5;
 
     HAL_GPIO_Init(GPIOD, &d2init);
     HAL_GPIO_Init(GPIOC, &c12init);

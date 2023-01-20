@@ -1,4 +1,0 @@
-/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Output/Debug/Obj/SEGGER_RTT_ASM_ARMv7M.o: \
- /home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/SEGGER/RTT/SEGGER_RTT_ASM_ARMv7M.S \
- /home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/SEGGER/Inc/SEGGER_RTT.h \
- /home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/SEGGER_RTT_Conf.h
