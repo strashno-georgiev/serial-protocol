@@ -37,11 +37,12 @@ void isxcpy(int num, char* str, uint8_t numsize) {
   }
 }
 
-int8_t CRC_f(int data) {
+int8_t CRC_f(char* data) {
   return 0x00;
 }
 
 void Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
+  //Here a state machine should be implemented
   int i=0;
   while(i < len) {
     HAL_UART_Transmit(huart_main, str + i, 1, 100);
@@ -50,7 +51,7 @@ void Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
 }
 
 void WriteCommand(UART_HandleTypeDef* huart, char* data, byte_t len, uint16_t address) {
-  //Should be mutually exclusive - we don't want two packets with the same ID
+  //Should be mutually exclusive with other ID usages - we don't want two packets with the same ID
   isxcpy(ID, PACKET, 1);
   ID++;
   //-----
@@ -58,18 +59,41 @@ void WriteCommand(UART_HandleTypeDef* huart, char* data, byte_t len, uint16_t ad
   isxcpy(len, PACKET+4, 1);
   isxcpy(address, PACKET+6, 2);
   strncpy(PACKET+10, data, len);
-  isxcpy(CRC_f(data), PACKET+10+len, 1);
+  isxcpy(CRC_f(PACKET), PACKET+10+len, 1);
   strncpy(PACKET, ";\n", 2);
   
 
   Transmit(huart, PACKET, 6 * 2 + 2 + len);
 }
 
-void ReadCommand(UART_HandleTypeDef* huart, char* data, int len, int address) {
+void ReadCommand(UART_HandleTypeDef* huart, int address) {
+  //Should be mutually exclusive with other ID usages - we don't want two packets with the same ID
+  isxcpy(ID, PACKET, 1);
+  ID++;
+  //-----
+  isxcpy((byte_t)0x0E, PACKET+2, 1);
+  isxcpy(0x00, PACKET+4, 1);
+  isxcpy(address, PACKET+6, 2);
+  isxcpy(CRC_f(PACKET), PACKET+10, 1);
+  strncpy(PACKET, ";\n", 2);
+  
+
+  Transmit(huart, PACKET, 6 * 2 + 2);
 }
 
-void AckWriteCommand(UART_HandleTypeDef* huart, char data , int len, int address) {
+void AckWriteCommand(UART_HandleTypeDef* huart, int address) {
+  //Should be mutually exclusive with other ID usages - we don't want two packets with the same ID
+  isxcpy(ID, PACKET, 1);
+  ID++;
+  //-----
+  isxcpy((byte_t)0x0E, PACKET+2, 1);
+  isxcpy(0x00, PACKET+4, 1);
+  isxcpy(address, PACKET+6, 2);
+  isxcpy(CRC_f(PACKET), PACKET+10, 1);
+  strncpy(PACKET, ";\n", 2);
+  
 
+  Transmit(huart, PACKET, 6 * 2 + 2);
 }
 
 void Communication_Init(UART_HandleTypeDef* huart_main, UART_HandleTypeDef* huart_secondary) {
