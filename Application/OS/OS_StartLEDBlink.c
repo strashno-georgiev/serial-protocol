@@ -51,18 +51,21 @@ static void LPTask(void) {
 
 static void UART_transmit_task(void) {
   printf("Transmit task\n");
-  OS_TASK_Delay(500);
+  //OS_TASK_Delay(500);
   int i=0;
   while(1) {
-    OS_TASK_Delay(1000);
+    //OS_TASK_Delay(1000);
     strcpy(txmsg, "Hello, PC, I'm MCU\n");
     printf("Transmit starting\n");
-    printf("%d\n", HAL_GetTick());
-    if(HAL_UART_Transmit(&UART5_huart, (uint8_t*)txmsg, 2, 1) != HAL_OK) {
+    //printf("%d\n", HAL_GetTick());
+    if(HAL_UART_Transmit(&UART5_huart, (uint8_t*)txmsg + (i++), 1, 1) != HAL_OK) {
       printf("Error in transmit\n");
     }  //blocks here
     printf("Transmit done\n");
-    printf("%d\n", HAL_GetTick());
+    if(i > strlen(txmsg)) {
+      OS_TASK_Terminate(NULL);
+    }
+    //printf("%d\n", HAL_GetTick());
 
     //OS_TASK_Terminate(NULL);
   }
@@ -75,10 +78,10 @@ static void UART_receive_task(void) {
   printf("%d\n", HAL_RCC_GetPCLK2Freq());
   //OS_TASK_Delay(1000);
   while(1) {
-    while(HAL_UART_Receive(&USART6_huart, (uint8_t*)message, 5, 32) != HAL_OK); //blocks here
+    while(HAL_UART_Receive(&UART5_huart, (uint8_t*)message, 5, 32) != HAL_OK); //blocks here
     printf("Message is: %s\n", message);
 
-    //OS_TASK_Terminate(NULL);
+    OS_TASK_Terminate(NULL);
   }
 }
 
@@ -101,7 +104,7 @@ void MainTask(void);
 
 void MainTask(void) {
   HAL_Init();
-  //SystemClock_Config();
+
   OS_TASK_EnterRegion();
 
   init_UART(&USART6_huart, USART6);      //Defined in stm32f769xx.h
@@ -165,7 +168,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
     PeriphClkInitStruct.Uart5ClockSelection = RCC_UART5CLKSOURCE_PCLK1;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
     {
-      printf("Error in peripheral clock init\n");
+      printf("Error in peripheral clock selection\n");
       //Error_Handler();
     }
     //ENABLE PD2-RX and PC12-TX
@@ -214,57 +217,5 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
   }
 }
 
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Configure the main internal regulator output voltage
-  */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 8;
-  RCC_OscInitStruct.PLL.PLLN = 216;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    printf("Error in oscillator config\n");
-    //Error_Handler();
-  }
-
-  /** Activate the Over-Drive mode
-  */
-  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
-  {
-    printf("Error in overdrive config\n");
-    //Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK)
-  {
-    printf("Error in clock config\n");
-    //Error_Handler();
-  }
-}
 
 /*************************** End of file ****************************/

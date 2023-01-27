@@ -1,0 +1,1356 @@
+<!DOCTYPE CrossStudio_Project_File>
+<solution Name="Start_STM32F769I_Discovery" target="8" version="2">
+  <project Name="Start_STM32F769I_Discovery">
+    <configuration
+      LIBRARY_IO_TYPE="RTT"
+      Name="Common"
+      Placement="Flash"
+      Target="STM32F769NI"
+      arm_architecture="v7EM"
+      arm_compiler_variant="SEGGER"
+      arm_core_type="Cortex-M7"
+      arm_endian="Little"
+      arm_fp_abi="SoftFP"
+      arm_fpu_type="FPv5-SP-D16"
+      arm_linker_allow_multiple_definition="No"
+      arm_linker_heap_size="1280"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="1024"
+      arm_linker_variant="SEGGER"
+      arm_rtl_variant="SEGGER"
+      arm_target_device_name="STM32F769NI"
+      arm_target_interface_type="SWD"
+      build_intermediate_directory="$(ProjectDir)/Output/$(Configuration)/Obj"
+      build_output_directory="$(ProjectDir)/Output/$(Configuration)"
+      c_additional_options="-Wall;-Wextra;-Wunused-variable;-Wuninitialized;-Wmissing-field-initializers;-Wundef;-ffunction-sections;-fdata-sections"
+      c_preprocessor_definitions="USE_RTT=1;IP_SUPPORT_IPV6=1;WEBS_USE_SAMPLE_2018=1;BUFFER_SIZE_UP=4096;SEGGER_SYSVIEW_RTT_BUFFER_SIZE=8192;ARM_MATH_CM7;FLASH_PLACEMENT=1;STM32F769xx;USE_GUI=1;__MEMORY_INIT;__STM32F769_SUBFAMILY;__STM32F7xx_FAMILY"
+      c_user_include_directories="$(ProjectDir)/Setup;$(ProjectDir)/Setup/CoreSupport;$(ProjectDir)/Setup/DeviceSupport;$(ProjectDir)/../../../Application/GUI/SEGGERDEMO;$(ProjectDir)/../../../Application/GUI/SEGGERDEMO/Src;$(ProjectDir)/../../../Application/Inc;$(ProjectDir)/../../../Application/SEGGERDEMO;$(ProjectDir)/../../../Application/SEGGERDEMO/Src;$(ProjectDir)/../../../COMPRESS/Config;$(ProjectDir)/../../../COMPRESS/Inc;$(ProjectDir)/../../../CRYPTO/Config;$(ProjectDir)/../../../CRYPTO/Inc;$(ProjectDir)/../../../FS/Config;$(ProjectDir)/../../../FS/Inc;$(ProjectDir)/../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery;$(ProjectDir)/../../../GUI/Config;$(ProjectDir)/../../../GUI/Inc;$(ProjectDir)/../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery;$(ProjectDir)/../../../IOT/Config;$(ProjectDir)/../../../IOT/Inc;$(ProjectDir)/../../../IP/Config;$(ProjectDir)/../../../IP/Inc;$(ProjectDir)/../../../IP/Setup/IP_FS/FS_RO_2018/Generated;$(ProjectDir)/../../../LIB/Inc;$(ProjectDir)/../../../MB/Config;$(ProjectDir)/../../../MB/Inc;$(ProjectDir)/../../../OS/Config;$(ProjectDir)/../../../OS/Inc;$(ProjectDir)/../../../SECURE/Config;$(ProjectDir)/../../../SECURE/Inc;$(ProjectDir)/../../../SECURE/Keys;$(ProjectDir)/../../../SEGGER;$(ProjectDir)/../../../SEGGER/Config;$(ProjectDir)/../../../SEGGER/Inc;$(ProjectDir)/../../../SEGGER/SYS;$(ProjectDir)/../../../SEGGER/Syscalls;$(ProjectDir)/../../../SEGGER/SystemView;$(ProjectDir)/../../../SSH/Config;$(ProjectDir)/../../../SSH/Inc;$(ProjectDir)/../../../SSL/Certificates;$(ProjectDir)/../../../SSL/Config;$(ProjectDir)/../../../SSL/Inc;$(ProjectDir)/../../../USB-D/Config;$(ProjectDir)/../../../USB-D/Inc;$(ProjectDir)/../../../USB-H/Config;$(ProjectDir)/../../../USB-H/Inc;$(ProjectDir)/Setup/STM_BSP;$(ProjectDir)/Setup/System;$(ProjectDir)/Setup/System/STM32F7xx_HAL_Driver/Inc;$(ProjectDir)/Setup/System/STM32F7xx_HAL_Driver/Inc/Legacy"
+      debug_register_definition_file="Setup/STM32F7x9_v1r2_Registers.xml"
+      debug_stack_pointer_start="__stack_end__"
+      debug_start_from_entry_point_symbol="Yes"
+      debug_target_connection="J-Link"
+      debug_threads_script="$(ProjectDir)/Setup/embOSPlugin.js"
+      gcc_enable_all_warnings="Yes"
+      gcc_entry_point="Reset_Handler"
+      link_linker_script_file="Setup/STM32F769_STM32F769I_Discovery_Flash.icf"
+      linker_additional_options="--gc-sections"
+      linker_memory_map_file="Setup/STM32F769NI_STM32F769I_Discovery_MemoryMap.xml"
+      linker_printf_fmt_level="long"
+      linker_printf_fp_enabled="Yes"
+      linker_printf_width_precision_supported="Yes"
+      linker_scanf_fp_enabled="Yes"
+      project_directory=""
+      project_type="Executable"
+      speed="8000"
+      target_reset_script="Reset();"
+      target_script_file="Setup/STM32F7xx_Target.js"
+      target_trace_initialize_script="EnableTrace(&quot;$(TraceInterfaceType)&quot;)" />
+    <folder Name="Application">
+      <folder Name="Excluded">
+        <configuration Name="Common" build_exclude_from_build="Yes" />
+        <folder Name="COMPRESS">
+          <file file_name="../../../Application/COMPRESS/COMPRESS_Start.c" />
+        </folder>
+        <folder Name="CRYPTO">
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_AES.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_DES.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_ECDH.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_MD5.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_SHA1.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Bench_SHA256.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Test_DES.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Test_ECDH.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Test_MD5.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Test_SHA1.c" />
+          <file file_name="../../../Application/CRYPTO/CRYPTO_Test_SHA256.c" />
+        </folder>
+        <folder Name="FS">
+          <file file_name="../../../Application/FS/FS_CheckDisk.c" />
+          <file file_name="../../../Application/FS/FS_DeviceActivity.c" />
+          <file file_name="../../../Application/FS/FS_DirOperations.c" />
+          <file file_name="../../../Application/FS/FS_FileEncryption.c" />
+          <file file_name="../../../Application/FS/FS_Performance.c" />
+          <file file_name="../../../Application/FS/FS_PerformanceSimple.c" />
+          <file file_name="../../../Application/FS/FS_SD_FailSafety.c" />
+          <file file_name="../../../Application/FS/FS_Start.c" />
+          <file file_name="../../../Application/FS/FS_STORAGE_Start.c" />
+        </folder>
+        <folder Name="GUI">
+          <file file_name="../../../Application/GUI/GUI_HelloWorld.c" />
+          <file file_name="../../../Application/GUI/GUI_HouseControlDemo.c" />
+          <file file_name="../../../Application/GUI/GUI_IP_emExplorer.c" />
+          <file file_name="../../../Application/GUI/GUI_IP_ReversiDemo.c" />
+          <file file_name="../../../Application/GUI/GUI_Life.c" />
+          <file file_name="../../../Application/GUI/GUI_OS_Status.c" />
+          <file file_name="../../../Application/GUI/GUI_QRCode.c" />
+          <file file_name="../../../Application/GUI/GUI_RadialMenu.c" />
+          <file file_name="../../../Application/GUI/GUI_ReversiDemo.c" />
+          <file file_name="../../../Application/GUI/GUI_USB_MSD_FS_Start.c" />
+        </folder>
+        <folder Name="GUI_FS_CRYPTO_SECURE_Demo">
+          <folder Name="GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images">
+            <configuration Name="Common" build_exclude_from_build="Yes" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_emPower.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_emPower.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_JLink0.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_JLink0.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_JLink1.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_JLink1.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Logo.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Logo.bmp.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Meeting.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Meeting.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Production0.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Production0.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Production1.jpg" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Production1.jpg.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Products0.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Products1.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Products1.bmp.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Wall.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Warehouse0.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Warehouse0.bmp.sig" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Warehouse1.bmp" />
+            <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile_SDCard_Images/SEGGER_Warehouse1.bmp.sig" />
+          </folder>
+          <file file_name="../../../Application/GUI_FS_CRYPTO_SECURE_Demo/GUI_FS_CRYPTO_SECURE_ShowFile.c" />
+        </folder>
+        <folder Name="GUI_NormalMapping">
+          <file file_name="../../../Application/GUI_NormalMapping/GUIDEV_NormalMapping.c" />
+          <file file_name="../../../Application/GUI_NormalMapping/GUIDEV_NormalMapping.h" />
+          <file file_name="../../../Application/GUI_NormalMapping/LightSource_400x400.c" />
+          <file file_name="../../../Application/GUI_NormalMapping/MainTask_NormalMapping.c" />
+          <file file_name="../../../Application/GUI_NormalMapping/Segger_NM_800x480.c" />
+          <file file_name="../../../Application/GUI_NormalMapping/Segger_800x480__jpg.c" />
+        </folder>
+        <folder Name="IOT">
+          <file file_name="../../../Application/IOT/IOT_HTTP_GetRequest.c" />
+          <file file_name="../../../Application/IOT/IOT_HTTP_RedirectRequest.c" />
+          <file file_name="../../../Application/IOT/IOT_HTTP_SecureGet.c" />
+          <file file_name="../../../Application/IOT/IOT_JSON_IncrementalParse.c" />
+          <file file_name="../../../Application/IOT/IOT_JSON_MakeTree.c" />
+          <file file_name="../../../Application/IOT/IOT_JSON_PlainTrace.c" />
+          <file file_name="../../../Application/IOT/IOT_JSON_PrettyTrace.c" />
+        </folder>
+        <folder Name="IP">
+          <file file_name="../../../Application/IP/IP_ACD_Start.c" />
+          <file file_name="../../../Application/IP/IP_AUTOIP_Start.c" />
+          <file file_name="../../../Application/IP/IP_COAP_ClientSample.c" />
+          <file file_name="../../../Application/IP/IP_COAP_ServerSample.c" />
+          <file file_name="../../../Application/IP/IP_DHCPServer.c" />
+          <file file_name="../../../Application/IP/IP_DNSClient.c" />
+          <file file_name="../../../Application/IP/IP_FTP_SERVER_Start.c" />
+          <file file_name="../../../Application/IP/IP_FTPClientSample.c" />
+          <file file_name="../../../Application/IP/IP_MDNS_ServerSample.c" />
+          <file file_name="../../../Application/IP/IP_MQTT_CLIENT_Publisher.c" />
+          <file file_name="../../../Application/IP/IP_MQTT_CLIENT_PublisherSubscriber_2Tasks.c" />
+          <file file_name="../../../Application/IP/IP_MQTT_CLIENT_Subscriber.c" />
+          <file file_name="../../../Application/IP/IP_NETBIOS_Start.c" />
+          <file file_name="../../../Application/IP/IP_Ping.c" />
+          <file file_name="../../../Application/IP/IP_SendMail.c" />
+          <file file_name="../../../Application/IP/IP_SendMail_Secure.c" />
+          <file file_name="../../../Application/IP/IP_SHELL_Start.c" />
+          <file file_name="../../../Application/IP/IP_SimpleServer.c" />
+          <file file_name="../../../Application/IP/IP_SimpleServer_IPv6.c" />
+          <file file_name="../../../Application/IP/IP_SimpleServer_select_IPv4_IPv6.c" />
+          <file file_name="../../../Application/IP/IP_SNMP_AGENT_Start.c" />
+          <file file_name="../../../Application/IP/IP_SNMP_AGENT_Start_ZeroCopy.c" />
+          <file file_name="../../../Application/IP/IP_SNTPClient.c" />
+          <file file_name="../../../Application/IP/IP_SpeedClient_TCP.c" />
+          <file file_name="../../../Application/IP/IP_SpeedClient_TCP_ZeroCopy.c" />
+          <file file_name="../../../Application/IP/IP_Start.c" />
+          <file file_name="../../../Application/IP/IP_TCP_TasklessServer.c" />
+          <file file_name="../../../Application/IP/IP_TFTPClientSample.c" />
+          <file file_name="../../../Application/IP/IP_TFTPServerSample.c" />
+          <file file_name="../../../Application/IP/IP_UDPDiscover.c" />
+          <file file_name="../../../Application/IP/IP_UDPDiscover_ZeroCopy.c" />
+          <file file_name="../../../Application/IP/IP_VLAN_Start.c" />
+          <file file_name="../../../Application/IP/IP_WebserverSample.c" />
+          <file file_name="../../../Application/IP/IP_WebserverSample_IPv6.c" />
+          <file file_name="../../../Application/IP/IP_WebserverSample_Secure.c" />
+          <file file_name="../../../Application/IP/IP_WebserverSample_select_IPv4_IPv6.c" />
+          <file file_name="../../../Application/IP/IP_WebserverSample_UPnP.c" />
+          <file file_name="../../../Application/IP/IP_WEBSOCKET_printf_Server.c" />
+        </folder>
+        <folder Name="MB">
+          <file file_name="../../../Application/MB/MB_MASTER_TCPSample.c" />
+          <file file_name="../../../Application/MB/MB_SLAVE_TCPSample.c" />
+        </folder>
+        <folder Name="OS">
+          <file file_name="../../../Application/OS/OS_EventObjects.c" />
+          <file file_name="../../../Application/OS/OS_ExtendedTask.c" />
+          <file file_name="../../../Application/OS/OS_ExtendTaskContext.c" />
+          <file file_name="../../../Application/OS/OS_Mailboxes.c" />
+          <file file_name="../../../Application/OS/OS_MeasureCPU_Performance.c" />
+          <file file_name="../../../Application/OS/OS_MeasureCST_HRTimer_embOSView.c" />
+          <file file_name="../../../Application/OS/OS_MeasureCST_HRTimer_Printf.c" />
+          <file file_name="../../../Application/OS/OS_MeasureCST_Scope.c" />
+          <file file_name="../../../Application/OS/OS_Mutexes.c" />
+          <file file_name="../../../Application/OS/OS_Queues.c" />
+          <file file_name="../../../Application/OS/OS_Start2Tasks.c" />
+          <file file_name="../../../Application/OS/OS_Start2Tasks.cpp" />
+          <file file_name="../../../Application/OS/OS_Start2TasksEx.c" />
+          <file file_name="../../../Application/OS/OS_SWTimer.c" />
+        </folder>
+        <folder Name="SECURE">
+          <file file_name="../../../Application/SECURE/SECURE_RSA_Bench_Performance.c" />
+        </folder>
+        <folder Name="SEGGERDEMO">
+          <folder Name="Src">
+            <file file_name="../../../Application/SEGGERDEMO/Src/FTPServer.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO.h" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_AntialiasedText.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Automotive.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_BarGraph.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Bitmap.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_ColorBar.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Cursor.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Fading.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Graph.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_IconView.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_ImageFlow.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Intro.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Listview.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_RadialMenu.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Resource.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Skinning.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Speedometer.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_TransparentDialog.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_Treeview.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_VScreen.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_WashingMachine.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/GUIDEMO_ZoomAndRotate.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/IMAGE_SeggerLogo_300x150_565c.c" />
+            <file file_name="../../../Application/SEGGERDEMO/Src/Webserver.c" />
+          </folder>
+          <file file_name="../../../Application/SEGGERDEMO/SEGGERDEMO.c" />
+          <file file_name="../../../Application/SEGGERDEMO/SysConfDefaults.h" />
+        </folder>
+        <folder Name="SSH">
+          <file file_name="../../../Application/SSH/SSH_SCP_FS_Server.c" />
+          <file file_name="../../../Application/SSH/SSH_Shell6.c" />
+        </folder>
+        <folder Name="SSL">
+          <file file_name="../../../Application/SSL/SSL_OS_Scan.c" />
+          <file file_name="../../../Application/SSL/SSL_OS_SimpleWebClient.c" />
+          <file file_name="../../../Application/SSL/SSL_OS_SimpleWebServer.c" />
+        </folder>
+        <folder Name="USBD">
+          <file file_name="../../../Application/USBD/USB_Audio_Speaker_Microphone.c" />
+          <file file_name="../../../Application/USBD/USB_Audio_Speaker_Microphone_SmallFootprint.c" />
+          <file file_name="../../../Application/USBD/USB_BULK_Performance.c" />
+          <file file_name="../../../Application/USBD/USB_BULK_Test.c" />
+          <file file_name="../../../Application/USBD/USB_CDC_Echo.c" />
+          <file file_name="../../../Application/USBD/USB_CompositeDevice_CDC_MSD.c" />
+          <file file_name="../../../Application/USBD/USB_DFU_MixedMode_Start.c" />
+          <file file_name="../../../Application/USBD/USB_DFU_Start.c" />
+          <file file_name="../../../Application/USBD/USB_HID_Keyboard_Mouse.c" />
+          <file file_name="../../../Application/USBD/USB_MIDI_Start.c" />
+          <file file_name="../../../Application/USBD/USB_MSD_FS_Start.c" />
+          <file file_name="../../../Application/USBD/USB_MTP_Start.c" />
+          <file file_name="../../../Application/USBD/USB_Printer.c" />
+          <file file_name="../../../Application/USBD/USB_UVC_Play_Video.c" />
+          <file file_name="../../../Application/USBD/USB_UVC_Start.c" />
+          <file file_name="../../../Application/USBD/USB_VirtualMSD_CRC.c" />
+          <file file_name="../../../Application/USBD/USB_VirtualMSD_Start.c" />
+        </folder>
+        <folder Name="USBH">
+          <file file_name="../../../Application/USBH/USBH_AUDIO_Microphone.c" />
+          <file file_name="../../../Application/USBH/USBH_AUDIO_ScanDevices.c" />
+          <file file_name="../../../Application/USBH/USBH_AUDIO_Speaker.c" />
+          <file file_name="../../../Application/USBH/USBH_BULK_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_CCID_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_CDC_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_CreateInterfaceList.c" />
+          <file file_name="../../../Application/USBH/USBH_FT232_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_HID_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_MIDI_PlayMIDI.c" />
+          <file file_name="../../../Application/USBH/USBH_MSD_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_MTP_Start.c" />
+          <file file_name="../../../Application/USBH/USBH_Printer_Start.c" />
+        </folder>
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../Application/Inc/TaskPrio.h" />
+      </folder>
+      <file file_name="../../../Application/OS/OS_StartLEDBlink.c" />
+      <file file_name="../../../Application/Main.c" />
+      <file file_name="midlayer.c" />
+    </folder>
+    <folder Name="COMPRESS">
+      <folder Name="Config">
+        <file file_name="../../../COMPRESS/Config/COMPRESS_Conf.h" />
+        <file file_name="../../../COMPRESS/Config/COMPRESS_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../COMPRESS/Inc/COMPRESS.h" />
+        <file file_name="../../../COMPRESS/Inc/COMPRESS_ConfDefaults.h" />
+        <file file_name="../../../COMPRESS/Inc/COMPRESS_HUFF_CANON.h" />
+        <file file_name="../../../COMPRESS/Inc/COMPRESS_LZSS_CORE.h" />
+        <file file_name="../../../COMPRESS/Inc/CTG.h" />
+        <file file_name="../../../COMPRESS/Inc/CTG_ConfDefaults.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../COMPRESS/Lib/libCOMPRESS_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../COMPRESS/Lib/libCOMPRESS_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+    </folder>
+    <folder Name="CRYPTO">
+      <folder Name="Config">
+        <file file_name="../../../CRYPTO/Config/CRYPTO_Conf.h" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../CRYPTO/Inc/CRYPTO.h" />
+        <file file_name="../../../CRYPTO/Inc/CRYPTO_ConfDefaults.h" />
+        <file file_name="../../../CRYPTO/Inc/CRYPTO_OID_List.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../CRYPTO/Lib/libCRYPTO_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../CRYPTO/Lib/libCRYPTO_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../CRYPTO/OS/CRYPTO_OS_embOS.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="GenericSamples">
+          <configuration Name="Common" build_exclude_from_build="Yes" />
+          <file file_name="../../../CRYPTO/Setup/GenericSamples/CRYPTO_X_Config_Full_CM.c" />
+          <file file_name="../../../CRYPTO/Setup/GenericSamples/CRYPTO_X_Config_SECURE_ECDSA_CM.c" />
+          <file file_name="../../../CRYPTO/Setup/GenericSamples/CRYPTO_X_Config_SECURE_RSA_CM.c" />
+          <file file_name="../../../CRYPTO/Setup/GenericSamples/CRYPTO_X_Config_SSH_CM.c" />
+          <file file_name="../../../CRYPTO/Setup/GenericSamples/CRYPTO_X_Config_SSL_CM.c" />
+        </folder>
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <file file_name="../../../CRYPTO/Setup/STM32F769_ST_STM32F769I_Discovery/CRYPTO_X_Config_SSL_STM32F4F7.c" />
+        </folder>
+      </folder>
+    </folder>
+    <folder Name="Doc">
+      <file file_name="../../../Doc/UM01001_embOS.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM01061_embOS_CortexM_ES.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM02001_emFile.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM03001_emWin.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM07001_emNet.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM07002_emWeb.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM09001_emUSBD.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM10001_emUSBH.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM12002_emSecureRSA.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM12004_emSecureECDSA.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM12006_emCrypt.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM14001_emModbus.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM15001_emSSL.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM15004_IoTToolkit.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM17001_emCompress_Embed.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+      <file file_name="../../../Doc/UM20001_emSSH.pdf">
+        <configuration Name="Common" file_open_with="Web Browser" />
+      </file>
+    </folder>
+    <folder Name="FS">
+      <folder Name="Config">
+        <file file_name="../../../FS/Config/FS_Conf.h" />
+        <file file_name="../../../FS/Config/FS_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../FS/Inc/FS.h" />
+        <file file_name="../../../FS/Inc/FS_EFS.h" />
+        <file file_name="../../../FS/Inc/FS_FAT.h" />
+        <file file_name="../../../FS/Inc/FS_ConfDefaults.h" />
+        <file file_name="../../../FS/Inc/FS_Debug.h" />
+        <file file_name="../../../FS/Inc/FS_OS.h" />
+        <file file_name="../../../FS/Inc/FS_Storage.h" />
+        <file file_name="../../../FS/Inc/FS_Types.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../FS/Lib/libFS_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../FS/Lib/libFS_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../FS/OS/FS_OS_embOS.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <folder Name="Driver">
+            <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_MMC_HW_CM_STM32F769_ST_STM32F769I_DISCO.c" />
+            <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_MMC_HW_CM_STM32F769_ST_STM32F769I_DISCO.h" />
+            <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_NOR_HW_SPIFI_STM32F769_ST_STM32F769I_DISC1.c" />
+            <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_NOR_HW_SPIFI_STM32F769_ST_STM32F769I_DISC1.h" />
+          </folder>
+          <folder Name="Config">
+            <folder Name="Excluded">
+              <configuration Name="Common" build_exclude_from_build="Yes" />
+              <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_ConfigMMC_CardMode_STM32F769_ST_STM32F769I_DISCO.c" />
+              <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_ConfigNOR_BM_SPIFI_STM32F769_ST_STM32F769I_DISC1.c" />
+              <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_ConfigRAMDisk.c" />
+              <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_USBH_MSDConfig.c" />
+            </folder>
+            <file file_name="../../../FS/Setup/STM32F769_ST_STM32F769I_Discovery/FS_ConfigRAMDisk_23k.c" />
+          </folder>
+        </folder>
+      </folder>
+    </folder>
+    <folder Name="GUI">
+      <folder Name="IP">
+        <file file_name="../../../GUI/IP/GUI_VNC_X_StartServer.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../GUI/Inc/BSP_GUI.h" />
+        <file file_name="../../../GUI/Inc/BUTTON.h" />
+        <file file_name="../../../GUI/Inc/CALENDAR.h" />
+        <file file_name="../../../GUI/Inc/CHECKBOX.h" />
+        <file file_name="../../../GUI/Inc/CHOOSECOLOR.h" />
+        <file file_name="../../../GUI/Inc/CHOOSEFILE.h" />
+        <file file_name="../../../GUI/Inc/DIALOG.h" />
+        <file file_name="../../../GUI/Inc/DIALOG_Type.h" />
+        <file file_name="../../../GUI/Inc/DROPDOWN.h" />
+        <file file_name="../../../GUI/Inc/EDIT.h" />
+        <file file_name="../../../GUI/Inc/FRAMEWIN.h" />
+        <file file_name="../../../GUI/Inc/GAUGE.h" />
+        <file file_name="../../../GUI/Inc/GRAPH.h" />
+        <file file_name="../../../GUI/Inc/GUI.h" />
+        <file file_name="../../../GUI/Inc/GUI__BiDi2_Brackets_800.h" />
+        <file file_name="../../../GUI/Inc/GUI__BiDi2_Types_800.h" />
+        <file file_name="../../../GUI/Inc/GUI_ARRAY.h" />
+        <file file_name="../../../GUI/Inc/GUI_ConfDefaults.h" />
+        <file file_name="../../../GUI/Inc/GUI_Debug.h" />
+        <file file_name="../../../GUI/Inc/GUI_FontIntern.h" />
+        <file file_name="../../../GUI/Inc/GUI_HOOK.h" />
+        <file file_name="../../../GUI/Inc/GUI_SetOrientation.h" />
+        <file file_name="../../../GUI/Inc/GUI_SetOrientationCX.h" />
+        <file file_name="../../../GUI/Inc/GUI_Type.h" />
+        <file file_name="../../../GUI/Inc/GUI_Version.h" />
+        <file file_name="../../../GUI/Inc/GUI_VNC.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_07X1.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_13700.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_6331.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_7528.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_7529.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_BitPlains.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_CompactColor_16.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_DCache.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Dist.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_FlexColor.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Fujitsu_16.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Generic.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_GW7630_1.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_IST3088.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_L5F30919.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Lin.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Lin_Opt_16.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Lin_Opt_24.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Lin_Opt_32.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Lin_Opt_8.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_NoOpt_1_8.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Null.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Page1bpp.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13513.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13517.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13748.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13781.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13L01.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13L02.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13L04.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D13U11.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S1D15G00.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_S2D19600.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SH_MEM.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SLin.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SLinEPD.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SPage.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SSD1322.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_SSD1926.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_ST7591_DCache.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_Template.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_TemplateI.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_UC1698G.h" />
+        <file file_name="../../../GUI/Inc/GUIDRV_UC1698G4.h" />
+        <file file_name="../../../GUI/Inc/GUIMTDRV_FT5336.h" />
+        <file file_name="../../../GUI/Inc/GUIMTDRV_TangoC32.h" />
+        <file file_name="../../../GUI/Inc/GUITDRV_ADS7846.h" />
+        <file file_name="../../../GUI/Inc/HEADER.h" />
+        <file file_name="../../../GUI/Inc/ICONVIEW.h" />
+        <file file_name="../../../GUI/Inc/IMAGE.h" />
+        <file file_name="../../../GUI/Inc/KEYBOARD.h" />
+        <file file_name="../../../GUI/Inc/KNOB.h" />
+        <file file_name="../../../GUI/Inc/LCD.h" />
+        <file file_name="../../../GUI/Inc/LCD_ConfDefaults.h" />
+        <file file_name="../../../GUI/Inc/LCD_Protected.h" />
+        <file file_name="../../../GUI/Inc/LCD_SIM.h" />
+        <file file_name="../../../GUI/Inc/LISTBOX.h" />
+        <file file_name="../../../GUI/Inc/LISTVIEW.h" />
+        <file file_name="../../../GUI/Inc/LISTWHEEL.h" />
+        <file file_name="../../../GUI/Inc/MENU.h" />
+        <file file_name="../../../GUI/Inc/MESSAGEBOX.h" />
+        <file file_name="../../../GUI/Inc/MULTIEDIT.h" />
+        <file file_name="../../../GUI/Inc/MULTIPAGE.h" />
+        <file file_name="../../../GUI/Inc/PROGBAR.h" />
+        <file file_name="../../../GUI/Inc/QRCODE.h" />
+        <file file_name="../../../GUI/Inc/RADIO.h" />
+        <file file_name="../../../GUI/Inc/ROTARY.h" />
+        <file file_name="../../../GUI/Inc/SCROLLBAR.h" />
+        <file file_name="../../../GUI/Inc/SLIDER.h" />
+        <file file_name="../../../GUI/Inc/SPINBOX.h" />
+        <file file_name="../../../GUI/Inc/SWIPELIST.h" />
+        <file file_name="../../../GUI/Inc/SWITCH.h" />
+        <file file_name="../../../GUI/Inc/TEXT.h" />
+        <file file_name="../../../GUI/Inc/TREEVIEW.h" />
+        <file file_name="../../../GUI/Inc/WIDGET.h" />
+        <file file_name="../../../GUI/Inc/WM.h" />
+        <file file_name="../../../GUI/Inc/WM_GUI.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../GUI/OS/GUI_X_embOS.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/BSP_GUI.c" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/GUIConf.c" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/GUIConf.h" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/LCDConf.c" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/LCDConf.h" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/PIDConf.c" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/PIDConf.h" />
+          <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/SysConf.h" />
+        </folder>
+      </folder>
+    </folder>
+    <folder Name="IOT">
+      <folder Name="Config">
+        <file file_name="../../../IOT/Config/IOT_Conf.h" />
+        <file file_name="../../../IOT/Config/IOT_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../IOT/Inc/IOT.h" />
+        <file file_name="../../../IOT/Inc/IOT_ConfDefaults.h" />
+        <file file_name="../../../IOT/Inc/IOT_Dropbox.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../IOT/Lib/libIOT_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../IOT/Lib/libIOT_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+    </folder>
+    <folder Name="IP">
+      <folder Name="Config">
+        <file file_name="../../../IP/Config/FTPC_Conf.h" />
+        <file file_name="../../../IP/Config/IP_COAP_Conf.h" />
+        <file file_name="../../../IP/Config/IP_Conf.h" />
+        <file file_name="../../../IP/Config/IP_ConfigIO.c" />
+        <file file_name="../../../IP/Config/IP_FTP_SERVER_Conf.h" />
+        <file file_name="../../../IP/Config/IP_MQTT_CLIENT_Conf.h" />
+        <file file_name="../../../IP/Config/IP_SNMP_AGENT_Conf.h" />
+        <file file_name="../../../IP/Config/SMTPC_Conf.h" />
+        <file file_name="../../../IP/Config/WEBS_Conf.h" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../IP/Inc/BSP_IP.h" />
+        <file file_name="../../../IP/Inc/IP.h" />
+        <file file_name="../../../IP/Inc/IP_COAP.h" />
+        <file file_name="../../../IP/Inc/IP_ConfDefaults.h" />
+        <file file_name="../../../IP/Inc/IP_FS.h" />
+        <file file_name="../../../IP/Inc/IP_FTP_SERVER.h" />
+        <file file_name="../../../IP/Inc/IP_FTPC.h" />
+        <file file_name="../../../IP/Inc/IP_MQTT_CLIENT.h" />
+        <file file_name="../../../IP/Inc/IP_NI_SYNOPSYS.h" />
+        <file file_name="../../../IP/Inc/IP_PHY_MICREL_SWITCH.h" />
+        <file file_name="../../../IP/Inc/IP_PHY_WIFI_CONNECTONE_IW.h" />
+        <file file_name="../../../IP/Inc/IP_SMTPC.h" />
+        <file file_name="../../../IP/Inc/IP_SNMP_AGENT.h" />
+        <file file_name="../../../IP/Inc/IP_Socket.h" />
+        <file file_name="../../../IP/Inc/IP_TCP.h" />
+        <file file_name="../../../IP/Inc/IP_TFTP.h" />
+        <file file_name="../../../IP/Inc/IP_UTIL.h" />
+        <file file_name="../../../IP/Inc/IP_Webserver.h" />
+        <file file_name="../../../IP/Inc/IP_WEBSOCKET.h" />
+        <file file_name="../../../IP/Inc/IPV6_IPv6.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../IP/Lib/libIP_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../IP/Lib/libIP_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../IP/OS/IP_OS_embOS.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="IP_FS">
+          <folder Name="FS_RO_2018">
+            <folder Name="Generated">
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Authen_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Authen_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/bootstrap_min_css_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/bootstrap_min_css_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/bootstrap_min_js_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/bootstrap_min_js_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Custom_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Custom_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emNet_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emNet_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/embOSMPU_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/embOSMPU_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emFile_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emFile_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emLoad_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emLoad_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Empty_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Empty_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emSSH_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emSSH_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emSSL_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emSSL_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emUSBD_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emUSBD_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emUSBH_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emUSBH_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emWeb_Logo_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emWeb_Logo_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emWin_Icon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/emWin_Icon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Error404_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Error404_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/events_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/events_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/favicon_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/favicon_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/FormGET_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/FormGET_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/FormPOST_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/FormPOST_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/GreenRUp_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/GreenRUp_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/index_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/index_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/IPConfig_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/IPConfig_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/jquery_min_js_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/jquery_min_js_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Logo_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Logo_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/OSInfo_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/OSInfo_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Products_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Products_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RedRDown_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RedRDown_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphCC_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphCC_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphCE_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphCE_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphLi_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/RGraphLi_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Samples_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Samples_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Shares_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/Shares_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/tether_min_js_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/tether_min_js_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/VirtFile_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/VirtFile_2018.h" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/WhiteR_2018.c" />
+              <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/Generated/WhiteR_2018.h" />
+            </folder>
+            <file file_name="../../../IP/Setup/IP_FS/FS_RO_2018/IP_FS_ReadOnly_2018.c" />
+          </folder>
+          <folder Name="emFile">
+            <file file_name="../../../IP/Setup/IP_FS/emFile/IP_FS_emFile.c" />
+          </folder>
+        </folder>
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <file file_name="../../../IP/Setup/STM32F769_ST_STM32F769I_Discovery/BSP_IP.c" />
+          <folder Name="Config">
+            <file file_name="../../../IP/Setup/STM32F769_ST_STM32F769I_Discovery/IP_Config_STM32F769_ETH.c" />
+            <folder Name="Excluded">
+              <configuration Name="Common" build_exclude_from_build="Yes" />
+              <file file_name="../../../IP/Setup/STM32F769_ST_STM32F769I_Discovery/IP_Config_IP_over_USB.c" />
+              <file file_name="../../../IP/Setup/STM32F769_ST_STM32F769I_Discovery/IP_Config_USBH_LAN.c" />
+            </folder>
+          </folder>
+        </folder>
+        <folder Name="Webserver">
+          <file file_name="../../../IP/Setup/Webserver/Webserver_DynContent_2018.c" />
+        </folder>
+        <file file_name="../../../IP/Setup/IP_SNMP_AGENT_MIB2_INTERFACES_emNet.c" />
+      </folder>
+    </folder>
+    <folder Name="LIB">
+      <folder Name="Inc">
+        <file file_name="../../../LIB/Inc/MIDI.h" />
+        <file file_name="../../../LIB/Inc/XIFF.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../LIB/Lib/libMIDI_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../LIB/Lib/libMIDI_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+    </folder>
+    <folder Name="MB">
+      <folder Name="Config">
+        <file file_name="../../../MB/Config/MB_Conf.h" />
+        <file file_name="../../../MB/Config/MB_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../MB/Inc/MB.h" />
+        <file file_name="../../../MB/Inc/MB_ConfDefaults.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../MB/Lib/libMB_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../MB/Lib/libMB_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../MB/OS/MB_OS_embOS.c" />
+      </folder>
+    </folder>
+    <folder Name="OS">
+      <folder Name="Config">
+        <file file_name="../../../OS/Config/OS_Config.h" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../OS/Inc/BSP.h" />
+        <file file_name="../../../OS/Inc/JLINKMEM.h" />
+        <file file_name="../../../OS/Inc/RTOS.h" />
+        <file file_name="../../../OS/Inc/UDPCOM.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_dp.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_sp.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="Setup">
+        <folder Name="CoreSupport">
+          <file file_name="Setup/CoreSupport/cachel1_armv7.h" />
+          <file file_name="Setup/CoreSupport/cmsis_compiler.h" />
+          <file file_name="Setup/CoreSupport/cmsis_gcc.h" />
+          <file file_name="Setup/CoreSupport/cmsis_version.h" />
+          <file file_name="Setup/CoreSupport/core_cm7.h" />
+          <file file_name="Setup/CoreSupport/mpu_armv7.h" />
+        </folder>
+        <folder Name="DeviceSupport">
+          <file file_name="Setup/DeviceSupport/stm32f769xx.h" />
+          <file file_name="Setup/DeviceSupport/STM32F7x9_v1r2_Vectors.s" />
+          <file file_name="Setup/DeviceSupport/stm32f7xx.h" />
+          <file file_name="Setup/DeviceSupport/STM32F7xx_Startup.s" />
+          <file file_name="Setup/DeviceSupport/system_stm32f7xx.c" />
+          <file file_name="Setup/DeviceSupport/system_stm32f7xx.h" />
+        </folder>
+        <folder Name="System">
+          <folder Name="STM32F7xx_HAL_Driver">
+            <folder Name="Inc">
+              <folder Name="Legacy">
+                <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h" />
+              </folder>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_can.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cec.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_conf_template.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cryp.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cryp_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dac.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dac_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dcmi.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dcmi_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dfsdm.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma2d.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dsi.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hash.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hash_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hcd.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2c.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2c_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2s.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_irda.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_irda_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_iwdg.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_jpeg.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_lptim.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_mdios.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_mmc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_nand.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_nor.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_qspi.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rng.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rtc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rtc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sai.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sai_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sd.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sdram.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_smartcard.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_smartcard_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_smbus.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_spdifrx.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_spi.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sram.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_wwdg.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_adc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_bus.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_cortex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_crc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_dac.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_dma.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_dma2d.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_exti.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_fmc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_gpio.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_i2c.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_iwdg.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_lptim.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_pwr.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_rcc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_rng.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_rtc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_sdmmc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_spi.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_system.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_tim.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usart.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usb.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_utils.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_wwdg.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32_assert_template.h" />
+            </folder>
+            <folder Name="Src">
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cec.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_crc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_crc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cryp.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cryp_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dac.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dac_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dcmi.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dcmi_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dfsdm.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma2d.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dsi.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hash.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hash_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hcd.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2s.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_irda.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_iwdg.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_jpeg.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_lptim.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_mdios.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_mmc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_msp_template.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_nand.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_nor.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_qspi.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rng.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rtc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rtc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sd.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sdram.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_smartcard.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_smartcard_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_smbus.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spdifrx.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sram.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_usart.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_wwdg.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_adc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_crc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_dac.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_dma.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_dma2d.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_exti.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_fmc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_gpio.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_i2c.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_lptim.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_pwr.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_rcc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_rng.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_rtc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_sdmmc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_spi.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_tim.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_utils.c" />
+            </folder>
+          </folder>
+          <file file_name="Setup/System/stm32f7xx_hal_conf.h" />
+        </folder>
+        <folder Name="STM_BSP">
+          <file file_name="Setup/STM_BSP/ft6x06.c" />
+          <file file_name="Setup/STM_BSP/ft6x06.h" />
+          <file file_name="Setup/STM_BSP/stm32f769i_discovery.c" />
+          <file file_name="Setup/STM_BSP/stm32f769i_discovery.h" />
+          <file file_name="Setup/STM_BSP/stm32f769i_discovery_sdram.h" />
+          <file file_name="Setup/STM_BSP/stm32f769i_discovery_ts.c" />
+          <file file_name="Setup/STM_BSP/stm32f769i_discovery_ts.h" />
+          <file file_name="Setup/STM_BSP/stm32f7xx_hal_conf.h" />
+          <file file_name="Setup/STM_BSP/ts.h" />
+        </folder>
+        <file file_name="Setup/BSP.c" />
+        <file file_name="Setup/BSP_Memory.c" />
+        <file file_name="Setup/HardFaultHandler.S" />
+        <file file_name="Setup/JLINKMEM_Process.c" />
+        <file file_name="Setup/OS_Error.c" />
+        <file file_name="Setup/OS_ThreadSafe.c" />
+        <file file_name="Setup/RTOSInit_STM32F7xx.c" />
+        <file file_name="Setup/SEGGER_RTT_Conf.h" />
+        <file file_name="Setup/SEGGER_SYSVIEW_Conf.h" />
+        <file file_name="Setup/SEGGER_SYSVIEW_Config_embOS.c" />
+        <file file_name="Setup/SEGGER_THUMB_Startup.s" />
+      </folder>
+    </folder>
+    <folder Name="SECURE">
+      <folder Name="Config">
+        <file file_name="../../../SECURE/Config/SECURE_ECDSA_Conf.h" />
+        <file file_name="../../../SECURE/Config/SECURE_RSA_Conf.h" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../SECURE/Inc/SECURE.h" />
+        <file file_name="../../../SECURE/Inc/SECURE_ECDSA.h" />
+        <file file_name="../../../SECURE/Inc/SECURE_ECDSA_ConfDefaults.h" />
+        <file file_name="../../../SECURE/Inc/SECURE_RSA.h" />
+        <file file_name="../../../SECURE/Inc/SECURE_RSA_ConfDefaults.h" />
+        <file file_name="../../../SECURE/Inc/SECURE_TrialKey.h" />
+      </folder>
+      <folder Name="Keys">
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PrivateKey_P192.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PrivateKey_P224.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PrivateKey_P256.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PrivateKey_P384.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PrivateKey_P521.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PublicKey_P192.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PublicKey_P224.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PublicKey_P256.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PublicKey_P384.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_ECDSA_PublicKey_P521.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PrivateKey_1024b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PrivateKey_2048b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PrivateKey_512b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PrivateKey_Expert.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PublicKey_1024b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PublicKey_2048b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PublicKey_512b.h" />
+        <file file_name="../../../SECURE/Keys/SECURE_RSA_PublicKey_Expert.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../SECURE/Lib/libSECURE_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../SECURE/Lib/libSECURE_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+    </folder>
+    <folder Name="SEGGER">
+      <folder Name="Config">
+        <file file_name="../../../SEGGER/Config/SEGGER_MEM_Conf.h" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../SEGGER/Inc/Global.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_CRC.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_MEM.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_MEM_ConfDefaults.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_RTT.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_SHELL.h" />
+        <file file_name="../../../SEGGER/Inc/SEGGER_UTIL.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../SEGGER/Lib/libSEGGER_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../SEGGER/Lib/libSEGGER_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../SEGGER/Lib/libSEGGER_v7m_t_vfpv4_le_sp.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="RTT">
+        <file file_name="../../../SEGGER/RTT/SEGGER_RTT.c" />
+        <file file_name="../../../SEGGER/RTT/SEGGER_RTT_ASM_ARMv7M.S" />
+        <file file_name="../../../SEGGER/RTT/SEGGER_RTT_printf.c" />
+      </folder>
+      <folder Name="SYS">
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS.h" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_embOS.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IO.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IO_ConfDefaults.h" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IO_printf.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IO_RTT.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IP_embOSIP.c" />
+        <file file_name="../../../SEGGER/SYS/SEGGER_SYS_OS_embOS.c" />
+      </folder>
+      <folder Name="SystemView">
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW.c" />
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW.h" />
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW_ConfDefaults.h" />
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW_embOS.c" />
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW_embOS.h" />
+        <file file_name="../../../SEGGER/SystemView/SEGGER_SYSVIEW_Int.h" />
+      </folder>
+      <file file_name="../../../SEGGER/SEGGER_HardFaultHandler.c" />
+    </folder>
+    <folder Name="SSH">
+      <folder Name="Config">
+        <file file_name="../../../SSH/Config/SSH_Conf.h" />
+        <file file_name="../../../SSH/Config/SSH_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../SSH/Inc/SSH.h" />
+        <file file_name="../../../SSH/Inc/SSH_ConfDefaults.h" />
+      </folder>
+      <folder Name="Keys">
+        <file file_name="../../../SSH/Keys/SSH_ServerKeys_DSA.c" />
+        <file file_name="../../../SSH/Keys/SSH_ServerKeys_ECDSA.c" />
+        <file file_name="../../../SSH/Keys/SSH_ServerKeys_EdDSA.c" />
+        <file file_name="../../../SSH/Keys/SSH_ServerKeys_RSA.c" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../SSH/Lib/libSSH_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../SSH/Lib/libSSH_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../SSH/OS/SSH_OS_embOS.c" />
+      </folder>
+      <folder Name="SCP">
+        <file file_name="../../../SSH/SCP/SSH_SCP_SINK_FS_FS.c" />
+        <file file_name="../../../SSH/SCP/SSH_SCP_SOURCE_FS_FS.c" />
+      </folder>
+      <folder Name="Setup">
+        <file file_name="../../../SSH/Setup/SSH_X_Config.c" />
+      </folder>
+    </folder>
+    <folder Name="SSL">
+      <folder
+        Name="Certificates"
+        filter=""
+        path="../../../SSL/Certificates"
+        recurse="Yes" />
+      <folder Name="Config">
+        <file file_name="../../../SSL/Config/SSL_Conf.h" />
+        <file file_name="../../../SSL/Config/SSL_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../SSL/Inc/SSL.h" />
+        <file file_name="../../../SSL/Inc/SSL_ConfDefaults.h" />
+        <file file_name="../../../SSL/Inc/SSL_Types.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../SSL/Lib/libSSL_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../SSL/Lib/libSSL_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../SSL/OS/SSL_OS_embOS.c" />
+      </folder>
+      <file file_name="../../../SSL/SSL_X_Config.c" />
+      <file file_name="../../../SSL/SSL_X_TrustedCerts.c" />
+    </folder>
+    <folder Name="USB-D">
+      <folder Name="Config">
+        <file file_name="../../../USB-D/Config/USB_Conf.h" />
+        <file file_name="../../../USB-D/Config/USB_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../USB-D/Inc/BSP_USB.h" />
+        <file file_name="../../../USB-D/Inc/USB.h" />
+        <file file_name="../../../USB-D/Inc/USB_AC.h" />
+        <file file_name="../../../USB-D/Inc/USB_Audio.h" />
+        <file file_name="../../../USB-D/Inc/USB_Bulk.h" />
+        <file file_name="../../../USB-D/Inc/USB_CCID.h" />
+        <file file_name="../../../USB-D/Inc/USB_CDC.h" />
+        <file file_name="../../../USB-D/Inc/USB_ConfDefaults.h" />
+        <file file_name="../../../USB-D/Inc/USB_DFU.h" />
+        <file file_name="../../../USB-D/Inc/USB_Driver_embOS_IP.h" />
+        <file file_name="../../../USB-D/Inc/USB_Driver_IP_NI.h" />
+        <file file_name="../../../USB-D/Inc/USB_ECM.h" />
+        <file file_name="../../../USB-D/Inc/USB_HID.h" />
+        <file file_name="../../../USB-D/Inc/USB_IP.h" />
+        <file file_name="../../../USB-D/Inc/USB_MIDI.h" />
+        <file file_name="../../../USB-D/Inc/USB_MSD.h" />
+        <file file_name="../../../USB-D/Inc/USB_MSD_MTP.h" />
+        <file file_name="../../../USB-D/Inc/USB_MTP.h" />
+        <file file_name="../../../USB-D/Inc/USB_NCM.h" />
+        <file file_name="../../../USB-D/Inc/USB_PrinterClass.h" />
+        <file file_name="../../../USB-D/Inc/USB_RNDIS.h" />
+        <file file_name="../../../USB-D/Inc/USB_UVC.h" />
+        <file file_name="../../../USB-D/Inc/USB_VirtualMSD.h" />
+        <file file_name="../../../USB-D/Inc/USB_VSC.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../USB-D/Lib/libUSBD_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../USB-D/Lib/libUSBD_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../USB-D/OS/USB_OS_embOSv5.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <file file_name="../../../USB-D/Setup/STM32F769_ST_STM32F769I_Discovery/BSP_USB.c" />
+          <folder Name="Config">
+            <folder Name="Excluded">
+              <configuration Name="Common" build_exclude_from_build="Yes" />
+            </folder>
+            <file file_name="../../../USB-D/Setup/STM32F769_ST_STM32F769I_Discovery/USB_Config_ST_STM32F769_Discovery.c" />
+          </folder>
+        </folder>
+      </folder>
+    </folder>
+    <folder Name="USB-H">
+      <folder Name="Config">
+        <file file_name="../../../USB-H/Config/USBH_Conf.h" />
+        <file file_name="../../../USB-H/Config/USBH_ConfigIO.c" />
+      </folder>
+      <folder Name="Inc">
+        <file file_name="../../../USB-H/Inc/USBH.h" />
+        <file file_name="../../../USB-H/Inc/USBH_AUDIO.h" />
+        <file file_name="../../../USB-H/Inc/USBH_BULK.h" />
+        <file file_name="../../../USB-H/Inc/USBH_CCID.h" />
+        <file file_name="../../../USB-H/Inc/USBH_CDC.h" />
+        <file file_name="../../../USB-H/Inc/USBH_ConfDefaults.h" />
+        <file file_name="../../../USB-H/Inc/USBH_CP210X.h" />
+        <file file_name="../../../USB-H/Inc/USBH_FT232.h" />
+        <file file_name="../../../USB-H/Inc/USBH_HID.h" />
+        <file file_name="../../../USB-H/Inc/USBH_HID_FT260.h" />
+        <file file_name="../../../USB-H/Inc/USBH_HW_STM32F7xxHS.h" />
+        <file file_name="../../../USB-H/Inc/USBH_LAN.h" />
+        <file file_name="../../../USB-H/Inc/USBH_MEM.h" />
+        <file file_name="../../../USB-H/Inc/USBH_MIDI.h" />
+        <file file_name="../../../USB-H/Inc/USBH_MSD.h" />
+        <file file_name="../../../USB-H/Inc/USBH_MSD_FS.h" />
+        <file file_name="../../../USB-H/Inc/USBH_MTP.h" />
+        <file file_name="../../../USB-H/Inc/USBH_PrinterClass.h" />
+        <file file_name="../../../USB-H/Inc/USBH_Util.h" />
+      </folder>
+      <folder Name="Lib">
+        <file file_name="../../../USB-H/Lib/libUSBH_v7m_t_vfpv4_le_d.a">
+          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release_SystemView"
+            build_exclude_from_build="Yes" />
+        </file>
+        <file file_name="../../../USB-H/Lib/libUSBH_v7m_t_vfpv4_le_r.a">
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
+        </file>
+      </folder>
+      <folder Name="OS">
+        <file file_name="../../../USB-H/OS/USBH_OS_embOSv5.c" />
+      </folder>
+      <folder Name="Setup">
+        <folder Name="STM32F769_ST_STM32F769I_Discovery">
+          <folder Name="Config">
+            <folder Name="Excluded">
+              <configuration Name="Common" build_exclude_from_build="Yes" />
+            </folder>
+            <file file_name="../../../USB-H/Setup/STM32F769_ST_STM32F769I_Discovery/USBH_Config_STM32F7xxHS_ST_STM32F769_Discovery.c" />
+          </folder>
+        </folder>
+      </folder>
+    </folder>
+    <file file_name="../../../License.txt" />
+    <file file_name="../../../ReadMe.txt" />
+    <file file_name="../../../SEGGER_Overview.pdf">
+      <configuration Name="Common" file_open_with="Web Browser" />
+    </file>
+    <file file_name="../../../Getting_started_with_SEGGER_Eval_Software.mp4">
+      <configuration Name="Common" file_open_with="Web Browser" />
+    </file>
+  </project>
+  <configuration
+    Name="Debug"
+    c_preprocessor_definitions="DEBUG=1;SEGGER_RTT_MODE_DEFAULT=SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL"
+    gcc_debugging_level="Level 3"
+    gcc_optimization_level="None" />
+  <configuration
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG"
+    gcc_debugging_level="Level 3"
+    gcc_optimization_level="Level 3" />
+  <configuration
+    Name="Release_SystemView"
+    c_preprocessor_definitions="NDEBUG;OS_LIBMODE_SP;USE_SYSTEMVIEW=1"
+    gcc_debugging_level="Level 3"
+    gcc_optimization_level="Level 3" />
+</solution>
