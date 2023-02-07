@@ -1,7 +1,6 @@
 #pragma once
 #include "protocol_data.h"
 typedef uint8_t byte_t;
-//int pow(int b, int x);
 
 void isxcpy(int num, char* str, uint8_t numsize);
 
@@ -20,3 +19,9 @@ typedef struct {
   uint8_t crc;
   char data[MAX_PACKET_DATA_HEX_LEN+1];
 } packet_t;
+
+#define INIT_PACKET_DATA "IN"
+#define INIT_PACKET_SIZE 2
+#define INIT_PACKET_ADDRESS 0x0000
+
+enum mode {MULTI_CONTROLLER_MODE, SINGLE_CONTROLLER_MODE, UNDEFINED_MODE};

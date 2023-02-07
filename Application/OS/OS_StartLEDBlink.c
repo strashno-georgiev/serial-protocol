@@ -46,16 +46,13 @@ static void HPTask(void) {
 static void UART_transmit_task(void) {
   printf("Transmit task\n");
   int i=0;
-  if(CommunicationInitMain(&USART6_huart) == 0) {
+  if(CommunicationInitMain(&USART6_huart, SINGLE_CONTROLLER_MODE) == 0) {
     printf("Successfully initialized main device\n");
   }
+  else {
+    printf("Bad initialization of main device\n");
+  }
   while(1) {
-    strcpy(txmsg, "Hello, PC, I'm MCU\n");
-    printf("Transmit starting\n");
-
-   
-
-    printf("Transmit done\n");
     OS_TASK_Terminate(NULL);
   }
 }
@@ -67,6 +64,9 @@ static void UART_receive_task(void) {
   printf("%d\n", HAL_RCC_GetPCLK2Freq());
   if(CommunicationInitSecondary(&UART5_huart) == 0) {
     printf("Successfully initialized secondary device\n");
+  }
+  else {
+    printf("Bad initialization message\n");
   }
   while(1) {
 
@@ -108,11 +108,10 @@ void MainTask(void) {
   if(HAL_UART_Init(&UART5_huart) != HAL_OK) {
     printf("Error in UART5 init\n");
   }
-
+  
   //OS_TASK_CREATE(&TCBHP, "HP Task", 100, HPTask, StackHP);
-
   OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 90, UART_receive_task, StackUARTRx);
-  //OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 90, UART_transmit_task, StackUARTTx);
+  OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 90, UART_transmit_task, StackUARTTx);
 
   OS_TASK_Terminate(NULL);
 }
