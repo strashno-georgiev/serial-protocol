@@ -20,9 +20,9 @@
 uint32_t UART_STATUS = RECEIVED;
 enum mode MODE = UNDEFINED_MODE;
 
-enum special_packet {NOT_SPECIAL, INIT};
+enum special_packet {NOT_SPECIAL, INIT, BAD_CRC};
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
-
+packet_t BAD_CRC_PACKET = {BAD_CRC_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, BAD_CRC_PACKET_SIZE, 0, BAD_CRC_PACKET_DATA};
 
 byte_t ID = 0x00;
 
@@ -91,41 +91,32 @@ int Receive(UART_HandleTypeDef* huart, char* str, int size) {
   int i=0;
   char endflag = 0;
   HAL_StatusTypeDef res;
-  if(size == 0) {
-    while(1) {
-      //if(MODE = SINGLE_CONTROLLER_MODE)while(UART_STATUS == RECEIVED) {} //wait for transmit
-      do {
-        res = HAL_UART_Receive(huart, str+i, 1, 50);
-      } while(res == HAL_BUSY);
-      UART_STATUS = RECEIVED;
-      if(res != HAL_OK) {
-        if(res == HAL_TIMEOUT) {
-          return RECEIVE_TIMEOUT;
-        }
-        return -1;
+  while(1) {
+    //if(MODE = SINGLE_CONTROLLER_MODE)while(UART_STATUS == RECEIVED) {} //wait for transmit
+    do {
+      res = HAL_UART_Receive(huart, str+i, 1, 50);
+    } while(res == HAL_BUSY);
+    UART_STATUS = RECEIVED;
+    if(res != HAL_OK) {
+      if(res == HAL_TIMEOUT) {
+        return RECEIVE_TIMEOUT;
       }
-      //\r has to be changed to \n in production code, \r is here because this is what linux screen sends when you press enter
-      if((str[i] == '\r' || str[i] == '\n') && endflag) {
-        break;
-      }
-      else {
-        endflag = 0;
-      }  
-      if(str[i] == ';') {
-        endflag=1;
-      }
-      i++;
-     
-      printf(str);
-      printf("\n");
+      return -1;
     }
-  }
-  else {
-    //OS_MUTEX_LockBlocked(&UART_ACCESS);
-    res = HAL_UART_Receive(huart, str, size, 50);
-    //OS_MUTEX_Unlock(&UART_ACCESS);
-    printf(str);
-    printf("\n");
+    //\r has to be changed to \n in production code, \r is here because this is what linux screen sends when you press enter
+    if((str[i] == '\r' || str[i] == '\n') && endflag) {
+      break;
+    }
+    else {
+      endflag = 0;
+    }  
+    if(str[i] == ';') {
+      endflag=1;
+    }
+    i++;
+   
+    //printf(str);
+    //printf("\n");
   }
   return 0;
 }
@@ -203,6 +194,9 @@ int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   return Transmit(huart, packet_string, MIN_PACKET_HEX_LEN + packet->size);
 }
 
+int comparePackets(packet_t *p1, packet_t *p2) {
+  return ((p1->address == p2->address) && (p1->size == p2->size) && !strcmp(p1->data, p2->data));
+}
 
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
   //Finite automaton here
@@ -227,9 +221,14 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
           while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
         }
 
-        res = ReceivePacket(huart, incoming); 
+        res = ReceivePacket(huart, incoming);
+
         if(res == 0) {
-          if((incoming->cmd_type == COMMAND_TYPE_ACK_WRITE || incoming->cmd_type == COMMAND_TYPE_READ) && incoming->address == packet->address) {
+          if(comparePackets(incoming, &BAD_CRC_PACKET)) {
+            printf("Bad CRC\n");
+            MAIN_STATE = STATE_TRANSMITTING_COMMAND;
+          } 
+          else if((incoming->cmd_type == COMMAND_TYPE_ACK_WRITE || incoming->cmd_type == COMMAND_TYPE_READ) && incoming->address == packet->address) {
             MAIN_STATE = STATE_MAIN_DONE;
           }
         }
@@ -245,10 +244,6 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
   return 0;
 }
 
-int packet_compare(packet_t *p1, packet_t *p2) {
-  return ((p1->address == p2->address) && (p1->size == p2->size) && !strcmp(p1->data, p2->data));
-}
-
 int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
   packet_t incoming;
   packet_t ack;
@@ -261,8 +256,20 @@ int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
     }
     else if(SECONDARY_STATE == STATE_ACKNOWLEDGING_COMMAND) {
       
-      if(packet_compare(&incoming, &INIT_PACKET)) {
+      if(comparePackets(&incoming, &INIT_PACKET)) {
         *spp = INIT;
+      }
+      //CRC Check
+      if(CRC_f(incoming.data, incoming.size) != incoming.crc) {
+        res = TransmitPacket(huart, &BAD_CRC_PACKET);
+        if(res == 0) {
+          SECONDARY_STATE = STATE_AWAITING_COMMAND;
+          printf("Error in CRC, waiting for retransmit\n");
+          continue;
+        }
+        else {
+          printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
+        }
       }
 
       if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
