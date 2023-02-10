@@ -18,20 +18,21 @@
 
 
 uint32_t UART_STATUS = RECEIVED;
+enum mode MODE = UNDEFINED_MODE;
+
+enum special_packet {NOT_SPECIAL, INIT};
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
 
-char MUTEXES_INITIALIZED = 0;
-enum mode MODE = UNDEFINED_MODE;
-enum special_packet {NOT_SPECIAL, INIT};
+
 byte_t ID = 0x00;
+
 enum main_state {STATE_TRANSMITTING_COMMAND, STATE_AWAITING_RESPONSE, STATE_MAIN_DONE, STATE_LOST, MAIN_UNDEFINED};
 enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE_SECONDARY_DONE, SEC_UNDEFINED};
-
 enum main_state MAIN_STATE = MAIN_UNDEFINED;
 enum secondary_state SECONDARY_STATE = SEC_UNDEFINED;
 
 //CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1
-const uint8_t GENERATOR_POLYNOM = 0x31; 
+const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
 
 
 //Int to string hex copy
@@ -49,7 +50,8 @@ int strnxtoi(char* str, int n) {
   strncpy(lstr, str, n);
   return strtol(lstr, NULL, 16);
 }
-//algorituma e mnogo slojen, shte go implementiram posle
+
+
 uint8_t CRC_f(char* data, int len) {
   uint8_t crc8 = 0;
   for(int i=0; i < len-1; i++) {
@@ -58,11 +60,10 @@ uint8_t CRC_f(char* data, int len) {
       if(!!(data[i] & (1 << BYTE_SIZE-1-j))) {
         crc8 = crc8 << 1;
         crc8 |= data[i+1] >> (BYTE_SIZE - j - 1);
-        crc8 ^ GENERATOR_POLYNOM; 
+        crc8 ^ GENERATOR_POLYNOMIAL; 
       }
      }
   }
-  //printf("\n");
   return crc8;
 }
 
