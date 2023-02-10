@@ -146,8 +146,7 @@ void PacketDeencapsulate(char *str, packet_t * p) {
 
 void PacketEncapsulate(packet_t *packet, char *str) {
   int offset = 0;
-  isxcpy(ID, str + offset, PACKET_ID_SIZE);
-  ID++;
+  isxcpy(packet->id, str + offset, PACKET_ID_SIZE);
   //-----
   offset += PACKET_ID_HEX_LEN;
   
@@ -165,7 +164,7 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   }
   offset += packet->size;
 
-  isxcpy(CRC_f(packet->data, packet->size), str + offset, PACKET_CRC_SIZE);
+  isxcpy(packet->crc, str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
   strncpy(str + offset, ";\n", 2);
@@ -175,7 +174,7 @@ int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
   int res;
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
-
+  
   res = Receive(huart, received, 0);
   if(res < 0) {
     return res;
@@ -186,8 +185,15 @@ int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
 
 int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   char packet_string[MAX_PACKET_HEX_LEN+1];
+
   memset(packet_string, 0, MAX_PACKET_HEX_LEN+1);
-  
+  packet->id = ID;
+  ID++;
+  packet->crc = CRC_f(packet->data, packet->size);
+  /*if(packet->id == 0) {
+    packet->crc++;
+  }*/
+  //To test if CRC retransmission works
   PacketEncapsulate(packet, packet_string);
   printf("%s\n", packet_string);
 
