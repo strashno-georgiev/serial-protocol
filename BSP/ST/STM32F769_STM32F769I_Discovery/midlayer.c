@@ -14,6 +14,7 @@
 #define RECEIVE_TIMEOUT -2
 #define TRANSMITTED 1
 #define RECEIVED 2
+#define BYTE_SIZE 8
 
 
 uint32_t UART_STATUS = RECEIVED;
@@ -29,6 +30,8 @@ enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE
 enum main_state MAIN_STATE = MAIN_UNDEFINED;
 enum secondary_state SECONDARY_STATE = SEC_UNDEFINED;
 
+//CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1
+const uint8_t GENERATOR_POLYNOM = 0x31; 
 
 
 //Int to string hex copy
@@ -46,9 +49,21 @@ int strnxtoi(char* str, int n) {
   strncpy(lstr, str, n);
   return strtol(lstr, NULL, 16);
 }
-
-uint8_t CRC_f(char* data) {
-  return 0x00;
+//algorituma e mnogo slojen, shte go implementiram posle
+uint8_t CRC_f(char* data, int len) {
+  uint8_t crc8 = 0;
+  for(int i=0; i < len-1; i++) {
+     crc8 = data[i];
+     for(int j=0; j < BYTE_SIZE; j++) {
+      if(!!(data[i] & (1 << BYTE_SIZE-1-j))) {
+        crc8 = crc8 << 1;
+        crc8 |= data[i+1] >> (BYTE_SIZE - j - 1);
+        crc8 ^ GENERATOR_POLYNOM; 
+      }
+     }
+  }
+  //printf("\n");
+  return crc8;
 }
 
 int Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
@@ -158,7 +173,7 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   }
   offset += packet->size;
 
-  isxcpy(CRC_f(str), str + offset, PACKET_CRC_SIZE);
+  isxcpy(CRC_f(packet->data, packet->size), str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
   strncpy(str + offset, ";\n", 2);

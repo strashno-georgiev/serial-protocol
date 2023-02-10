@@ -4,7 +4,7 @@ typedef uint8_t byte_t;
 
 void isxcpy(int num, char* str, uint8_t numsize);
 
-uint8_t CRC_f(char* data);
+//uint8_t CRC_f(char* data, int len);
 
 int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
 void WriteCommand(UART_HandleTypeDef* huart, char* data, byte_t len, uint16_t address);
