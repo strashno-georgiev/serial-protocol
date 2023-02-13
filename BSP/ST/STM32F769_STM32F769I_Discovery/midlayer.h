@@ -1,15 +1,12 @@
 #pragma once
 #include "protocol_data.h"
+#include <stdint.h>
+#include <stm32f7xx_hal.h>
 typedef uint8_t byte_t;
 
 void isxcpy(int num, char* str, uint8_t numsize);
 
 //uint8_t CRC_f(char* data, int len);
-
-int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
-void WriteCommand(UART_HandleTypeDef* huart, char* data, byte_t len, uint16_t address);
-void ReadCommand(UART_HandleTypeDef* huart, int address);
-void AckWriteCommand(UART_HandleTypeDef* huart, int address);
 
 typedef struct {
   uint16_t address;
@@ -20,6 +17,17 @@ typedef struct {
   char data[MAX_PACKET_DATA_HEX_LEN+1];
 } packet_t;
 
+enum special_packet {NOT_SPECIAL, INIT, BAD_CRC, END};
+enum mode {MULTI_CONTROLLER_MODE, SINGLE_CONTROLLER_MODE, UNDEFINED_MODE};
+
+int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
+int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
+int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp);
+int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming);
+int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
+int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
+int CommunicationInitSecondary(UART_HandleTypeDef* huart);
+
 #define INIT_PACKET_DATA "IN"
 #define INIT_PACKET_SIZE 2
 #define INIT_PACKET_ADDRESS 0x0000
@@ -28,4 +36,7 @@ typedef struct {
 #define BAD_CRC_PACKET_SIZE 4
 #define BAD_CRC_PACKET_ADDRESS 0x0000
 
-enum mode {MULTI_CONTROLLER_MODE, SINGLE_CONTROLLER_MODE, UNDEFINED_MODE};
+#define END_PACKET_DATA "END"
+#define END_PACKET_SIZE 3
+#define END_PACKET_ADDRESS 0x0000
+

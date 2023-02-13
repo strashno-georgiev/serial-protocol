@@ -32,35 +32,40 @@ static OS_MUTEX Mutex;
 
 static void UART_transmit_task(void) {
   printf("Transmit task\n");
+  UART_HandleTypeDef *huart = &USART6_huart;
   int i=0;
-  if(CommunicationInitMain(&USART6_huart, SINGLE_CONTROLLER_MODE) == 0) {
-    printf("Successfully initialized main device\n");
-  }
-  else {
+  if(CommunicationInitMain(huart, SINGLE_CONTROLLER_MODE) != 0) {
     printf("Bad initialization of main device\n");
+    OS_TASK_Terminate(NULL);
   }
+  printf("Successfully initialized main device\n");
+  packet_t res;
+  TransmitCommand(huart, COMMAND_TYPE_WRITE, 5, 0x0010, "ABCDE", &res);
+  TransmitCommand(huart, COMMAND_TYPE_READ, 0x00, 0x0000, "", &res);
+  CommunicationEndMain(huart, &res);
   while(1) {
     OS_TASK_Terminate(NULL);
   }
 }
 
 static void UART_receive_task(void) {
+  UART_HandleTypeDef *huart = &UART5_huart;
+  enum special_packet spp = NOT_SPECIAL;
   printf("Receive task\n");
   printf("%d\n", HAL_GetTick());
   printf("%d\n", HAL_RCC_GetPCLK1Freq());
   printf("%d\n", HAL_RCC_GetPCLK2Freq());
-  if(CommunicationInitSecondary(&UART5_huart) == 0) {
-    printf("Successfully initialized secondary device\n");
-  }
-  else {
+  if(CommunicationInitSecondary(huart) != 0) {
     printf("Bad initialization message\n");
   }
+  printf("Successfully initialized secondary device\n");
   while(1) {
-
-    
-    printf("Message is: %s\n", message);
-
-    OS_TASK_Terminate(NULL);
+    SecondaryControlled(huart, &spp);
+    while(spp == END) {
+      printf("Received end command, terminating\n");
+      OS_TASK_Terminate(NULL);
+    }
+    //printf("Message is: %s\n", message);
   }
 }
 

@@ -20,9 +20,9 @@
 uint32_t UART_STATUS = RECEIVED;
 enum mode MODE = UNDEFINED_MODE;
 
-enum special_packet {NOT_SPECIAL, INIT, BAD_CRC};
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
 packet_t BAD_CRC_PACKET = {BAD_CRC_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, BAD_CRC_PACKET_SIZE, 0, BAD_CRC_PACKET_DATA};
+packet_t END_PACKET = {END_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, END_PACKET_SIZE, 0, END_PACKET_DATA};
 
 byte_t ID = 0x00;
 
@@ -31,7 +31,7 @@ enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE
 enum main_state MAIN_STATE = MAIN_UNDEFINED;
 enum secondary_state SECONDARY_STATE = SEC_UNDEFINED;
 
-//CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1
+//CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (MSB discarded)
 const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
 
 
@@ -57,10 +57,10 @@ uint8_t CRC_f(char* data, int len) {
   for(int i=0; i < len-1; i++) {
      crc8 = data[i];
      for(int j=0; j < BYTE_SIZE; j++) {
-      if(!!(data[i] & (1 << BYTE_SIZE-1-j))) {
+      if(!!(data[i] & (1 << (BYTE_SIZE-1-j)))) {
         crc8 = crc8 << 1;
         crc8 |= data[i+1] >> (BYTE_SIZE - j - 1);
-        crc8 ^ GENERATOR_POLYNOMIAL; 
+        crc8 = crc8 ^ GENERATOR_POLYNOMIAL; 
       }
      }
   }
@@ -206,6 +206,7 @@ int comparePackets(packet_t *p1, packet_t *p2) {
 
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
   //Finite automaton here
+  //packet_t incoming;
   MAIN_STATE = STATE_TRANSMITTING_COMMAND;
   int res;
   while(MAIN_STATE != STATE_MAIN_DONE) {
@@ -222,19 +223,19 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
         break;
       //
       case STATE_AWAITING_RESPONSE:
-
+        //ponqkoga sec minava v STATE_AWAITING_COMMAND predi da se poluchi tuk paketa
         if(MODE == SINGLE_CONTROLLER_MODE) {
           while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
         }
 
         res = ReceivePacket(huart, incoming);
-
+       
         if(res == 0) {
           if(comparePackets(incoming, &BAD_CRC_PACKET)) {
             printf("Bad CRC\n");
             MAIN_STATE = STATE_TRANSMITTING_COMMAND;
           } 
-          else if((incoming->cmd_type == COMMAND_TYPE_ACK_WRITE || incoming->cmd_type == COMMAND_TYPE_READ) && incoming->address == packet->address) {
+          else if(incoming->address == packet->address) {
             MAIN_STATE = STATE_MAIN_DONE;
           }
         }
@@ -250,10 +251,28 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
   return 0;
 }
 
+
+int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
+  packet_t p;
+  p.address = address;
+  p.size = size;
+  p.cmd_type = cmd_type;
+  memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
+  strncpy(p.data, str, size);
+  p.data[size] = 0;
+  return MainControlled(huart, &p, response);
+}
+
+
 int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
   packet_t incoming;
   packet_t ack;
   int res;
+
+  //trqbva da se opravi uslovieto
+  //ne moje da blokira tuka shtoto trqbva da ima 1 cikul sec 1 cikul main
+  //if(MODE == SINGLE_CONTROLLER_MODE) while(MAIN_STATE != STATE_AWAITING_RESPONSE) {}
+
   SECONDARY_STATE = STATE_AWAITING_COMMAND;
   while(SECONDARY_STATE != STATE_SECONDARY_DONE) {
     if(SECONDARY_STATE == STATE_AWAITING_COMMAND) {
@@ -262,8 +281,11 @@ int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
     }
     else if(SECONDARY_STATE == STATE_ACKNOWLEDGING_COMMAND) {
       
-      if(comparePackets(&incoming, &INIT_PACKET)) {
+      if(comparePackets(&incoming, &INIT_PACKET) && spp != NULL) {
         *spp = INIT;
+      }
+      else if(comparePackets(&incoming, &END_PACKET) && spp != NULL) {
+        *spp = END;
       }
       //CRC Check
       if(CRC_f(incoming.data, incoming.size) != incoming.crc) {
@@ -290,6 +312,9 @@ int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
 
       res = TransmitPacket(huart, &ack);
       if(res == 0) {
+        //If 
+        if(MODE == SINGLE_CONTROLLER_MODE) while(MAIN_STATE != STATE_MAIN_DONE && MAIN_STATE != STATE_TRANSMITTING_COMMAND) {}
+
         SECONDARY_STATE = STATE_SECONDARY_DONE;
         printf("Ack sent successfully\n");
         continue;
@@ -318,4 +343,8 @@ int CommunicationInitSecondary(UART_HandleTypeDef* huart) {
     return -1;
   }
   return 0;
+}
+
+int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res) {
+  return MainControlled(huart, &END_PACKET, res);
 }
