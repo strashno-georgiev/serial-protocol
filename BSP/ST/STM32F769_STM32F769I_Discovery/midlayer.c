@@ -9,6 +9,7 @@
 #include <stm32f7xx_hal.h>
 #include "RTOS.h"
 #include "midlayer.h"
+#include "applayer.h"
 #include "protocol_data.h"
 #include "hardware_layer.h"
 #define RECEIVE_TIMEOUT -2
@@ -106,6 +107,28 @@ int Receive(UART_HandleTypeDef* huart, char* str, int size) {
   return 0;
 }
 
+int ReceiveTimed(UART_HandleTypeDef* huart, char* str, OS_TIME timeout) {
+  int i=0;
+  char endflag = 0;
+  while(1) {
+    str[i] = 0xFF;
+    OS_MAILBOX_GetTimed1(&receivedMailBox, str+i, timeout);
+    if(str[i] == 0xFF) {
+      return RECEIVE_TIMEOUT;
+    }
+    if((str[i] == '\r' || str[i] == '\n') && endflag) {
+      break;
+    }
+    else {
+      endflag = 0;
+    }  
+    if(str[i] == ';') {
+      endflag=1;
+    }
+    i++;
+  }
+  return 0;  
+}
 
 void PacketDeencapsulate(char *str, packet_t * p) {
     int offset = 0;
@@ -168,6 +191,19 @@ int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
   return 0;
 }
 
+int ReceivePacketTimed(UART_HandleTypeDef* huart, packet_t *packet, OS_TIME timeout) {
+  int res;
+  char received[MAX_PACKET_HEX_LEN+1];
+  memset(received, 0, MAX_PACKET_HEX_LEN+1);
+  
+  res = ReceiveTimed(huart, received, timeout);
+  if(res < 0) {
+    return res;
+  }
+  PacketDeencapsulate(received, packet);
+  return 0; 
+}
+
 int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   char packet_string[MAX_PACKET_HEX_LEN+1];
 
@@ -213,8 +249,8 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
           while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
         }
 
-        res = ReceivePacket(huart, incoming);
-       
+        res = ReceivePacketTimed(huart, incoming, 100);
+        
         if(res == 0) {
           if(comparePackets(incoming, &BAD_CRC_PACKET)) {
             printf("Bad CRC\n");
@@ -225,6 +261,7 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
           }
         }
         else if(res == RECEIVE_TIMEOUT){
+          printf("Command lost, retransmitting\n");
           MAIN_STATE = STATE_LOST;
         }
         break;
@@ -249,10 +286,58 @@ int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, u
 }
 
 
+enum secondary_state SecondaryControlled_AwaitingCommand(UART_HandleTypeDef *huart, packet_t *incoming) {
+  ReceivePacket(huart, incoming);
+  return STATE_ACKNOWLEDGING_COMMAND;
+}
+
+enum secondary_state SecondaryControlled_AcknowledgingCommand(UART_HandleTypeDef* huart, packet_t *incoming, enum special_packet *spp) {
+    packet_t ack;
+    HAL_StatusTypeDef res;
+    if(comparePackets(incoming, &INIT_PACKET) && spp != NULL) {
+      *spp = INIT;
+    }
+    else if(comparePackets(incoming, &END_PACKET) && spp != NULL) {
+      *spp = END;
+    }
+    //CRC Check
+    if(CRC_f(incoming->data, incoming->size) != incoming->crc) {
+      res = TransmitPacket(huart, &BAD_CRC_PACKET);
+      if(res == 0) {
+        printf("Error in CRC, waiting for retransmit\n");
+        return STATE_AWAITING_COMMAND;
+      }
+      else {
+        printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
+      }
+    }
+
+    if(incoming->cmd_type == COMMAND_TYPE_WRITE) {
+      ack.cmd_type = COMMAND_TYPE_ACK_WRITE;
+      ack.size = 0;
+    }
+
+    else {
+      ack.cmd_type = COMMAND_TYPE_WRITE;
+      ack.size = incoming->size;
+    }
+
+    ack.address = incoming->address;
+
+    res = TransmitPacket(huart, &ack);
+    if(res == 0) {
+      //If 
+      if(MODE == SINGLE_CONTROLLER_MODE) while(MAIN_STATE != STATE_MAIN_DONE && MAIN_STATE != STATE_TRANSMITTING_COMMAND) {}
+      printf("Ack sent successfully\n");
+    }
+    else {
+      printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
+    }
+    return STATE_SECONDARY_DONE;
+}
+
 int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
   packet_t incoming;
-  packet_t ack;
-  int res;
 
   //trqbva da se opravi uslovieto
   //ne moje da blokira tuka shtoto trqbva da ima 1 cikul sec 1 cikul main
@@ -261,52 +346,10 @@ int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
   SECONDARY_STATE = STATE_AWAITING_COMMAND;
   while(SECONDARY_STATE != STATE_SECONDARY_DONE) {
     if(SECONDARY_STATE == STATE_AWAITING_COMMAND) {
-      ReceivePacket(huart, &incoming);
-      SECONDARY_STATE = STATE_ACKNOWLEDGING_COMMAND;
+      SECONDARY_STATE = SecondaryControlled_AwaitingCommand(huart, &incoming);
     }
     else if(SECONDARY_STATE == STATE_ACKNOWLEDGING_COMMAND) {
-      
-      if(comparePackets(&incoming, &INIT_PACKET) && spp != NULL) {
-        *spp = INIT;
-      }
-      else if(comparePackets(&incoming, &END_PACKET) && spp != NULL) {
-        *spp = END;
-      }
-      //CRC Check
-      if(CRC_f(incoming.data, incoming.size) != incoming.crc) {
-        res = TransmitPacket(huart, &BAD_CRC_PACKET);
-        if(res == 0) {
-          SECONDARY_STATE = STATE_AWAITING_COMMAND;
-          printf("Error in CRC, waiting for retransmit\n");
-          continue;
-        }
-        else {
-          printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
-        }
-      }
-
-      if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
-        ack.cmd_type = COMMAND_TYPE_ACK_WRITE;
-        ack.size = 0;
-      }
-      else {
-        ack.cmd_type = COMMAND_TYPE_WRITE;
-        ack.size = incoming.size;
-      }
-      ack.address = incoming.address;
-
-      res = TransmitPacket(huart, &ack);
-      if(res == 0) {
-        //If 
-        if(MODE == SINGLE_CONTROLLER_MODE) while(MAIN_STATE != STATE_MAIN_DONE && MAIN_STATE != STATE_TRANSMITTING_COMMAND) {}
-
-        SECONDARY_STATE = STATE_SECONDARY_DONE;
-        printf("Ack sent successfully\n");
-        continue;
-      }
-      else {
-        printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
-      }
+      SECONDARY_STATE = SecondaryControlled_AcknowledgingCommand(huart, &incoming, spp);
     }
   }
   return 0;
@@ -335,6 +378,6 @@ int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res) {
   return MainControlled(huart, &END_PACKET, res);
 }
 
-int initMidLayer() {
-  return initHardwareLayer();
+int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
+  return initHardwareLayer(huart, instance);
 }

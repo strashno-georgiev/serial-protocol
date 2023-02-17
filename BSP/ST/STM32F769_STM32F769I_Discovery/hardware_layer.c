@@ -2,6 +2,7 @@
 
 char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
 int index = 0;
+UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
 
 void UART5_IRQHandler(void) {
@@ -9,7 +10,7 @@ void UART5_IRQHandler(void) {
     char c, res;
     printf("Data received\n");
     do {
-      res = HAL_UART_Receive(&UART5_huart, &c, 1, 50);
+      res = HAL_UART_Receive(huart_used, &c, 1, 50);
     } while(res == HAL_BUSY);
     OS_MAILBOX_Put1(&receivedMailBox, &c);
   }
@@ -20,7 +21,7 @@ void USART6_IRQHandler(void) {
     char c, res;
     printf("Data received\n");
     do {
-      res = HAL_UART_Receive(&USART6_huart, &c, 1, 50);
+      res = HAL_UART_Receive(huart_used, &c, 1, 50);
     } while(res == HAL_BUSY);
     OS_MAILBOX_Put1(&receivedMailBox, &c);
   }
@@ -40,10 +41,12 @@ void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
   __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
 }
 
+
+
 void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
   UART_InitTypeDef uart_init;
   
-  uart_init.BaudRate = 19200;               // 1 250 000
+  uart_init.BaudRate = 19200;      
   uart_init.WordLength = UART_WORDLENGTH_8B;  //Defined in uart_ex.h
   uart_init.StopBits = UART_STOPBITS_1;       //uart.h
   uart_init.Parity = UART_PARITY_NONE;
@@ -55,6 +58,8 @@ void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
   huart->Instance = instance;
   huart->Init = uart_init;
 }
+
+
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
@@ -114,7 +119,14 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
   UART_InterruptEnable_RXNE(huart);
 }
 
-int initHardwareLayer() {
+int initHardwareLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
+  HAL_Init();
   OS_MAILBOX_Create(&receivedMailBox, 1, MAX_PACKET_HEX_LEN * 3, RECEIVED_DATA);
+  init_UART(huart, instance);
+  if(HAL_UART_Init(huart) != HAL_OK) {
+    printf("Error in initializing UART handle\n");
+    return -1;
+  }
+  huart_used = huart;
   return 0;
 }

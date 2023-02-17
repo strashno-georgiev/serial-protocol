@@ -7,4 +7,4 @@ extern char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
 extern OS_MAILBOX receivedMailBox;
 
 void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance);
-int initHardwareLayer(void);
+int initHardwareLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance);

@@ -283,6 +283,8 @@
       <file file_name="midlayer.h" />
       <file file_name="protocol_data.h" />
       <file file_name="hardware_layer.c" />
+      <file file_name="applayer.c" />
+      <file file_name="applayer.h" />
     </folder>
     <folder Name="COMPRESS">
       <folder Name="Config">

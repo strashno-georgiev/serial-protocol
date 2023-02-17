@@ -1,5 +1,6 @@
 #pragma once
 #include "protocol_data.h"
+#include "applayer.h"
 #include <stdint.h>
 #include <stm32f7xx_hal.h>
 typedef uint8_t byte_t;
@@ -18,7 +19,6 @@ typedef struct {
 } packet_t;
 
 enum special_packet {NOT_SPECIAL, INIT, BAD_CRC, END};
-enum mode {MULTI_CONTROLLER_MODE, SINGLE_CONTROLLER_MODE, UNDEFINED_MODE};
 
 
 enum main_state {STATE_TRANSMITTING_COMMAND, STATE_AWAITING_RESPONSE, STATE_MAIN_DONE, STATE_LOST, MAIN_UNDEFINED};
@@ -31,7 +31,7 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
 int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
 int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
 int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
-int initMidLayer(void);
+int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *);
 
 #define INIT_PACKET_DATA "IN"
 #define INIT_PACKET_SIZE 2
