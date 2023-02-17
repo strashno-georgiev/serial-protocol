@@ -20,13 +20,18 @@ typedef struct {
 enum special_packet {NOT_SPECIAL, INIT, BAD_CRC, END};
 enum mode {MULTI_CONTROLLER_MODE, SINGLE_CONTROLLER_MODE, UNDEFINED_MODE};
 
-int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
+
+enum main_state {STATE_TRANSMITTING_COMMAND, STATE_AWAITING_RESPONSE, STATE_MAIN_DONE, STATE_LOST, MAIN_UNDEFINED};
+enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE_SECONDARY_DONE, SEC_UNDEFINED};
+//int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
+//Uses MainControlled V
 int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
 int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp);
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming);
 int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
 int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
-int CommunicationInitSecondary(UART_HandleTypeDef* huart);
+int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
+int initMidLayer(void);
 
 #define INIT_PACKET_DATA "IN"
 #define INIT_PACKET_SIZE 2
