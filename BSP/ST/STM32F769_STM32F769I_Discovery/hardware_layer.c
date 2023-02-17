@@ -1,5 +1,45 @@
 #include "hardware_layer.h"
 
+char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
+int index = 0;
+OS_MAILBOX receivedMailBox;
+
+void UART5_IRQHandler(void) {
+  if((UART5->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
+    char c, res;
+    printf("Data received\n");
+    do {
+      res = HAL_UART_Receive(&UART5_huart, &c, 1, 50);
+    } while(res == HAL_BUSY);
+    OS_MAILBOX_Put1(&receivedMailBox, &c);
+  }
+  return;
+}
+void USART6_IRQHandler(void) {
+  if((USART6->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
+    char c, res;
+    printf("Data received\n");
+    do {
+      res = HAL_UART_Receive(&USART6_huart, &c, 1, 50);
+    } while(res == HAL_BUSY);
+    OS_MAILBOX_Put1(&receivedMailBox, &c);
+  }
+  return;
+}
+
+void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
+  //HAL_UART_Receive_IT(&huart, RECEIVED, 200);
+  if(huart->Instance == UART5) {
+    HAL_NVIC_SetPriority(UART5_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(UART5_IRQn);
+  }
+  else if(huart->Instance == USART6) {
+    HAL_NVIC_SetPriority(USART6_IRQn, 0, 1);
+    HAL_NVIC_EnableIRQ(USART6_IRQn); 
+  }
+  __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
+}
+
 void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
   UART_InitTypeDef uart_init;
   
@@ -71,4 +111,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
 
     HAL_GPIO_Init(GPIOC, &c67init);
   }
+  UART_InterruptEnable_RXNE(huart);
+}
+
+int initHardwareLayer() {
+  OS_MAILBOX_Create(&receivedMailBox, 1, MAX_PACKET_HEX_LEN * 3, RECEIVED_DATA);
+  return 0;
 }
