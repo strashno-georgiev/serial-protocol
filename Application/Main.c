@@ -1,7 +1,6 @@
 #include "RTOS.h"
 #include "BSP.h"
-//#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.h"
-#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/applayer.h"
+#include "../BSP/ST/STM32F769_STM32F769I_Discovery/applayer.h"
 #define MAIN 1
 #define SEC 2
 
