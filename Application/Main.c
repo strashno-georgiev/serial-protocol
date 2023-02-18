@@ -1,8 +1,9 @@
 #include "RTOS.h"
 #include "BSP.h"
-#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.h"
-#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.h"
-
+//#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.h"
+#include "/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/applayer.h"
+#define MAIN 1
+#define SEC 2
 
 #ifdef __cplusplus
 extern "C" {    /* Make sure we have C-declarations in C++ programs */
@@ -22,71 +23,71 @@ void MainTask(void);
 static OS_STACKPTR int Stack0[2048];                  /* Task stack */
 static OS_TASK         TCB0;                  /* Task-control-block */
 
-static OS_STACKPTR int StackUARTTx[2048], StackUARTRx[2048];  // Task stacks
-static OS_TASK         TCB_UARTTx, TCB_UARTRx;  
+static OS_STACKPTR int StackUARTTx[8192], StackUARTRx[8192], StackHP[256];  // Task stacks
+static OS_TASK         TCB_UARTTx, TCB_UARTRx, TCB_HP;  
+static int LED_no = -1;
 
-static UART_HandleTypeDef USART6_huart, UART5_huart; //2 * 112 bytes
-static char message[128];
-static char txmsg[120];
-static OS_MUTEX Mutex;
+static void HPTask(void) {
+  while (1) {
+    BSP_ToggleLED(LED_no);
+    //printf("HPTask - %d\n", HAL_GetTick());
+    OS_TASK_Delay(250);
+  }
+}
 
-static void UART_transmit_task(void) {
+static void UART_PrimaryTask(void) {
   printf("Transmit task\n");
-  UART_HandleTypeDef *huart = &USART6_huart;
-  int i=0;
-  if(CommunicationInitMain(huart, SINGLE_CONTROLLER_MODE) != 0) {
+  if(communicationStart(UART5, PRIMARY, MULTI_CONTROLLER_MODE) != 0) {
     printf("Bad initialization of main device\n");
     OS_TASK_Terminate(NULL);
   }
   printf("Successfully initialized main device\n");
-  packet_t res;
-  TransmitCommand(huart, COMMAND_TYPE_WRITE, 5, 0x0010, "ABCDE", &res);
-  TransmitCommand(huart, COMMAND_TYPE_READ, 0x00, 0x0000, "", &res);
-  CommunicationEndMain(huart, &res);
   while(1) {
-    OS_TASK_Terminate(NULL);
+    BSP_ToggleLED(0);
+    uint8_t size = 8;
+    uint16_t addr = 0x0000;
+    for(int i=0; i < 9; i++) {
+      write(size, addr);
+      read(size, addr);
+      addr += size;
+      if(i == 0) {
+        size = 4;
+      }
+      else if(i == 2) {
+        size = 2;
+      }
+    }
   }
 }
 
-static void UART_receive_task(void) {
-  UART_HandleTypeDef *huart = &UART5_huart;
-  enum special_packet spp = NOT_SPECIAL;
+static void UART_SecondaryTask(void) {
   printf("Receive task\n");
-  printf("%d\n", HAL_GetTick());
-  printf("%d\n", HAL_RCC_GetPCLK1Freq());
-  printf("%d\n", HAL_RCC_GetPCLK2Freq());
-  if(CommunicationInitSecondary(huart) != 0) {
-    printf("Bad initialization message\n");
+  if(communicationStart(UART5, SECONDARY, MULTI_CONTROLLER_MODE) != 0) {
+   printf("Sec bad init\n");
+   OS_TASK_Terminate(NULL); 
   }
   printf("Successfully initialized secondary device\n");
   while(1) {
-    SecondaryControlled(huart, &spp);
-    while(spp == END) {
-      printf("Received end command, terminating\n");
-      OS_TASK_Terminate(NULL);
-    }
-    //printf("Message is: %s\n", message);
+    BSP_ToggleLED(1);
+    handleCommand();
   }
 }
 
 
 void MainTask(void) {
-  HAL_Init();
-
   OS_TASK_EnterRegion();
+  int m = SEC;
 
-  init_UART(&USART6_huart, USART6);      //Defined in stm32f769xx.h
-  init_UART(&UART5_huart, UART5);
+  if(m == MAIN) {
+    OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 2, UART_PrimaryTask, StackUARTTx);
+    LED_no = 0;
+  }
+  else if(m == SEC) {
+    OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 2, UART_SecondaryTask, StackUARTRx);
+    LED_no = 1;
+  }
 
-  if(HAL_UART_Init(&USART6_huart) != HAL_OK) {
-    printf("Error in USART6 init\n"); 
-  }
-  if(HAL_UART_Init(&UART5_huart) != HAL_OK) {
-    printf("Error in UART5 init\n");
-  }
-  
-  OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 90, UART_receive_task, StackUARTRx);
-  OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 90, UART_transmit_task, StackUARTTx);
+  OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
 
   OS_TASK_Terminate(NULL);
 }
@@ -102,6 +103,7 @@ void MainTask(void) {
 int main(void) {
   OS_InitKern();                   /* Initialize OS                 */
   OS_InitHW();                     /* Initialize Hardware for OS    */
+  HAL_Init();
   BSP_Init();                      /* Initialize LED ports          */
   BSP_SetLED(0);                   /* Initially set LED             */
   /* You need to create at least one task before calling OS_Start() */

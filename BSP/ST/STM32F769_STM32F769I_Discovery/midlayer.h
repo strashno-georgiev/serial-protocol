@@ -26,12 +26,17 @@ enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE
 //int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
 //Uses MainControlled V
 int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
-int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp);
+int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint16_t address, char *str);
+
+int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet);
+int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp, packet_t*);
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming);
+
 int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
 int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
 int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
-int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *);
+
+int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole, enum mode);
 
 #define INIT_PACKET_DATA "IN"
 #define INIT_PACKET_SIZE 2

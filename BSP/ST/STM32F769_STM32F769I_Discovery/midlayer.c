@@ -27,13 +27,14 @@ packet_t END_PACKET = {END_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, END_PACKET_SIZ
 
 byte_t ID = 0x00;
 
+
 enum main_state MAIN_STATE = MAIN_UNDEFINED;
 enum secondary_state SECONDARY_STATE = SEC_UNDEFINED;
 
 //CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (MSB discarded)
 const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
 
-
+extern char readBuffer[2 *K], writeBuffer[2*K];
 //Int to string hex copy
 void isxcpy(int num, char* str, uint8_t numsize) {
   for(int i=(numsize * 2)-1; i >= 0 ; i--) {
@@ -50,21 +51,6 @@ int strnxtoi(char* str, int n) {
   return strtol(lstr, NULL, 16);
 }
 
-
-uint8_t CRC_f(char* data, int len) {
-  uint8_t crc8 = 0;
-  for(int i=0; i < len-1; i++) {
-     crc8 = data[i];
-     for(int j=0; j < BYTE_SIZE; j++) {
-      if(!!(data[i] & (1 << (BYTE_SIZE-1-j)))) {
-        crc8 = crc8 << 1;
-        crc8 |= data[i+1] >> (BYTE_SIZE - j - 1);
-        crc8 = crc8 ^ GENERATOR_POLYNOMIAL; 
-      }
-     }
-  }
-  return crc8;
-}
 
 int Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
   printf("Tx: %s\n", str);
@@ -104,6 +90,8 @@ int Receive(UART_HandleTypeDef* huart, char* str, int size) {
     }
     i++;
   }
+  str[i] = 0;
+  printf("Rx: %s\n", str);
   return 0;
 }
 
@@ -127,6 +115,8 @@ int ReceiveTimed(UART_HandleTypeDef* huart, char* str, OS_TIME timeout) {
     }
     i++;
   }
+  str[i] = 0;
+  printf("Rx: %s\n", str);
   return 0;  
 }
 
@@ -150,6 +140,37 @@ void PacketDeencapsulate(char *str, packet_t * p) {
     offset += p->size;
 
     p->crc = strnxtoi(str + offset, PACKET_CRC_HEX_LEN);
+}
+
+uint8_t CRC_f(char* data, int len) {
+  uint8_t crc8 = data[0];
+  uint8_t shift_counter = 0;
+  char flag = 0;
+  for(int i=0; i < len-1;) {
+    if(!!(crc8 & (1 << (BYTE_SIZE-1)))) {
+      flag = 1;
+    }
+    crc8 = crc8 << 1;
+    crc8 |= data[i+1] >> (BYTE_SIZE - shift_counter - 1);
+    shift_counter++;
+    if(flag) {
+      crc8 = crc8 ^ GENERATOR_POLYNOMIAL;
+      flag = 0;
+    }
+    if(shift_counter == 8) {
+      shift_counter = 0;
+      i++;
+    }
+  }
+  return crc8;
+}
+
+
+
+uint8_t CRC_packet(packet_t *p) {
+  char packet_str[MAX_PACKET_HEX_LEN];
+  PacketDeencapsulate(packet_str, p);
+  return CRC_f(packet_str, p->size + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
 }
 
 void PacketEncapsulate(packet_t *packet, char *str) {
@@ -206,15 +227,21 @@ int ReceivePacketTimed(UART_HandleTypeDef* huart, packet_t *packet, OS_TIME time
 
 int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   char packet_string[MAX_PACKET_HEX_LEN+1];
-
   memset(packet_string, 0, MAX_PACKET_HEX_LEN+1);
   packet->id = ID;
-  ID++;
+  if(MODE == SINGLE_CONTROLLER_MODE) {
+    ID++;
+  }
+  else {
+    ID += 2;
+  }
+
   /*packet->crc = CRC_f(packet->data, packet->size);
   if(packet->id == 0) {
     packet->crc++;
   }*/
   //To test if CRC retransmission works
+
   PacketEncapsulate(packet, packet_string);
   printf("%s\n", packet_string);
 
@@ -285,6 +312,17 @@ int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, u
   return MainControlled(huart, &p, response);
 }
 
+int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
+  packet_t p;
+  p.address = address;
+  p.size = size;
+  p.cmd_type = ack_type;
+  memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
+  strncpy(p.data, str, size);
+  p.data[size] = 0;
+  return TransmitPacket(huart, &p);
+}
+
 
 enum secondary_state SecondaryControlled_AwaitingCommand(UART_HandleTypeDef *huart, packet_t *incoming) {
   ReceivePacket(huart, incoming);
@@ -301,14 +339,14 @@ enum secondary_state SecondaryControlled_AcknowledgingCommand(UART_HandleTypeDef
       *spp = END;
     }
     //CRC Check
-    if(CRC_f(incoming->data, incoming->size) != incoming->crc) {
+    if(CRC_packet(incoming) != incoming->crc) {
       res = TransmitPacket(huart, &BAD_CRC_PACKET);
       if(res == 0) {
         printf("Error in CRC, waiting for retransmit\n");
         return STATE_AWAITING_COMMAND;
       }
       else {
-        printf("ERROR IN ACKNOWLEDGMENT TRANSMISSION\n");
+        printf("ERROR IN CRC ACKNOWLEDGMENT TRANSMISSION\n");
       }
     }
 
@@ -317,7 +355,7 @@ enum secondary_state SecondaryControlled_AcknowledgingCommand(UART_HandleTypeDef
       ack.size = 0;
     }
 
-    else {
+    else if(incoming->cmd_type == COMMAND_TYPE_READ){
       ack.cmd_type = COMMAND_TYPE_WRITE;
       ack.size = incoming->size;
     }
@@ -336,8 +374,7 @@ enum secondary_state SecondaryControlled_AcknowledgingCommand(UART_HandleTypeDef
     return STATE_SECONDARY_DONE;
 }
 
-int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
-  packet_t incoming;
+int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp, packet_t *incoming) {
 
   //trqbva da se opravi uslovieto
   //ne moje da blokira tuka shtoto trqbva da ima 1 cikul sec 1 cikul main
@@ -346,10 +383,10 @@ int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp) {
   SECONDARY_STATE = STATE_AWAITING_COMMAND;
   while(SECONDARY_STATE != STATE_SECONDARY_DONE) {
     if(SECONDARY_STATE == STATE_AWAITING_COMMAND) {
-      SECONDARY_STATE = SecondaryControlled_AwaitingCommand(huart, &incoming);
+      SECONDARY_STATE = SecondaryControlled_AwaitingCommand(huart, incoming);
     }
     else if(SECONDARY_STATE == STATE_ACKNOWLEDGING_COMMAND) {
-      SECONDARY_STATE = SecondaryControlled_AcknowledgingCommand(huart, &incoming, spp);
+      SECONDARY_STATE = SecondaryControlled_AcknowledgingCommand(huart, incoming, spp);
     }
   }
   return 0;
@@ -364,10 +401,13 @@ int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode) {
 
 int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode com_mode) {
   enum special_packet flag = NOT_SPECIAL;
-
+  packet_t inc;
   while(MODE == UNDEFINED_MODE && com_mode == UNDEFINED_MODE) {}
   MODE = com_mode;
-  SecondaryControlled(huart, &flag);
+  if(MODE == MULTI_CONTROLLER_MODE) {
+    ID = 1;
+  }
+  SecondaryControlled(huart, &flag, &inc);
   if(flag != INIT) {
     return -1;
   }
@@ -378,6 +418,13 @@ int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res) {
   return MainControlled(huart, &END_PACKET, res);
 }
 
-int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
-  return initHardwareLayer(huart, instance);
+int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
+  initHardwareLayer(huart, instance);
+  if(role == PRIMARY) {
+    return CommunicationInitMain(huart, mode);
+  }
+  else if(role == SECONDARY) {
+    return CommunicationInitSecondary(huart, mode);
+  }
+  return -1;
 }
