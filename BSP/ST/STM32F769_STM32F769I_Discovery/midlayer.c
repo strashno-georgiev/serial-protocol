@@ -191,8 +191,9 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   if(packet->size != 0) {
     strncpy(str + offset, packet->data, packet->size);
   }
-  offset += packet->size;
-
+  if(packet->cmd_type == COMMAND_TYPE_WRITE) {
+    offset += packet->size;
+  }
   isxcpy(CRC_f(str, offset), str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
