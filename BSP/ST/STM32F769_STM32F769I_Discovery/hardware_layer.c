@@ -1,6 +1,7 @@
 #include "hardware_layer.h"
 
 char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
+char C;
 int index = 0;
 UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
@@ -8,24 +9,17 @@ OS_MAILBOX receivedMailBox;
 void UART5_IRQHandler(void) {
   UART5->ISR &= (~UART_FLAG_ORE);
   if((UART5->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
-    char c, res;
     //printf("Data received\n");
-    do {
-      res = HAL_UART_Receive(huart_used, &c, 1, 50);
-    } while(res == HAL_BUSY);
-    OS_MAILBOX_Put1(&receivedMailBox, &c);
+    HAL_UART_IRQHandler(huart_used);
+    OS_MAILBOX_Put1(&receivedMailBox, &C);
   }
   return;
 }
 
 void USART6_IRQHandler(void) {
   if((USART6->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
-    char c, res;
-    printf("Data received\n");
-    do {
-      res = HAL_UART_Receive(huart_used, &c, 1, 50);
-    } while(res == HAL_BUSY);
-    OS_MAILBOX_Put1(&receivedMailBox, &c);
+    HAL_UART_IRQHandler(huart_used);
+    OS_MAILBOX_Put1(&receivedMailBox, &C);
   }
   return;
 }
@@ -40,6 +34,7 @@ void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
     HAL_NVIC_SetPriority(USART6_IRQn, 0, 1);
     HAL_NVIC_EnableIRQ(USART6_IRQn); 
   }
+  HAL_UART_Receive_IT(huart_used, &C, 1);
   __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
 }
 
