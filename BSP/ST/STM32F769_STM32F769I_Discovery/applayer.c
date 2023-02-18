@@ -46,14 +46,14 @@ int handleCommand() {
   int res;
   ReceivePacket(&HUART, &incoming);
   if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
-    safeCopy(writeBuffer, incoming.data, incoming.size, &writeMutex);
+    safeCopy(readBuffer, incoming.data, incoming.size, &readMutex);
     return TransmitAck(&HUART, COMMAND_TYPE_ACK_WRITE, 0, incoming.address, "");
   }
   else if(incoming.cmd_type == COMMAND_TYPE_READ) {
     //Lock readBuffer
-    OS_MUTEX_Lock(&readMutex);
-    res = TransmitAck(&HUART, COMMAND_TYPE_WRITE, incoming.size, incoming.address, readBuffer+incoming.address);
-    OS_MUTEX_Unlock(&readMutex);
+    OS_MUTEX_Lock(&writeMutex);
+    res = TransmitAck(&HUART, COMMAND_TYPE_WRITE, incoming.size, incoming.address, writeBuffer+incoming.address);
+    OS_MUTEX_Unlock(&writeMutex);
     return res;
   }
   return -1;
