@@ -29,12 +29,12 @@ int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, u
 int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint16_t address, char *str);
 
 int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet);
-int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp, packet_t*);
+enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *incoming, enum special_packet *spp);
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming);
 
-int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
-int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
-int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
+//int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
+//int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
+//int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
 
 int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole, enum mode);
 

@@ -7,7 +7,7 @@ OS_MUTEX writeMutex, readMutex;
 
 void safeCopy(char *dest, char *src, int n, OS_MUTEX *mutex) {
   OS_MUTEX_LockBlocked(mutex);
-  strncpy(dest, src, n);
+  memcpy(dest, src, n);
   OS_MUTEX_Unlock(mutex);
 }
 
@@ -22,10 +22,10 @@ int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode 
 }
 
 int write(uint8_t size, uint16_t address) {
-  //strncpy(writeBuffer+address, str, size);
   //Transmit packet with value at address;
   packet_t res;
-  safeCopy(writeBuffer+address, "neprotivokonstituci", size, &writeMutex);
+  //safeCopy(writeBuffer+address, "neprotivokonstituci", size, &writeMutex);
+  //Uses layer 2 verification of acknowledgement
   return TransmitCommand(&HUART, COMMAND_TYPE_WRITE, size, address, writeBuffer+address, &res);
 }
 
@@ -44,7 +44,11 @@ int read(uint8_t size, uint16_t address) {
 int handleCommand() {
   packet_t incoming;
   int res;
-  ReceivePacket(&HUART, &incoming);
+  
+  do {
+  res = SecondaryControlled(&HUART, &incoming, NULL);
+  } while(res == STATE_AWAITING_COMMAND);
+
   if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
     safeCopy(readBuffer, incoming.data, incoming.size, &readMutex);
     return TransmitAck(&HUART, COMMAND_TYPE_ACK_WRITE, 0, incoming.address, "");

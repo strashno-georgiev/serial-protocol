@@ -56,6 +56,7 @@ static void UART_PrimaryTask(void) {
         size = 2;
       }
     }
+    OS_TASK_Terminate(NULL);
   }
 }
 
@@ -75,7 +76,7 @@ static void UART_SecondaryTask(void) {
 
 void MainTask(void) {
   OS_TASK_EnterRegion();
-  int m = SEC;
+  int m = MAIN;
 
   if(m == MAIN) {
     OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 2, UART_PrimaryTask, StackUARTTx);
