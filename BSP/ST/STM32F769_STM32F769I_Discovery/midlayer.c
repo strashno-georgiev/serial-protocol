@@ -195,7 +195,7 @@ void PacketEncapsulate(packet_t *packet, char *str) {
 uint8_t CRC_packet(packet_t *p) {
   char packet_str[MAX_PACKET_HEX_LEN];
   PacketEncapsulate(p, packet_str);
-  return CRC_f(packet_str, p->size + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
+  return CRC_f(packet_str, (p->cmd_type == COMMAND_TYPE_READ ? 0 : p->size) + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
 }
 
 int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
