@@ -165,14 +165,6 @@ uint8_t CRC_f(char* data, int len) {
   return crc8;
 }
 
-
-
-uint8_t CRC_packet(packet_t *p) {
-  char packet_str[MAX_PACKET_HEX_LEN];
-  PacketDeencapsulate(packet_str, p);
-  return CRC_f(packet_str, p->size + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
-}
-
 void PacketEncapsulate(packet_t *packet, char *str) {
   int offset = 0;
   isxcpy(packet->id, str + offset, PACKET_ID_SIZE);
@@ -198,6 +190,12 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   offset += PACKET_CRC_HEX_LEN;
 
   memcpy(str + offset, ";\n", 2);
+}
+
+uint8_t CRC_packet(packet_t *p) {
+  char packet_str[MAX_PACKET_HEX_LEN];
+  PacketEncapsulate(p, packet_str);
+  return CRC_f(packet_str, p->size + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
 }
 
 int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
@@ -248,7 +246,7 @@ int comparePackets(packet_t *p1, packet_t *p2) {
 
 enum main_state MainControlled_TransmittingCommand(UART_HandleTypeDef* huart, packet_t * packet) {
     if(TransmitPacket(huart, packet) == 0) {
-      MAIN_STATE = STATE_AWAITING_RESPONSE;
+      return STATE_AWAITING_RESPONSE;
     }
     else {
       return -1;
@@ -266,24 +264,24 @@ enum main_state MainControlled_AwaitingResponse(UART_HandleTypeDef* huart, packe
   if(res == 0) {
     if(comparePackets(incoming, &BAD_CRC_PACKET)) {
       printf("Bad CRC\n");
-      MAIN_STATE = STATE_TRANSMITTING_COMMAND;
+      return STATE_TRANSMITTING_COMMAND;
     } 
     //Valid acknowledgement
     else if(incoming->address == packet->address) {
       ID = incoming->id + 1;
-      MAIN_STATE = STATE_MAIN_DONE;
+      return STATE_MAIN_DONE;
     }
   }
   else if(res == RECEIVE_TIMEOUT){
     printf("Command lost, retransmitting\n");
-    MAIN_STATE = STATE_LOST;
+     return STATE_LOST;
   }
+  return -1;
 }
 
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
   //Finite automaton here
   MAIN_STATE = STATE_TRANSMITTING_COMMAND;
-  int res;
   while(MAIN_STATE != STATE_MAIN_DONE) {
     switch(MAIN_STATE) {
       //
