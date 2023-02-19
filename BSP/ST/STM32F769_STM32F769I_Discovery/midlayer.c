@@ -180,12 +180,37 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   isxcpy(packet->address, str + offset, PACKET_ADDRESS_SIZE);
   offset += PACKET_ADDRESS_HEX_LEN;
 
-  if(packet->size != 0) {
-    memcpy(str + offset, packet->data, packet->size);
-  }
   if(packet->cmd_type == COMMAND_TYPE_WRITE) {
+    memcpy(str + offset, packet->data, packet->size);
     offset += packet->size;
   }
+
+  isxcpy(packet->crc, str + offset, PACKET_CRC_SIZE);
+  offset += PACKET_CRC_HEX_LEN;
+
+  memcpy(str + offset, ";\n", 2);
+}
+
+void PacketEncapsulateCRC(packet_t *packet, char *str) {
+  int offset = 0;
+  isxcpy(packet->id, str + offset, PACKET_ID_SIZE);
+  //-----
+  offset += PACKET_ID_HEX_LEN;
+  
+  isxcpy((byte_t)packet->cmd_type, str + offset, PACKET_CMDTP_SIZE);
+  offset += PACKET_CMDTP_HEX_LEN;
+
+  isxcpy(packet->size, str + offset, PACKET_SIZE_SIZE);
+  offset += PACKET_SIZE_HEX_LEN;
+
+  isxcpy(packet->address, str + offset, PACKET_ADDRESS_SIZE);
+  offset += PACKET_ADDRESS_HEX_LEN;
+
+  if(packet->cmd_type == COMMAND_TYPE_WRITE) {
+    memcpy(str + offset, packet->data, packet->size);
+    offset += packet->size;
+  }
+
   isxcpy(CRC_f(str, offset), str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
@@ -234,7 +259,7 @@ int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   else {
     ID += 2;
   }*/
-  PacketEncapsulate(packet, packet_string);
+  PacketEncapsulateCRC(packet, packet_string);
   printf("%s\n", packet_string);
 
   return Transmit(huart, packet_string, MIN_PACKET_HEX_LEN + packet->size);
