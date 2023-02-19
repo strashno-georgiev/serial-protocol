@@ -6,22 +6,21 @@ int index = 0;
 UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
 
-void UART5_IRQHandler(void) {
-  UART5->ISR &= (~UART_FLAG_ORE);
-  if((UART5->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
-    //printf("Data received\n");
-    HAL_UART_IRQHandler(huart_used);
+void UART_IRQHandler(void) {
+  huart_used->Instance->ISR &= (~UART_FLAG_ORE);
+  if((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
+    C = huart_used->Instance->RDR & 0xFF;
     OS_MAILBOX_Put1(&receivedMailBox, &C);
   }
   return;
 }
 
+void UART5_IRQHandler(void) {
+  UART_IRQHandler();
+}
+
 void USART6_IRQHandler(void) {
-  if((USART6->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
-    HAL_UART_IRQHandler(huart_used);
-    OS_MAILBOX_Put1(&receivedMailBox, &C);
-  }
-  return;
+  UART_IRQHandler();
 }
 
 void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
