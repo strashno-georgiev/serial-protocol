@@ -47,7 +47,7 @@ void isxcpy(int num, char* str, uint8_t numsize) {
 int strnxtoi(char* str, int n) {
   char lstr[9];
   lstr[n] = 0;
-  strncpy(lstr, str, n);
+  memcpy(lstr, str, n);
   return strtol(lstr, NULL, 16);
 }
 
@@ -134,7 +134,7 @@ void PacketDeencapsulate(char *str, packet_t * p) {
     p->address = strnxtoi(str + offset, PACKET_ADDRESS_HEX_LEN);
     offset += PACKET_ADDRESS_HEX_LEN;
   
-    if(p->cmd_type == COMMAND_TYPEE_WRITE) {
+    if(p->cmd_type == COMMAND_TYPE_WRITE) {
       memcpy(p->data, str + offset, p->size);
       offset += p->size;
     }
@@ -262,7 +262,7 @@ int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   PacketEncapsulateCRC(packet, packet_string);
   printf("%s\n", packet_string);
 
-  return Transmit(huart, packet_string, MIN_PACKET_HEX_LEN + packet->size);
+  return Transmit(huart, packet_string, MIN_PACKET_HEX_LEN + (packet->cmd_type == COMMAND_TYPE_READ ? 0 : packet->size));
 }
 
 int comparePackets(packet_t *p1, packet_t *p2) {
@@ -270,12 +270,12 @@ int comparePackets(packet_t *p1, packet_t *p2) {
 }
 
 enum main_state MainControlled_TransmittingCommand(UART_HandleTypeDef* huart, packet_t * packet) {
-    if(TransmitPacket(huart, packet) == 0) {
-      return STATE_AWAITING_RESPONSE;
-    }
-    else {
-      return -1;
-    } 
+  if(TransmitPacket(huart, packet) == 0) {
+    return STATE_AWAITING_RESPONSE;
+  }
+  else {
+    return -1;
+  } 
 }
 
 enum main_state MainControlled_AwaitingResponse(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
@@ -284,7 +284,8 @@ enum main_state MainControlled_AwaitingResponse(UART_HandleTypeDef* huart, packe
     while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
   }
 
-  res = ReceivePacketTimed(huart, incoming, 200);
+  //res = ReceivePacket(huart, incoming);
+  res = ReceivePacketTimed(huart, incoming, 250);
 
   if(res == 0) {
     if(comparePackets(incoming, &BAD_CRC_PACKET)) {
@@ -433,11 +434,11 @@ int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode com_mode) {
   do {
     res = SecondaryControlled(huart, &inc, &flag);
   }
-  while(res == STATE_TRANSMITTING_COMMAND);
+  while(res == STATE_AWAITING_COMMAND);
+  TransmitAck(huart, COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   if(flag != INIT) {
     return -1;
   }
-  TransmitAck(huart, COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   return 0;
 }
 
