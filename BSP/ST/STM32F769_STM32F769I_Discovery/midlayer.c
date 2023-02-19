@@ -134,10 +134,10 @@ void PacketDeencapsulate(char *str, packet_t * p) {
     p->address = strnxtoi(str + offset, PACKET_ADDRESS_HEX_LEN);
     offset += PACKET_ADDRESS_HEX_LEN;
   
-    memcpy(p->data, str + offset, p->size);
-    //p->data is not guranteed to be null-terminated
-    memset(p->data + p->size, 0, MAX_PACKET_DATA_HEX_LEN - p->size);
-    offset += p->size;
+    if(p->cmd_type == COMMAND_TYPEE_WRITE) {
+      memcpy(p->data, str + offset, p->size);
+      offset += p->size;
+    }
 
     p->crc = strnxtoi(str + offset, PACKET_CRC_HEX_LEN);
 }
