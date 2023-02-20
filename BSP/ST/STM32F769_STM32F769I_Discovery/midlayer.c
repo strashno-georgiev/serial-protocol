@@ -188,7 +188,7 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   isxcpy(packet->crc, str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
-  memcpy(str + offset, ";\n", 2);
+  memcpy(str + offset, PACKET_ENDING, PACKET_ENDING_SIZE);
 }
 
 void PacketEncapsulateCRC(packet_t *packet, char *str) {
@@ -379,41 +379,6 @@ enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *in
   return STATE_ACKNOWLEDGING_COMMAND;
 }
 
-/*enum secondary_state SecondaryControlled_AcknowledgingCommand(UART_HandleTypeDef* huart, char *ack_data, packet_t *incoming) {
-    int res;
-    if(incoming->cmd_type == COMMAND_TYPE_WRITE) {  
-      res = TransmitAck(huart, COMMAND_TYPE_ACK_WRITE, 0, incoming->address, "");
-    }
-    else if(incoming->cmd_type == COMMAND_TYPE_READ){
-      res = TransmitAck(&HUART, COMMAND_TYPE_WRITE, incoming->size, incoming->address, ack_data);
-    }
-    if(res == 0) {
-      if(MODE == SINGLE_CONTROLLER_MODE) while(MAIN_STATE != STATE_MAIN_DONE && MAIN_STATE != STATE_TRANSMITTING_COMMAND) {}
-    }
-    else {
-      return -1;
-    }
-    return STATE_SECONDARY_DONE;
-}
-
-int SecondaryControlled(UART_HandleTypeDef *huart, enum special_packet *spp, packet_t *incoming, char *ack_data) {
-
-  while(SECONDARY_STATE != STATE_SECONDARY_DONE) {
-    if(SECONDARY_STATE == STATE_AWAITING_COMMAND) {
-      while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {
-        SECONDARY_STATE = SecondaryControlled_AwaitingCommand(huart, incoming, spp);
-      }
-      return;
-    }
-    else if(SECONDARY_STATE == STATE_ACKNOWLEDGING_COMMAND) {
-      SECONDARY_STATE = SecondaryControlled_AcknowledgingCommand(huart, ack_data, incoming);
-    }
-    else if(SECONDARY_STATE == -1) {
-      printf("Error in secondary device controlled flow\n");
-    }
-  }
-  return 0;
-}*/
 
 int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode) {
   //Let a communication init be a write on address 0x00 of 'IN'
