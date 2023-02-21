@@ -72,7 +72,7 @@ int Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
 
 
 //str has to have a size of 270 bytes
-int Receive(UART_HandleTypeDef* huart, char* str, int size) {
+int Receive(char* str, int size) {
   int i=0;
   char endflag = 0;
   while(1) {
@@ -95,7 +95,7 @@ int Receive(UART_HandleTypeDef* huart, char* str, int size) {
   return 0;
 }
 
-int ReceiveTimed(UART_HandleTypeDef* huart, char* str, OS_TIME timeout) {
+int ReceiveTimed(char* str, OS_TIME timeout) {
   int i=0;
   char endflag = 0;
   while(1) {
@@ -223,12 +223,12 @@ uint8_t CRC_packet(packet_t *p) {
   return CRC_f(packet_str, (p->cmd_type == COMMAND_TYPE_READ ? 0 : p->size) + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
 }
 
-int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
+int ReceivePacket(packet_t* packet) {
   int res;
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
   
-  res = Receive(huart, received, 0);
+  res = Receive(received, 0);
   if(res < 0) {
     return res;
   }
@@ -236,12 +236,12 @@ int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet) {
   return 0;
 }
 
-int ReceivePacketTimed(UART_HandleTypeDef* huart, packet_t *packet, OS_TIME timeout) {
+int ReceivePacketTimed(packet_t *packet, OS_TIME timeout) {
   int res;
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
   
-  res = ReceiveTimed(huart, received, timeout);
+  res = ReceiveTimed(received, timeout);
   if(res < 0) {
     return res;
   }
@@ -278,14 +278,14 @@ enum main_state MainControlled_TransmittingCommand(UART_HandleTypeDef* huart, pa
   } 
 }
 
-enum main_state MainControlled_AwaitingResponse(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
+enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * incoming) {
   int res;
   if(MODE == SINGLE_CONTROLLER_MODE) {
     while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
   }
 
   //res = ReceivePacket(huart, incoming);
-  res = ReceivePacketTimed(huart, incoming, 250);
+  res = ReceivePacketTimed(incoming, 250);
 
   if(res == 0) {
     if(comparePackets(incoming, &BAD_CRC_PACKET)) {
@@ -315,7 +315,7 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
         MAIN_STATE = MainControlled_TransmittingCommand(huart, packet);
         break;
       case STATE_AWAITING_RESPONSE:
-        MAIN_STATE = MainControlled_AwaitingResponse(huart, packet, incoming);
+        MAIN_STATE = MainControlled_AwaitingResponse(packet, incoming);
         break;
       case STATE_LOST:
         MAIN_STATE = STATE_TRANSMITTING_COMMAND;
@@ -329,7 +329,7 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
 }
 
 
-int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
+int TransmitCommandControlled(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
   packet_t p;
   p.address = address;
   p.size = size;
@@ -356,7 +356,7 @@ int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint1
 
 enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *incoming, enum special_packet *spp) {
   int res;
-  ReceivePacket(huart, incoming);
+  ReceivePacket(incoming);
   ID = incoming->id + 1;
   if(spp != NULL) {
     if(comparePackets(incoming, &INIT_PACKET)) {

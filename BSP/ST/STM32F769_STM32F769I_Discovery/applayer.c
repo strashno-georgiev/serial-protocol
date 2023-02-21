@@ -33,7 +33,7 @@ int read(uint8_t size, uint16_t address) {
   //Transmit read packet, write to buffer
   int res;
   packet_t inc;
-  res = TransmitCommand(&HUART, COMMAND_TYPE_READ, size, address, "", &inc);
+  res = TransmitCommandControlled(&HUART, COMMAND_TYPE_READ, size, address, "", &inc);
   if(res < 0) {
     return res;
   }

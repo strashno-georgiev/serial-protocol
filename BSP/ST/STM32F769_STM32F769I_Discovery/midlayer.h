@@ -25,10 +25,10 @@ enum main_state {STATE_TRANSMITTING_COMMAND, STATE_AWAITING_RESPONSE, STATE_MAIN
 enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE_SECONDARY_DONE, SEC_UNDEFINED};
 //int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
 //Uses MainControlled V
-int TransmitCommand(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
+int TransmitCommandControlled(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
 int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint16_t address, char *str);
 
-int ReceivePacket(UART_HandleTypeDef* huart, packet_t* packet);
+int ReceivePacket(packet_t* packet);
 enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *incoming, enum special_packet *spp);
 int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming);
 
