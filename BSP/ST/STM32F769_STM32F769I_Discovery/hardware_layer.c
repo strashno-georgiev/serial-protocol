@@ -8,16 +8,16 @@ UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
 
 void UART_IRQHandler(void) {
-  huart_used->Instance->ISR &= (~UART_FLAG_ORE);
+  //huart_used->Instance->ISR &= (~UART_FLAG_ORE);
   //Clears overrun errors
   //huart_used = &HUART5;
   //__HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
-  if((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
+  //printf("it\n");
+  if(((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) || ((huart_used->Instance->ISR & UART_FLAG_ORE) == UART_FLAG_ORE)) {
     C = huart_used->Instance->RDR & 0xFF;
     OS_MAILBOX_Put1(&receivedMailBox, &C);
-  }
-  else if((huart_used->Instance->ISR & UART_FLAG_ORE) == UART_FLAG_ORE) {
-    __HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
+    if(huart_used->Instance->ISR & UART_FLAG_ORE) 
+      __HAL_UART_CLEAR_OREFLAG(huart_used);
   }
   return;
 }
@@ -136,7 +136,7 @@ int Transmit(char* str, int len) {
   HAL_StatusTypeDef res;
   for(int i=0; i < len; i++) {
     do {
-      res = HAL_UART_Transmit(huart_used, (uint8_t*)str+i, 1, 100);
+      res = HAL_UART_Transmit(huart_used, str+i, 1, 100);
     } while(res == HAL_BUSY);
     if(res != HAL_OK) {
       return -1;
@@ -163,6 +163,7 @@ int Receive(char* str) {
     }
     i++;
   }
+  i++;
   str[i] = 0;
   printf("Rx: %s\n", str);
   return i;
@@ -188,6 +189,7 @@ int ReceiveTimed(char* str, OS_TIME timeout) {
     }
     i++;
   }
+  i++;
   str[i] = 0;
   printf("Rx: %s\n", str);
   return i;  

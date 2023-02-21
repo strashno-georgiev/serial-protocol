@@ -84,7 +84,7 @@ uint8_t CRC_f(char* data, int len) {
       flag = 1;
     }
     crc8 = crc8 << 1;
-    crc8 |= data[i+1] >> (BYTE_SIZE - shift_counter - 1);
+    crc8 |= ((data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1);
     shift_counter++;
     if(flag) {
       crc8 = crc8 ^ GENERATOR_POLYNOMIAL;
@@ -321,10 +321,7 @@ int CommunicationInitSecondary(enum mode com_mode) {
   if(MODE == MULTI_CONTROLLER_MODE) {
     ID = 1;
   }
-  do {
-    res = SecondaryReceive(&inc, &flag);
-  }
-  while(res == STATE_AWAITING_COMMAND);
+  res = SecondaryReceive(&inc, &flag);
   SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   if(flag != INIT) {
     return -1;
