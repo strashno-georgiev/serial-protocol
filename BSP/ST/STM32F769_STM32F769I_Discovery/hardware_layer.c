@@ -1,18 +1,23 @@
 #include "hardware_layer.h"
 
 char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
-uint8_t C;
+char C;
 int index = 0;
+//UART_HandleTypeDef HUART5, HUART6;
 UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
 
 void UART_IRQHandler(void) {
-  //huart_used->Instance->ISR &= (~UART_FLAG_ORE);
+  huart_used->Instance->ISR &= (~UART_FLAG_ORE);
   //Clears overrun errors
-  __HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
+  //huart_used = &HUART5;
+  //__HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
   if((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
     C = huart_used->Instance->RDR & 0xFF;
     OS_MAILBOX_Put1(&receivedMailBox, &C);
+  }
+  else if((huart_used->Instance->ISR & UART_FLAG_ORE) == UART_FLAG_ORE) {
+    __HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
   }
   return;
 }
@@ -35,7 +40,7 @@ void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
     HAL_NVIC_SetPriority(USART6_IRQn, 0, 1);
     HAL_NVIC_EnableIRQ(USART6_IRQn); 
   }
-  HAL_UART_Receive_IT(huart_used, &C, 1);
+  HAL_UART_Receive_IT(huart_used, (uint8_t*)&C, 1);
   __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
 }
 
@@ -131,7 +136,7 @@ int Transmit(char* str, int len) {
   HAL_StatusTypeDef res;
   for(int i=0; i < len; i++) {
     do {
-      res = HAL_UART_Transmit(huart_used, (uint8_t)str+i, 1, 100);
+      res = HAL_UART_Transmit(huart_used, (uint8_t*)str+i, 1, 100);
     } while(res == HAL_BUSY);
     if(res != HAL_OK) {
       return -1;
