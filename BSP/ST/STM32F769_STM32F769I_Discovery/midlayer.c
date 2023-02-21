@@ -67,8 +67,9 @@ void PacketDeencapsulate(char *str, packet_t * p) {
       }
       else if(DATA_WORD_LEN == 2) {
         for(int i=0; i < p->size; i++) {
-          p->data[i] = strnxtoi(str + i*2, sizeof(uint8_t) * 2);
+          p->data[i] = strnxtoi(str + offset i*2, sizeof(uint8_t) * 2);
         }
+        offset += p->size * 2;
       }
     }
 
@@ -120,7 +121,7 @@ void PacketEncapsulateCRC(packet_t *packet, char *str) {
     }
     else if(DATA_WORD_LEN == 2) {
       for(int i=0; i < packet->size; i++) {
-        isxcpy(packet->data[i], str[i*2], sizeof(uint8_t));
+        isxcpy(packet->data[i], str + offset + i*2, sizeof(uint8_t));
       }
       offset += packet->size * 2;
     }
@@ -257,7 +258,7 @@ int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, 
   p.address = address;
   p.size = size;
   p.cmd_type = cmd_type;
-  memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
+  memset(p.data, 0, MAX_PACKET_DATA_SIZE+1);
   if(cmd_type == COMMAND_TYPE_WRITE) {
     memcpy(p.data, str, size);
   }
@@ -270,7 +271,7 @@ int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char 
   p.address = address;
   p.size = size;
   p.cmd_type = ack_type;
-  memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
+  memset(p.data, 0, MAX_PACKET_DATA_SIZE+1);
   memcpy(p.data, str, size);
   return TransmitPacket(&p);
 }
@@ -315,13 +316,13 @@ int CommunicationInitMain(enum mode com_mode) {
 int CommunicationInitSecondary(enum mode com_mode) {
   enum special_packet flag = NOT_SPECIAL;
   packet_t inc;
-  int res;
   while(MODE == UNDEFINED_MODE && com_mode == UNDEFINED_MODE) {}
   MODE = com_mode;
   if(MODE == MULTI_CONTROLLER_MODE) {
     ID = 1;
   }
-  res = SecondaryReceive(&inc, &flag);
+
+  SecondaryReceive(&inc, &flag);
   SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   if(flag != INIT) {
     return -1;

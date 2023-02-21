@@ -35,15 +35,15 @@ int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char 
 
 int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole, enum mode);
 
-#define INIT_PACKET_DATA "BEEF"
+#define INIT_PACKET_DATA {0xBE, 0xEF}
 #define INIT_PACKET_SIZE 4 / DATA_WORD_LEN
 #define INIT_PACKET_ADDRESS 0x0000
 
-#define BAD_CRC_PACKET_DATA "CCCC"
+#define BAD_CRC_PACKET_DATA {0xCC, 0xCC}
 #define BAD_CRC_PACKET_SIZE 4 / DATA_WORD_LEN
 #define BAD_CRC_PACKET_ADDRESS 0x0000
 
-#define END_PACKET_DATA "DEAD"
+#define END_PACKET_DATA {0xDE, 0xAD}
 #define END_PACKET_SIZE 4 / DATA_WORD_LEN
 #define END_PACKET_ADDRESS 0x0000
 

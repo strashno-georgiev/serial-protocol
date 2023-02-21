@@ -1,7 +1,7 @@
 #pragma once
 
 //Length of a single character of data encoded in the packet
-#define DATA_WORD_LEN 1
+#define DATA_WORD_LEN 2
 
 //Size of packet headers in bytes
 #define PACKET_ID_SIZE 1
