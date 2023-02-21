@@ -15,7 +15,7 @@ typedef struct {
   uint8_t cmd_type;
   uint8_t size;
   uint8_t crc;
-  char data[MAX_PACKET_DATA_HEX_LEN+1];
+  char data[MAX_PACKET_DATA_SIZE +1];
 } packet_t;
 
 enum special_packet {NOT_SPECIAL, INIT, BAD_CRC, END};
@@ -24,18 +24,14 @@ enum ReceiveStatus {RECEIVE_SUCCESS, RECEIVE_BAD_CRC, RECEIVE_INVALID, RECEIVE_T
 
 enum main_state {STATE_TRANSMITTING_COMMAND, STATE_AWAITING_RESPONSE, STATE_MAIN_DONE, STATE_LOST, MAIN_UNDEFINED};
 enum secondary_state {STATE_AWAITING_COMMAND, STATE_ACKNOWLEDGING_COMMAND, STATE_SECONDARY_DONE, SEC_UNDEFINED};
-//int Transmit(UART_HandleTypeDef* huart_main, char* str, int len);
-//Uses MainControlled V
-int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
-int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char *str);
 
-int ReceivePacket(packet_t* packet);
-int SecondaryReceive(packet_t *incoming, enum special_packet *spp);
+int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response);
 int MainControlled(packet_t * packet, packet_t * incoming);
 
-//int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res);
-//int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode);
-//int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode);
+enum ReceiveStatus ReceivePacket(packet_t* packet);
+int SecondaryReceive(packet_t *incoming, enum special_packet *spp);
+int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char *str);
+
 
 int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole, enum mode);
 

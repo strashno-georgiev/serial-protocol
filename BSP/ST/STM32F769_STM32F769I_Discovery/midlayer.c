@@ -37,7 +37,7 @@ void isxcpy(int num, char* str, uint8_t numsize) {
 
 //String hex to int 
 //str - string
-//n - size of number encoded in string in bytes
+//n - length (in characters) of number encoded in string
 int strnxtoi(char* str, int n) {
   char lstr[9];
   lstr[n] = 0;
@@ -61,8 +61,15 @@ void PacketDeencapsulate(char *str, packet_t * p) {
     offset += PACKET_ADDRESS_HEX_LEN;
   
     if(p->cmd_type == COMMAND_TYPE_WRITE) {
-      memcpy(p->data, str + offset, p->size);
-      offset += p->size;
+      if(DATA_WORD_LEN == 1) {
+        memcpy(p->data, str + offset, p->size);
+        offset += p->size;
+      }
+      else if(DATA_WORD_LEN == 2) {
+        for(int i=0; i < p->size; i++) {
+          p->data[i] = strnxtoi(str + i*2, sizeof(uint8_t) * 2);
+        }
+      }
     }
 
     p->crc = strnxtoi(str + offset, PACKET_CRC_HEX_LEN);
@@ -91,7 +98,7 @@ uint8_t CRC_f(char* data, int len) {
   return crc8;
 }
 
-void PacketEncapsulate(packet_t *packet, char *str) {
+void PacketEncapsulateCRC(packet_t *packet, char *str) {
   int offset = 0;
   isxcpy(packet->id, str + offset, PACKET_ID_SIZE);
   //-----
@@ -112,35 +119,11 @@ void PacketEncapsulate(packet_t *packet, char *str) {
       offset += packet->size;
     }
     else if(DATA_WORD_LEN == 2) {
-      memcpy(str+offset, packet->data, packet->size * 2);
+      for(int i=0; i < packet->size; i++) {
+        isxcpy(packet->data[i], str[i*2], sizeof(uint8_t));
+      }
       offset += packet->size * 2;
     }
-  }
-
-  isxcpy(packet->crc, str + offset, PACKET_CRC_SIZE);
-  offset += PACKET_CRC_HEX_LEN;
-
-  memcpy(str + offset, PACKET_ENDING, PACKET_ENDING_SIZE);
-}
-
-void PacketEncapsulateCRC(packet_t *packet, char *str) {
-  int offset = 0;
-  isxcpy(packet->id, str + offset, PACKET_ID_SIZE);
-  //-----
-  offset += PACKET_ID_HEX_LEN;
-  
-  isxcpy((byte_t)packet->cmd_type, str + offset, PACKET_CMDTP_SIZE);
-  offset += PACKET_CMDTP_HEX_LEN;
-
-  isxcpy(packet->size, str + offset, PACKET_SIZE_SIZE);
-  offset += PACKET_SIZE_HEX_LEN;
-
-  isxcpy(packet->address, str + offset, PACKET_ADDRESS_SIZE);
-  offset += PACKET_ADDRESS_HEX_LEN;
-
-  if(packet->cmd_type == COMMAND_TYPE_WRITE) {
-    memcpy(str + offset, packet->data, packet->size);
-    offset += packet->size;
   }
 
   isxcpy(CRC_f(str, offset), str + offset, PACKET_CRC_SIZE);
@@ -149,7 +132,7 @@ void PacketEncapsulateCRC(packet_t *packet, char *str) {
   memcpy(str + offset, ";\n", 2);
 }
 
-int ReceivePacket(packet_t* packet) {
+enum ReceiveStatus ReceivePacket(packet_t* packet) {
   int res;
   uint8_t crc;
   char received[MAX_PACKET_HEX_LEN+1];
