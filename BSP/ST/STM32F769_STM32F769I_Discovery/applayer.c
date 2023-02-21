@@ -26,7 +26,7 @@ int write(uint8_t size, uint16_t address) {
   packet_t res;
   //safeCopy(writeBuffer+address, "neprotivokonstituci", size, &writeMutex);
   //Uses layer 2 verification of acknowledgement
-  return TransmitCommand(&HUART, COMMAND_TYPE_WRITE, size, address, writeBuffer+address, &res);
+  return TransmitCommandControlled(&HUART, COMMAND_TYPE_WRITE, size, address, writeBuffer+address, &res);
 }
 
 int read(uint8_t size, uint16_t address) {
