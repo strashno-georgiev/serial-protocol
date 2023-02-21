@@ -13,7 +13,7 @@
 #include "protocol_data.h"
 #include "hardware_layer.h"
 #define BYTE_SIZE 8
-
+#define TIMEOUT 0
 enum mode MODE = UNDEFINED_MODE;
 
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
@@ -200,8 +200,12 @@ enum main_state MainControlled_TransmittingCommand(packet_t * packet) {
 
 enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * incoming) {
   int res;
-  //res = ReceivePacket(huart, incoming);
-  res = ReceivePacketTimed(incoming, 250);
+  if(TIMEOUT) {
+    res = ReceivePacketTimed(incoming, 250);
+  } 
+  else {
+    res = ReceivePacket(incoming);
+  }
   
   if(res == RECEIVE_SUCCESS) {
     if(comparePackets(incoming, &BAD_CRC_PACKET)) {
