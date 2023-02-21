@@ -1,13 +1,15 @@
 #include "hardware_layer.h"
 
 char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
-char C;
+uint8_t C;
 int index = 0;
 UART_HandleTypeDef *huart_used;
 OS_MAILBOX receivedMailBox;
 
 void UART_IRQHandler(void) {
-  huart_used->Instance->ISR &= (~UART_FLAG_ORE);
+  //huart_used->Instance->ISR &= (~UART_FLAG_ORE);
+  //Clears overrun errors
+  __HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
   if((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) {
     C = huart_used->Instance->RDR & 0xFF;
     OS_MAILBOX_Put1(&receivedMailBox, &C);
@@ -36,25 +38,6 @@ void UART_InterruptEnable_RXNE(UART_HandleTypeDef* huart) {
   HAL_UART_Receive_IT(huart_used, &C, 1);
   __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
 }
-
-
-
-void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
-  UART_InitTypeDef uart_init;
-  
-  uart_init.BaudRate = 19200;      
-  uart_init.WordLength = UART_WORDLENGTH_8B;  //Defined in uart_ex.h
-  uart_init.StopBits = UART_STOPBITS_1;       //uart.h
-  uart_init.Parity = UART_PARITY_NONE;
-  uart_init.Mode = UART_MODE_TX_RX;
-  uart_init.HwFlowCtl = UART_HWCONTROL_NONE;
-  uart_init.OverSampling = UART_OVERSAMPLING_8;
-  uart_init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-
-  huart->Instance = instance;
-  huart->Init = uart_init;
-}
-
 
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
@@ -115,9 +98,25 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
   UART_InterruptEnable_RXNE(huart);
 }
 
+void init_UART(UART_HandleTypeDef *huart, USART_TypeDef* instance) {
+  UART_InitTypeDef uart_init;
+
+  uart_init.BaudRate = 19200;     
+  uart_init.WordLength = UART_WORDLENGTH_8B;  //Defined in uart_ex.h
+  uart_init.StopBits = UART_STOPBITS_1;       //uart.h
+  uart_init.Parity = UART_PARITY_NONE;
+  uart_init.Mode = UART_MODE_TX_RX;
+  uart_init.HwFlowCtl = UART_HWCONTROL_NONE;
+  uart_init.OverSampling = UART_OVERSAMPLING_8;
+  uart_init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+
+  huart->Instance = instance;
+  huart->Init = uart_init;
+}
+
 int initHardwareLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
   HAL_Init();
-  OS_MAILBOX_Create(&receivedMailBox, 1, MAX_PACKET_HEX_LEN * 3, RECEIVED_DATA);
+  OS_MAILBOX_Create(&receivedMailBox, sizeof(uint8_t), MAX_PACKET_HEX_LEN * 3, RECEIVED_DATA);
   init_UART(huart, instance);
   if(HAL_UART_Init(huart) != HAL_OK) {
     printf("Error in initializing UART handle\n");
@@ -125,4 +124,66 @@ int initHardwareLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
   }
   huart_used = huart;
   return 0;
+}
+
+int Transmit(char* str, int len) {
+  printf("Tx: %s\n", str);
+  HAL_StatusTypeDef res;
+  for(int i=0; i < len; i++) {
+    do {
+      res = HAL_UART_Transmit(huart_used, (uint8_t)str+i, 1, 100);
+    } while(res == HAL_BUSY);
+    if(res != HAL_OK) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+//Str needs to be of enough size (MAX_PACKET_HEX_LEN+1)
+int Receive(char* str) {
+  int i=0;
+  char endflag = 0;
+  while(1) {
+    OS_MAILBOX_GetBlocked1(&receivedMailBox, str+i);
+    //\r has to be changed to \n in production code, \r is here because this is what linux screen sends when you press enter
+    if((str[i] == '\r' || str[i] == '\n') && endflag) {
+      break;
+    }
+    else {
+      endflag = 0;
+    }  
+    if(str[i] == ';') {
+      endflag=1;
+    }
+    i++;
+  }
+  str[i] = 0;
+  printf("Rx: %s\n", str);
+  return 0;
+}
+
+int ReceiveTimed(char* str, OS_TIME timeout) {
+  int i=0;
+  char endflag = 0;
+  while(1) {
+    str[i] = 0xFF;
+    OS_MAILBOX_GetTimed1(&receivedMailBox, str+i, timeout);
+    if(str[i] == 0xFF) {
+      return RECEIVE_TIMEOUT;
+    }
+    if((str[i] == '\r' || str[i] == '\n') && endflag) {
+      break;
+    }
+    else {
+      endflag = 0;
+    }  
+    if(str[i] == ';') {
+      endflag=1;
+    }
+    i++;
+  }
+  str[i] = 0;
+  printf("Rx: %s\n", str);
+  return 0;  
 }

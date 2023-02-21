@@ -12,7 +12,6 @@
 #include "applayer.h"
 #include "protocol_data.h"
 #include "hardware_layer.h"
-#define RECEIVE_TIMEOUT -2
 #define TRANSMITTED 1
 #define RECEIVED 2
 #define BYTE_SIZE 8
@@ -34,8 +33,9 @@ enum secondary_state SECONDARY_STATE = STATE_AWAITING_COMMAND;
 //CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (MSB discarded)
 const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
 
-extern char readBuffer[2 *K], writeBuffer[2*K];
+
 //Int to string hex copy
+//numsize - size of number in bytes
 void isxcpy(int num, char* str, uint8_t numsize) {
   for(int i=(numsize * 2)-1; i >= 0 ; i--) {
     str[i] = (num % 16 < 10) ? (num % 16 + '0') : (num % 16 - 10 + 'A');
@@ -44,6 +44,8 @@ void isxcpy(int num, char* str, uint8_t numsize) {
 }
 
 //String hex to int 
+//str - string
+//n - size of number encoded in string in bytes
 int strnxtoi(char* str, int n) {
   char lstr[9];
   lstr[n] = 0;
@@ -51,74 +53,6 @@ int strnxtoi(char* str, int n) {
   return strtol(lstr, NULL, 16);
 }
 
-
-int Transmit(UART_HandleTypeDef* huart_main, char* str, int len) {
-  printf("Tx: %s\n", str);
-  HAL_StatusTypeDef res;
-  for(int i=0; i < len; i++) {
-    
-    //if(MODE == SINGLE_CONTROLLER_MODE) while(UART_STATUS == TRANSMITTED) {} //wait for reception
-
-    do {
-      res = HAL_UART_Transmit(huart_main, str+i, 1, 100);
-    } while(res == HAL_BUSY);
-    UART_STATUS = TRANSMITTED;
-    if(res != HAL_OK) {
-      return -1;
-    }
-  }
-  return 0;
-}
-
-
-//str has to have a size of 270 bytes
-int Receive(char* str, int size) {
-  int i=0;
-  char endflag = 0;
-  while(1) {
-    OS_MAILBOX_GetBlocked1(&receivedMailBox, str+i);
-    //UART_STATUS = RECEIVED;
-    //\r has to be changed to \n in production code, \r is here because this is what linux screen sends when you press enter
-    if((str[i] == '\r' || str[i] == '\n') && endflag) {
-      break;
-    }
-    else {
-      endflag = 0;
-    }  
-    if(str[i] == ';') {
-      endflag=1;
-    }
-    i++;
-  }
-  str[i] = 0;
-  printf("Rx: %s\n", str);
-  return 0;
-}
-
-int ReceiveTimed(char* str, OS_TIME timeout) {
-  int i=0;
-  char endflag = 0;
-  while(1) {
-    str[i] = 0xFF;
-    OS_MAILBOX_GetTimed1(&receivedMailBox, str+i, timeout);
-    if(str[i] == 0xFF) {
-      return RECEIVE_TIMEOUT;
-    }
-    if((str[i] == '\r' || str[i] == '\n') && endflag) {
-      break;
-    }
-    else {
-      endflag = 0;
-    }  
-    if(str[i] == ';') {
-      endflag=1;
-    }
-    i++;
-  }
-  str[i] = 0;
-  printf("Rx: %s\n", str);
-  return 0;  
-}
 
 void PacketDeencapsulate(char *str, packet_t * p) {
     int offset = 0;
@@ -181,8 +115,14 @@ void PacketEncapsulate(packet_t *packet, char *str) {
   offset += PACKET_ADDRESS_HEX_LEN;
 
   if(packet->cmd_type == COMMAND_TYPE_WRITE) {
-    memcpy(str + offset, packet->data, packet->size);
-    offset += packet->size;
+    if(DATA_WORD_LEN == 1) {
+      memcpy(str + offset, packet->data, packet->size);
+      offset += packet->size;
+    }
+    else if(DATA_WORD_LEN == 2) {
+      memcpy(str+offset, packet->data, packet->size * 2);
+      offset += packet->size * 2;
+    }
   }
 
   isxcpy(packet->crc, str + offset, PACKET_CRC_SIZE);
@@ -228,7 +168,7 @@ int ReceivePacket(packet_t* packet) {
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
   
-  res = Receive(received, 0);
+  res = Receive(received);
   if(res < 0) {
     return res;
   }
@@ -241,7 +181,9 @@ int ReceivePacketTimed(packet_t *packet, OS_TIME timeout) {
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
   
-  res = ReceiveTimed(received, timeout);
+  
+  res = Receive(received);
+  //res = ReceiveTimed(received, timeout);
   if(res < 0) {
     return res;
   }
@@ -249,7 +191,7 @@ int ReceivePacketTimed(packet_t *packet, OS_TIME timeout) {
   return 0; 
 }
 
-int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
+int TransmitPacket(packet_t* packet) {
   char packet_string[MAX_PACKET_HEX_LEN+1];
   memset(packet_string, 0, MAX_PACKET_HEX_LEN+1);
   packet->id = ID;
@@ -262,15 +204,15 @@ int TransmitPacket(UART_HandleTypeDef* huart, packet_t* packet) {
   PacketEncapsulateCRC(packet, packet_string);
   printf("%s\n", packet_string);
 
-  return Transmit(huart, packet_string, MIN_PACKET_HEX_LEN + (packet->cmd_type == COMMAND_TYPE_READ ? 0 : packet->size));
+  return Transmit(packet_string, MIN_PACKET_HEX_LEN + (packet->cmd_type == COMMAND_TYPE_READ ? 0 : (packet->size * DATA_WORD_LEN)));
 }
 
 int comparePackets(packet_t *p1, packet_t *p2) {
   return ((p1->address == p2->address) && (p1->size == p2->size) && !strcmp(p1->data, p2->data));
 }
 
-enum main_state MainControlled_TransmittingCommand(UART_HandleTypeDef* huart, packet_t * packet) {
-  if(TransmitPacket(huart, packet) == 0) {
+enum main_state MainControlled_TransmittingCommand(packet_t * packet) {
+  if(TransmitPacket(packet) == 0) {
     return STATE_AWAITING_RESPONSE;
   }
   else {
@@ -305,14 +247,14 @@ enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * in
   return -1;
 }
 
-int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * incoming) {
+int MainControlled(packet_t * packet, packet_t * incoming) {
   //Finite automaton here
   MAIN_STATE = STATE_TRANSMITTING_COMMAND;
   while(MAIN_STATE != STATE_MAIN_DONE) {
     switch(MAIN_STATE) {
       //
       case STATE_TRANSMITTING_COMMAND:
-        MAIN_STATE = MainControlled_TransmittingCommand(huart, packet);
+        MAIN_STATE = MainControlled_TransmittingCommand(packet);
         break;
       case STATE_AWAITING_RESPONSE:
         MAIN_STATE = MainControlled_AwaitingResponse(packet, incoming);
@@ -329,7 +271,7 @@ int MainControlled(UART_HandleTypeDef* huart, packet_t * packet, packet_t * inco
 }
 
 
-int TransmitCommandControlled(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
+int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
   packet_t p;
   p.address = address;
   p.size = size;
@@ -339,22 +281,29 @@ int TransmitCommandControlled(UART_HandleTypeDef* huart, uint8_t cmd_type, uint8
     memcpy(p.data, str, size);
   }
   p.data[size] = 0;
-  return MainControlled(huart, &p, response);
+  return MainControlled(&p, response);
 }
 
-int TransmitAck(UART_HandleTypeDef* huart, uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
+int TransmitAck(uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
   packet_t p;
   p.address = address;
   p.size = size;
   p.cmd_type = ack_type;
   memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
-  memcpy(p.data, str, size);
-  p.data[size] = 0;
-  return TransmitPacket(huart, &p);
+  if(DATA_WORD_LEN == 1) {
+    memcpy(p.data, str, size);
+  }
+  else if(DATA_WORD_LEN == 2) {
+    for(int i=0; i < size; i++) {
+      isxcpy(str[i], p.data+i*2, 1);
+    }
+  }
+  p.data[size * 2] = 0;
+  return TransmitPacket(&p);
 }
 
 
-enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *incoming, enum special_packet *spp) {
+enum secondary_state SecondaryControlled(packet_t *incoming, enum special_packet *spp) {
   int res;
   ReceivePacket(incoming);
   ID = incoming->id + 1;
@@ -367,7 +316,7 @@ enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *in
     }
   }
   if(CRC_packet(incoming) != incoming->crc) {
-    res = TransmitPacket(huart, &BAD_CRC_PACKET);
+    res = TransmitPacket(&BAD_CRC_PACKET);
     if(res == 0) {
       printf("Error in CRC, waiting for retransmit\n");
       return STATE_AWAITING_COMMAND;
@@ -380,14 +329,14 @@ enum secondary_state SecondaryControlled(UART_HandleTypeDef *huart, packet_t *in
 }
 
 
-int CommunicationInitMain(UART_HandleTypeDef* huart, enum mode com_mode) {
+int CommunicationInitMain(enum mode com_mode) {
   //Let a communication init be a write on address 0x00 of 'IN'
   packet_t incoming_packet;
   MODE = com_mode;
-  return MainControlled(huart, &INIT_PACKET, &incoming_packet);
+  return MainControlled(&INIT_PACKET, &incoming_packet);
 }
 
-int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode com_mode) {
+int CommunicationInitSecondary(enum mode com_mode) {
   enum special_packet flag = NOT_SPECIAL;
   packet_t inc;
   int res;
@@ -397,27 +346,27 @@ int CommunicationInitSecondary(UART_HandleTypeDef* huart, enum mode com_mode) {
     ID = 1;
   }
   do {
-    res = SecondaryControlled(huart, &inc, &flag);
+    res = SecondaryControlled(&inc, &flag);
   }
   while(res == STATE_AWAITING_COMMAND);
-  TransmitAck(huart, COMMAND_TYPE_ACK_WRITE, 0, 0, "");
+  TransmitAck(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   if(flag != INIT) {
     return -1;
   }
   return 0;
 }
 
-int CommunicationEndMain(UART_HandleTypeDef* huart, packet_t * res) {
-  return MainControlled(huart, &END_PACKET, res);
+int CommunicationEndMain(packet_t * res) {
+  return MainControlled(&END_PACKET, res);
 }
 
 int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
   initHardwareLayer(huart, instance);
   if(role == PRIMARY) {
-    return CommunicationInitMain(huart, mode);
+    return CommunicationInitMain(mode);
   }
   else if(role == SECONDARY) {
-    return CommunicationInitSecondary(huart, mode);
+    return CommunicationInitSecondary(mode);
   }
   return -1;
 }

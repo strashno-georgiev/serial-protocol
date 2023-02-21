@@ -1,5 +1,7 @@
 #pragma once
 
+//Length of a single character of data encoded in the packet
+#define DATA_WORD_LEN 1
 
 //Size of packet headers in bytes
 #define PACKET_ID_SIZE 1
@@ -21,7 +23,7 @@
 #define PACKET_CMDTP_HEX_LEN (PACKET_CMDTP_SIZE*2)
 #define PACKET_SIZE_HEX_LEN (PACKET_SIZE_SIZE*2)
 #define PACKET_ADDRESS_HEX_LEN (PACKET_ADDRESS_SIZE*2)
-#define MAX_PACKET_DATA_HEX_LEN (MAX_PACKET_DATA_SIZE)
+#define MAX_PACKET_DATA_HEX_LEN (MAX_PACKET_DATA_SIZE * DATA_WORD_LEN)
 #define PACKET_CRC_HEX_LEN (PACKET_CRC_SIZE*2)
 #define PACKET_ENDING_HEX_LEN (PACKET_ENDING_SIZE*2)
 
@@ -32,4 +34,3 @@
 #define COMMAND_TYPE_WRITE 0x0E
 #define COMMAND_TYPE_ACK_WRITE 0x0A
 #define COMMAND_TYPE_READ 0x0D
-
