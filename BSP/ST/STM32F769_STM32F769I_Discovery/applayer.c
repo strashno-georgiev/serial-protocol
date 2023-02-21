@@ -45,18 +45,15 @@ int handleCommand() {
   packet_t incoming;
   int res;
   
-  do {
-  res = SecondaryControlled(&incoming, NULL);
-  } while(res == STATE_AWAITING_COMMAND);
-
+  res = SecondaryReceive(&incoming, NULL);
+  
   if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
     safeCopy(readBuffer, incoming.data, incoming.size, &readMutex);
-    return TransmitAck(COMMAND_TYPE_ACK_WRITE, 0, incoming.address, "");
+    return SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, incoming.address, "");
   }
   else if(incoming.cmd_type == COMMAND_TYPE_READ) {
-    //Lock readBuffer
     OS_MUTEX_Lock(&writeMutex);
-    res = TransmitAck(COMMAND_TYPE_WRITE, incoming.size, incoming.address, writeBuffer+incoming.address);
+    res = SecondaryAcknowledge(COMMAND_TYPE_WRITE, incoming.size, incoming.address, writeBuffer+incoming.address);
     OS_MUTEX_Unlock(&writeMutex);
     return res;
   }

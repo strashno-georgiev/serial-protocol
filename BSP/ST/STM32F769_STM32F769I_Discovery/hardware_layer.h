@@ -3,8 +3,6 @@
 #include "protocol_data.h"
 #include "RTOS.h"
 
-#define RECEIVE_TIMEOUT -2
-
 extern char RECEIVED_DATA[(MAX_PACKET_HEX_LEN) * 3];
 extern OS_MAILBOX receivedMailBox;
 

@@ -12,12 +12,8 @@
 #include "applayer.h"
 #include "protocol_data.h"
 #include "hardware_layer.h"
-#define TRANSMITTED 1
-#define RECEIVED 2
 #define BYTE_SIZE 8
 
-
-uint32_t UART_STATUS = RECEIVED;
 enum mode MODE = UNDEFINED_MODE;
 
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
@@ -25,10 +21,6 @@ packet_t BAD_CRC_PACKET = {BAD_CRC_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, BAD_CR
 packet_t END_PACKET = {END_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, END_PACKET_SIZE, 0, END_PACKET_DATA};
 
 byte_t ID = 0x00;
-
-
-enum main_state MAIN_STATE = MAIN_UNDEFINED;
-enum secondary_state SECONDARY_STATE = STATE_AWAITING_COMMAND;
 
 //CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (MSB discarded)
 const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
@@ -157,53 +149,56 @@ void PacketEncapsulateCRC(packet_t *packet, char *str) {
   memcpy(str + offset, ";\n", 2);
 }
 
-uint8_t CRC_packet(packet_t *p) {
-  char packet_str[MAX_PACKET_HEX_LEN];
-  PacketEncapsulate(p, packet_str);
-  return CRC_f(packet_str, (p->cmd_type == COMMAND_TYPE_READ ? 0 : p->size) + PACKET_ID_HEX_LEN + PACKET_ADDRESS_HEX_LEN + PACKET_SIZE_HEX_LEN + PACKET_CMDTP_HEX_LEN);
-}
-
 int ReceivePacket(packet_t* packet) {
   int res;
+  uint8_t crc;
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
   
   res = Receive(received);
-  if(res < 0) {
-    return res;
+  if(res < MIN_PACKET_HEX_LEN) {
+    return RECEIVE_INVALID;
   }
+  
+  crc = CRC_f(received, res - PACKET_CRC_HEX_LEN - PACKET_ENDING_HEX_LEN);
+  
   PacketDeencapsulate(received, packet);
-  return 0;
+  if(crc != packet->crc) {
+    return RECEIVE_BAD_CRC;
+  }
+  return RECEIVE_SUCCESS;
 }
 
-int ReceivePacketTimed(packet_t *packet, OS_TIME timeout) {
+enum ReceiveStatus ReceivePacketTimed(packet_t *packet, OS_TIME timeout) {
   int res;
+  uint8_t crc;
   char received[MAX_PACKET_HEX_LEN+1];
   memset(received, 0, MAX_PACKET_HEX_LEN+1);
-  
-  
-  res = Receive(received);
-  //res = ReceiveTimed(received, timeout);
+
+  res = ReceiveTimed(received, timeout);
+
   if(res < 0) {
-    return res;
+    return RECEIVE_TIMEOUT;
   }
+  if(res < MIN_PACKET_HEX_LEN) {
+    return RECEIVE_INVALID;
+  }
+
+  crc = CRC_f(received, res - PACKET_CRC_HEX_LEN - PACKET_ENDING_HEX_LEN);
+  
   PacketDeencapsulate(received, packet);
-  return 0; 
+  if(crc != packet->crc) {
+    return RECEIVE_BAD_CRC;
+  }
+  
+  return RECEIVE_SUCCESS; 
 }
 
 int TransmitPacket(packet_t* packet) {
   char packet_string[MAX_PACKET_HEX_LEN+1];
   memset(packet_string, 0, MAX_PACKET_HEX_LEN+1);
   packet->id = ID;
-  /*if(MODE == SINGLE_CONTROLLER_MODE) {
-    ID++;
-  }
-  else {
-    ID += 2;
-  }*/
   PacketEncapsulateCRC(packet, packet_string);
-  printf("%s\n", packet_string);
-
   return Transmit(packet_string, MIN_PACKET_HEX_LEN + (packet->cmd_type == COMMAND_TYPE_READ ? 0 : (packet->size * DATA_WORD_LEN)));
 }
 
@@ -222,14 +217,10 @@ enum main_state MainControlled_TransmittingCommand(packet_t * packet) {
 
 enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * incoming) {
   int res;
-  if(MODE == SINGLE_CONTROLLER_MODE) {
-    while(SECONDARY_STATE == STATE_AWAITING_COMMAND) {}
-  }
-
   //res = ReceivePacket(huart, incoming);
   res = ReceivePacketTimed(incoming, 250);
-
-  if(res == 0) {
+  
+  if(res == RECEIVE_SUCCESS) {
     if(comparePackets(incoming, &BAD_CRC_PACKET)) {
       printf("Bad CRC\n");
       return STATE_TRANSMITTING_COMMAND;
@@ -240,6 +231,9 @@ enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * in
       return STATE_MAIN_DONE;
     }
   }
+  else if(res == RECEIVE_BAD_CRC) {
+    return STATE_TRANSMITTING_COMMAND;
+  }
   else if(res == RECEIVE_TIMEOUT){
     printf("Command lost, retransmitting\n");
      return STATE_LOST;
@@ -249,7 +243,7 @@ enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * in
 
 int MainControlled(packet_t * packet, packet_t * incoming) {
   //Finite automaton here
-  MAIN_STATE = STATE_TRANSMITTING_COMMAND;
+  enum main_state MAIN_STATE = STATE_TRANSMITTING_COMMAND;
   while(MAIN_STATE != STATE_MAIN_DONE) {
     switch(MAIN_STATE) {
       //
@@ -284,48 +278,43 @@ int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, 
   return MainControlled(&p, response);
 }
 
-int TransmitAck(uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
+int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
   packet_t p;
   p.address = address;
   p.size = size;
   p.cmd_type = ack_type;
   memset(p.data, 0, MAX_PACKET_DATA_HEX_LEN);
-  if(DATA_WORD_LEN == 1) {
-    memcpy(p.data, str, size);
-  }
-  else if(DATA_WORD_LEN == 2) {
-    for(int i=0; i < size; i++) {
-      isxcpy(str[i], p.data+i*2, 1);
-    }
-  }
-  p.data[size * 2] = 0;
+  memcpy(p.data, str, size);
   return TransmitPacket(&p);
 }
 
 
-enum secondary_state SecondaryControlled(packet_t *incoming, enum special_packet *spp) {
+int SecondaryReceive(packet_t *incoming, enum special_packet *spp) {
   int res;
-  ReceivePacket(incoming);
-  ID = incoming->id + 1;
-  if(spp != NULL) {
-    if(comparePackets(incoming, &INIT_PACKET)) {
-      *spp = INIT;
-    }
-    else if(comparePackets(incoming, &END_PACKET)) {
-      *spp = END;
-    }
-  }
-  if(CRC_packet(incoming) != incoming->crc) {
-    res = TransmitPacket(&BAD_CRC_PACKET);
-    if(res == 0) {
-      printf("Error in CRC, waiting for retransmit\n");
+  enum secondary_state state = STATE_AWAITING_COMMAND;
+  while(state == STATE_AWAITING_COMMAND) {
+    res = ReceivePacket(incoming);
+    ID = incoming->id + 1;
+    if(res == RECEIVE_INVALID) {
       return STATE_AWAITING_COMMAND;
+      continue;
     }
-    else {
-      return -1;
+    if(res == RECEIVE_BAD_CRC) {
+      res = TransmitPacket(&BAD_CRC_PACKET);
+      state = STATE_AWAITING_COMMAND;
+      continue;
     }
+    if(spp != NULL) {
+      if(comparePackets(incoming, &INIT_PACKET)) {
+        *spp = INIT;
+      }
+      else if(comparePackets(incoming, &END_PACKET)) {
+        *spp = END;
+      }
+    }
+    state = STATE_ACKNOWLEDGING_COMMAND;
   }
-  return STATE_ACKNOWLEDGING_COMMAND;
+  return 0;
 }
 
 
@@ -346,10 +335,10 @@ int CommunicationInitSecondary(enum mode com_mode) {
     ID = 1;
   }
   do {
-    res = SecondaryControlled(&inc, &flag);
+    res = SecondaryReceive(&inc, &flag);
   }
   while(res == STATE_AWAITING_COMMAND);
-  TransmitAck(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
+  SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
   if(flag != INIT) {
     return -1;
   }

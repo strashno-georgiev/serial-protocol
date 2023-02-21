@@ -160,7 +160,7 @@ int Receive(char* str) {
   }
   str[i] = 0;
   printf("Rx: %s\n", str);
-  return 0;
+  return i;
 }
 
 int ReceiveTimed(char* str, OS_TIME timeout) {
@@ -170,7 +170,7 @@ int ReceiveTimed(char* str, OS_TIME timeout) {
     str[i] = 0xFF;
     OS_MAILBOX_GetTimed1(&receivedMailBox, str+i, timeout);
     if(str[i] == 0xFF) {
-      return RECEIVE_TIMEOUT;
+      return -1;
     }
     if((str[i] == '\r' || str[i] == '\n') && endflag) {
       break;
@@ -185,5 +185,5 @@ int ReceiveTimed(char* str, OS_TIME timeout) {
   }
   str[i] = 0;
   printf("Rx: %s\n", str);
-  return 0;  
+  return i;  
 }
