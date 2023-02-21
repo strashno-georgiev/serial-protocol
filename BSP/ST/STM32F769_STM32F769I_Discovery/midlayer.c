@@ -67,7 +67,7 @@ void PacketDeencapsulate(char *str, packet_t * p) {
       }
       else if(DATA_WORD_LEN == 2) {
         for(int i=0; i < p->size; i++) {
-          p->data[i] = strnxtoi(str + offset i*2, sizeof(uint8_t) * 2);
+          p->data[i] = strnxtoi(str + offset + i*2, sizeof(uint8_t) * 2);
         }
         offset += p->size * 2;
       }
