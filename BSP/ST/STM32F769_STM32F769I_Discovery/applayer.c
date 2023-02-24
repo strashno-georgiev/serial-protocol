@@ -5,10 +5,18 @@ UART_HandleTypeDef HUART;
 char writeBuffer[2 * K], readBuffer[2 * K];
 OS_MUTEX writeMutex, readMutex;
 
-void safeCopy(char *dest, char *src, int n, OS_MUTEX *mutex) {
+void safeCopy(char *dest, char *src, uint16_t n, OS_MUTEX *mutex) {
   OS_MUTEX_LockBlocked(mutex);
   memcpy(dest, src, n);
   OS_MUTEX_Unlock(mutex);
+}
+
+void safeWrite(char *data, uint16_t address, uint16_t size) {
+  safeCopy(writeBuffer[address], data, size, &writeMutex);
+}
+
+void safeRead(char *buf, uint16_t address, uint16_t size) {
+  safeCopy(buf, readBuffer, size, &readMutex);
 }
 
 int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
