@@ -22,8 +22,8 @@ void MainTask(void);
 static OS_STACKPTR int Stack0[2048];                  /* Task stack */
 static OS_TASK         TCB0;                  /* Task-control-block */
 
-static OS_STACKPTR int StackUARTTx[8192], StackUARTRx[8192], StackHP[256];  // Task stacks
-static OS_TASK         TCB_UARTTx, TCB_UARTRx, TCB_HP;  
+static OS_STACKPTR int StackHP[256];  // Task stacks
+static OS_TASK         TCB_HP;  
 static int LED_no = -1;
 
 static void HPTask(void) {
@@ -33,59 +33,9 @@ static void HPTask(void) {
   }
 }
 
-static void UART_PrimaryTask(void) {
-  printf("Transmit task\n");
-  if(communicationStart(UART5, PRIMARY, MULTI_CONTROLLER_MODE) != 0) {
-    printf("Bad initialization of main device\n");
-    OS_TASK_Terminate(NULL);
-  }
-  printf("Successfully initialized main device\n");
-  while(1) {
-    BSP_ToggleLED(0);
-    uint8_t size = 8;
-    uint16_t addr = 0x0000;
-    for(int i=0; i < 9; i++) {
-      write(size, addr);
-      OS_TASK_Delay(500);
-      read(size, addr);
-      addr += size;
-      if(i == 0) {
-        size = 4;
-      }
-      else if(i == 2) {
-        size = 2;
-      }
-    }
-  }
-  OS_TASK_Terminate(NULL);
-}
-
-static void UART_SecondaryTask(void) {
-  printf("Receive task\n");
-  if(communicationStart(UART5, SECONDARY, MULTI_CONTROLLER_MODE) != 0) {
-   printf("Sec bad init\n");
-   OS_TASK_Terminate(NULL); 
-  }
-  printf("Successfully initialized secondary device\n");
-  while(1) {
-    BSP_ToggleLED(1);
-    handleCommand();
-  }
-}
-
 
 void MainTask(void) {
   OS_TASK_EnterRegion();
-  int mode = SEC;
-//
-  if(mode == MAIN) {
-    OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 2, UART_PrimaryTask, StackUARTTx);
-    LED_no = 0;
-  }
-  else if(mode == SEC) {
-    OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 2, UART_SecondaryTask, StackUARTRx);
-    LED_no = 1;
-  }
 
   OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
 
