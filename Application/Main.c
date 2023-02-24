@@ -29,7 +29,6 @@ static int LED_no = -1;
 static void HPTask(void) {
   while (1) {
     BSP_ToggleLED(LED_no);
-    //printf("HPTask - %d\n", HAL_GetTick());
     OS_TASK_Delay(250);
   }
 }
@@ -47,6 +46,7 @@ static void UART_PrimaryTask(void) {
     uint16_t addr = 0x0000;
     for(int i=0; i < 9; i++) {
       write(size, addr);
+      OS_TASK_Delay(500);
       read(size, addr);
       addr += size;
       if(i == 0) {
@@ -56,8 +56,8 @@ static void UART_PrimaryTask(void) {
         size = 2;
       }
     }
-    OS_TASK_Terminate(NULL);
   }
+  OS_TASK_Terminate(NULL);
 }
 
 static void UART_SecondaryTask(void) {
@@ -76,13 +76,13 @@ static void UART_SecondaryTask(void) {
 
 void MainTask(void) {
   OS_TASK_EnterRegion();
-  int m = MAIN;
-
-  if(m == MAIN) {
+  int mode = SEC;
+//
+  if(mode == MAIN) {
     OS_TASK_CREATE(&TCB_UARTTx, "UART Tx task", 2, UART_PrimaryTask, StackUARTTx);
     LED_no = 0;
   }
-  else if(m == SEC) {
+  else if(mode == SEC) {
     OS_TASK_CREATE(&TCB_UARTRx, "UART Rx task", 2, UART_SecondaryTask, StackUARTRx);
     LED_no = 1;
   }

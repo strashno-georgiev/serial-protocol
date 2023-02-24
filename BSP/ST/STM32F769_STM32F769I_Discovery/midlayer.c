@@ -13,7 +13,7 @@
 #include "protocol_data.h"
 #include "hardware_layer.h"
 #define BYTE_SIZE 8
-#define TIMEOUT 0
+#define TIMEOUT 1
 enum mode MODE = UNDEFINED_MODE;
 
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
