@@ -12,3 +12,6 @@ int write(uint8_t size, uint16_t address);
 int read(uint8_t size, uint16_t address);
 int communicationStart(USART_TypeDef* , enum deviceRole, enum mode);
 int handleCommand(void);
+
+void safeRead(char *buf, uint16_t address, uint16_t size);
+void safeWrite(char *data, uint16_t address, uint16_t size);
