@@ -308,9 +308,11 @@
         </file>
         <file file_name="../../../COMPRESS/Lib/libCOMPRESS_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="CRYPTO">
       <folder Name="Config">
@@ -330,6 +332,7 @@
         </file>
         <file file_name="../../../CRYPTO/Lib/libCRYPTO_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -349,6 +352,7 @@
         </folder>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="Doc">
       <file file_name="../../../Doc/UM01001_embOS.pdf">
@@ -400,6 +404,7 @@
         <configuration Name="Common" file_open_with="Web Browser" />
       </file>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="FS">
       <folder Name="Config">
@@ -425,6 +430,7 @@
         </file>
         <file file_name="../../../FS/Lib/libFS_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -451,6 +457,7 @@
         </folder>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="GUI">
       <folder Name="IP">
@@ -564,6 +571,7 @@
       <folder Name="Lib">
         <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
         <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_d.a">
           <configuration Name="Release" build_exclude_from_build="Yes" />
@@ -607,9 +615,11 @@
         </file>
         <file file_name="../../../IOT/Lib/libIOT_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="IP">
       <folder Name="Config">
@@ -654,6 +664,7 @@
         </file>
         <file file_name="../../../IP/Lib/libIP_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -759,6 +770,7 @@
         <file file_name="../../../IP/Setup/IP_SNMP_AGENT_MIB2_INTERFACES_emNet.c" />
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="LIB">
       <folder Name="Inc">
@@ -774,9 +786,11 @@
         </file>
         <file file_name="../../../LIB/Lib/libMIDI_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="MB">
       <folder Name="Config">
@@ -796,12 +810,14 @@
         </file>
         <file file_name="../../../MB/Lib/libMB_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
         <file file_name="../../../MB/OS/MB_OS_embOS.c" />
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="OS">
       <folder Name="Config">
@@ -822,6 +838,7 @@
         </file>
         <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
           <configuration
             Name="Release_SystemView"
             build_exclude_from_build="Yes" />
@@ -975,6 +992,7 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_wwdg.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32_assert_template.h" />
               <configuration Name="Debug" build_exclude_from_build="Yes" />
+              <configuration Name="Release" build_exclude_from_build="Yes" />
             </folder>
             <folder Name="Src">
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c">
@@ -1083,6 +1101,7 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_utils.c" />
               <configuration Name="Debug" build_exclude_from_build="Yes" />
+              <configuration Name="Release" build_exclude_from_build="Yes" />
             </folder>
           </folder>
           <file file_name="Setup/System/stm32f7xx_hal_conf.h" />
@@ -1153,9 +1172,11 @@
         </file>
         <file file_name="../../../SECURE/Lib/libSECURE_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="SEGGER">
       <folder Name="Config">
@@ -1180,6 +1201,7 @@
         </file>
         <file file_name="../../../SEGGER/Lib/libSEGGER_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
           <configuration
             Name="Release_SystemView"
             build_exclude_from_build="Yes" />
@@ -1239,6 +1261,7 @@
         </file>
         <file file_name="../../../SSH/Lib/libSSH_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -1252,6 +1275,7 @@
         <file file_name="../../../SSH/Setup/SSH_X_Config.c" />
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="SSL">
       <folder
@@ -1277,6 +1301,7 @@
         </file>
         <file file_name="../../../SSL/Lib/libSSL_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -1285,6 +1310,7 @@
       <file file_name="../../../SSL/SSL_X_Config.c" />
       <file file_name="../../../SSL/SSL_X_TrustedCerts.c" />
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="USB-D">
       <folder Name="Config">
@@ -1326,6 +1352,7 @@
         </file>
         <file file_name="../../../USB-D/Lib/libUSBD_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -1343,6 +1370,7 @@
         </folder>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="USB-H">
       <folder Name="Config">
@@ -1379,6 +1407,7 @@
         </file>
         <file file_name="../../../USB-H/Lib/libUSBH_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
         </file>
       </folder>
       <folder Name="OS">
@@ -1395,6 +1424,7 @@
         </folder>
       </folder>
       <configuration Name="Debug" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="Yes" />
     </folder>
     <file file_name="../../../License.txt" />
     <file file_name="../../../ReadMe.txt" />
