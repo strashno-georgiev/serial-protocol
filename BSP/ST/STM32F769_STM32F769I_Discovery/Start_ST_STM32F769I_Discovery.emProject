@@ -310,6 +310,7 @@
           <configuration Name="Debug" build_exclude_from_build="Yes" />
         </file>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="CRYPTO">
       <folder Name="Config">
@@ -347,6 +348,7 @@
           <file file_name="../../../CRYPTO/Setup/STM32F769_ST_STM32F769I_Discovery/CRYPTO_X_Config_SSL_STM32F4F7.c" />
         </folder>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="Doc">
       <file file_name="../../../Doc/UM01001_embOS.pdf">
@@ -397,6 +399,7 @@
       <file file_name="../../../Doc/UM20001_emSSH.pdf">
         <configuration Name="Common" file_open_with="Web Browser" />
       </file>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="FS">
       <folder Name="Config">
@@ -447,6 +450,7 @@
           </folder>
         </folder>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="GUI">
       <folder Name="IP">
@@ -605,6 +609,7 @@
           <configuration Name="Debug" build_exclude_from_build="Yes" />
         </file>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="IP">
       <folder Name="Config">
@@ -753,6 +758,7 @@
         </folder>
         <file file_name="../../../IP/Setup/IP_SNMP_AGENT_MIB2_INTERFACES_emNet.c" />
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="LIB">
       <folder Name="Inc">
@@ -770,6 +776,7 @@
           <configuration Name="Debug" build_exclude_from_build="Yes" />
         </file>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="MB">
       <folder Name="Config">
@@ -794,6 +801,7 @@
       <folder Name="OS">
         <file file_name="../../../MB/OS/MB_OS_embOS.c" />
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="OS">
       <folder Name="Config">
@@ -852,9 +860,15 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_can.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cec.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_conf_template.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc_ex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cryp.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cryp_ex.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dac.h" />
@@ -870,8 +884,12 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash_ex.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio_ex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hash.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hash_ex.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_hcd.h" />
@@ -883,7 +901,9 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_iwdg.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_jpeg.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_lptim.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc_ex.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_mdios.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_mmc.h" />
@@ -894,8 +914,12 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr_ex.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_qspi.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc_ex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rng.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rtc.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rtc_ex.h" />
@@ -911,10 +935,18 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sram.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim_ex.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart.h" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart_ex.h" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_usart_ex.h">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_wwdg.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_adc.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_bus.h" />
@@ -942,14 +974,19 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_utils.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_wwdg.h" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Inc/stm32_assert_template.h" />
+              <configuration Name="Debug" build_exclude_from_build="Yes" />
             </folder>
             <folder Name="Src">
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc_ex.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cec.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_crc.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_crc_ex.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cryp.c" />
@@ -966,7 +1003,9 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hash.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hash_ex.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_hcd.c" />
@@ -977,7 +1016,9 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_iwdg.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_jpeg.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_lptim.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc_ex.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_mdios.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_mmc.c" />
@@ -989,8 +1030,12 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_qspi.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rng.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rtc.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rtc_ex.c" />
@@ -1006,8 +1051,12 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sram.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_usart.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_usart.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_wwdg.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_adc.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_crc.c" />
@@ -1016,7 +1065,9 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_dma2d.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_exti.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_fmc.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_gpio.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_gpio.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_i2c.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_lptim.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_pwr.c" />
@@ -1026,9 +1077,12 @@
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_sdmmc.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_spi.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_tim.c" />
-              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c" />
+              <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c">
+                <configuration Name="Debug" build_exclude_from_build="No" />
+              </file>
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.c" />
               <file file_name="Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_utils.c" />
+              <configuration Name="Debug" build_exclude_from_build="Yes" />
             </folder>
           </folder>
           <file file_name="Setup/System/stm32f7xx_hal_conf.h" />
@@ -1101,6 +1155,7 @@
           <configuration Name="Debug" build_exclude_from_build="Yes" />
         </file>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="SEGGER">
       <folder Name="Config">
@@ -1196,6 +1251,7 @@
       <folder Name="Setup">
         <file file_name="../../../SSH/Setup/SSH_X_Config.c" />
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="SSL">
       <folder
@@ -1228,6 +1284,7 @@
       </folder>
       <file file_name="../../../SSL/SSL_X_Config.c" />
       <file file_name="../../../SSL/SSL_X_TrustedCerts.c" />
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="USB-D">
       <folder Name="Config">
@@ -1285,6 +1342,7 @@
           </folder>
         </folder>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <folder Name="USB-H">
       <folder Name="Config">
@@ -1336,6 +1394,7 @@
           </folder>
         </folder>
       </folder>
+      <configuration Name="Debug" build_exclude_from_build="Yes" />
     </folder>
     <file file_name="../../../License.txt" />
     <file file_name="../../../ReadMe.txt" />
