@@ -14,7 +14,7 @@ int read(uint8_t size, uint16_t address);
 int communicationStart(USART_TypeDef* , enum deviceRole, enum mode);
 int handleCommand(void);
 
-void safeCopy(char *dest, char *src, int n, OS_MUTEX *mutex);
+void safeCopy(char *dest, char *src, uint16_t n, OS_MUTEX *mutex);
 
 void safeRead(char *buf, uint16_t address, uint16_t size);
 void safeWrite(char *data, uint16_t address, uint16_t size);
