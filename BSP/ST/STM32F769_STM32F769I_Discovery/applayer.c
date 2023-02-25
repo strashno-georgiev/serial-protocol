@@ -3,20 +3,23 @@
 #include "RTOS.h"
 UART_HandleTypeDef HUART;
 char writeBuffer[2 * K], readBuffer[2 * K];
+
+OS_STACKPTR int StackComm[8*K];  // Task stacks
+OS_TASK         TCB_Comm; 
 OS_MUTEX writeMutex, readMutex;
 
-void safeCopy(char *dest, char *src, uint16_t n, OS_MUTEX *mutex) {
+void safeCopy(void *dest, void *src, uint16_t n, OS_MUTEX *mutex) {
   OS_MUTEX_LockBlocked(mutex);
   memcpy(dest, src, n);
   OS_MUTEX_Unlock(mutex);
 }
 
-void safeWrite(char *data, uint16_t address, uint16_t size) {
-  safeCopy(writeBuffer[address], data, size, &writeMutex);
+void safeWrite(void *data, uint16_t address, uint16_t size) {
+  safeCopy(writeBuffer+address, data, size, &writeMutex);
 }
 
-void safeRead(char *buf, uint16_t address, uint16_t size) {
-  safeCopy(buf, readBuffer, size, &readMutex);
+void safeRead(void *buf, uint16_t address, uint16_t size) {
+  safeCopy(buf, readBuffer+address, size, &readMutex);
 }
 
 int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
@@ -26,6 +29,14 @@ int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode 
   OS_MUTEX_Create(&readMutex);
 
   initMidLayer(&HUART, instance, role, mode);
+
+
+  if(mode == PRIMARY) {
+	OS_TASK_CREATE(&TCB_Comm, "Primary communication task", COMMUNICATION_TASK_PRIORITY, UART_PrimaryTask, StackComm);
+  }
+  else if(mode == SECONDARY) {
+	OS_TASK_CREATE(&TCB_Comm, "Secondary communication task", COMMUNICATION_TASK_PRIORITY, UART_SecondaryTask, StackComm);
+  }
   return 0;
 }
 
