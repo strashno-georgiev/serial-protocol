@@ -43,7 +43,7 @@ int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode 
 int write(uint8_t size, uint16_t address) {
   //Transmit packet with value at address;
   packet_t res;
-  safeCopy(writeBuffer+address, "neprotivokonstituci", size, &writeMutex);
+  safeCopy(writeBuffer, "neprotivokonstituci", size, &writeMutex);
   //Uses layer 2 verification of acknowledgement
   return TransmitCommandControlled(COMMAND_TYPE_WRITE, size, address, writeBuffer+address, &res);
 }

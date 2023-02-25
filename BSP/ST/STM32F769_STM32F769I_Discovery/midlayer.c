@@ -84,10 +84,13 @@ uint8_t CRC_f(char* data, int len) {
     if(!!(crc8 & (1 << (BYTE_SIZE-1)))) {
       flag = 1;
     }
+	//Discarding the first bit
     crc8 = crc8 << 1;
+	//Adding the (BYTE_SIZE-shift_counter)th bit from the next octet
     crc8 |= ((data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1);
     shift_counter++;
-    if(flag) {
+    //If the discarded bit was set, XOR the polynomial
+	if(flag) {
       crc8 = crc8 ^ GENERATOR_POLYNOMIAL;
       flag = 0;
     }
