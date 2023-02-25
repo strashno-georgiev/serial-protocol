@@ -9,47 +9,48 @@
   <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
  </FrameBufferWindow>
  <Memory1>
-  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Debug" sizeText="" addressText=""/>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Debug" sizeText="" addressText="(*huart_used).Instance"/>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Release" sizeText="" addressText=""/>
  </Memory1>
  <Memory2>
   <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Debug" sizeText="" addressText=""/>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Release" sizeText="" addressText=""/>
  </Memory2>
  <Memory3>
   <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Debug" sizeText="" addressText=""/>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Release" sizeText="" addressText=""/>
  </Memory3>
  <Memory4>
   <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Debug" sizeText="" addressText=""/>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="Start_STM32F769I_Discovery_Release" sizeText="" addressText=""/>
  </Memory4>
  <Project>
   <ProjectSessionItem path="Start"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;GUI"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Inc"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Lib"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;CoreSupport"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;DeviceSupport"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;STM_BSP"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System;STM32F7xx_HAL_Driver"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System;STM32F7xx_HAL_Driver;Inc"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System;STM32F7xx_HAL_Driver;Src"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;SEGGER"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;SEGGER;Inc"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;SEGGER;SystemView"/>
  </Project>
  <Register1>
-  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="UART5/CR1;UART5/CR2;UART5/CR3;UART5/BRR;UART5/GTPR;UART5/RTOR;UART5/RQR;UART5/ISR;UART5/ICR;UART5/RDR;UART5/TDR;USART6/CR1;USART6/CR2;USART6/CR3;USART6/BRR;USART6/GTPR;USART6/RTOR;USART6/RQR;USART6/ISR;USART6/ICR;USART6/RDR;USART6/TDR" binaryNodes="" asciiNodes="" openNodes="UART5;UART5/CR1;UART5/ISR;UART5/ICR;UART5/RDR;UART5/TDR;USART6;USART6/CR1;USART6/ISR;USART6/RDR;USART6/TDR" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Release" decimalNodes="" octalNodes="" unsignedNodes=""/>
  </Register1>
  <Register2>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Release" decimalNodes="" octalNodes="" unsignedNodes=""/>
  </Register2>
  <Register3>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Release" decimalNodes="" octalNodes="" unsignedNodes=""/>
  </Register3>
  <Register4>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="Start_STM32F769I_Discovery_Release" decimalNodes="" octalNodes="" unsignedNodes=""/>
  </Register4>
  <Threads>
   <ThreadsWindow showLists=""/>
@@ -70,24 +71,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="6" y="95" useTextEdit="1" path="Application/OS/OS_StartLEDBlink.c" left="0" top="66" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="58" useTextEdit="1" path="Application/Main.c" left="0" top="6" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="31" y="1139" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/Application/OS/OS_StartLEDBlink.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h" left="0" top="1125" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/ft6x06.c" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/stm32f769i_discovery.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/stm32f769i_discovery.c" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="MB/OS/MB_OS_embOS.c" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/ft6x06.h" left="0" top="3" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/stm32f769i_discovery_sdram.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/STM_BSP/stm32f769i_discovery_ts.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="Application/Inc/TaskPrio.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="259" y="2607" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/Application/OS/OS_StartLEDBlink.c" path="OS/Inc/RTOS.h" left="0" selected="1" top="2750" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/DeviceSupport/STM32F7xx_Startup.s" left="0" top="48" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="ReadMe.txt" left="0" top="151" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="License.txt" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="SEGGER/Inc/SEGGER_RTT.h" left="0" top="9" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="18" y="1014" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c" left="0" top="1417" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="2086" useTextEdit="1" path="SEGGER/SystemView/SEGGER_SYSVIEW.c" left="0" top="2071" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="226" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/RTOSInit_STM32F7xx.c" left="0" top="209" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/communication_tasks.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.h" left="0" selected="1" top="0" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="Start_STM32F769I_Discovery(Start_STM32F769I_Discovery)" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="4543"/>
+ <EMStudioWindow activeProject="Start_STM32F769I_Discovery(Start_STM32F769I_Discovery)" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/Application" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
