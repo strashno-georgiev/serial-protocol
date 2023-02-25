@@ -31,10 +31,10 @@ int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode 
   initMidLayer(&HUART, instance, role, mode);
 
 
-  if(mode == PRIMARY) {
+  if(role == PRIMARY) {
 	OS_TASK_CREATE(&TCB_Comm, "Primary communication task", COMMUNICATION_TASK_PRIORITY, UART_PrimaryTask, StackComm);
   }
-  else if(mode == SECONDARY) {
+  else if(role == SECONDARY) {
 	OS_TASK_CREATE(&TCB_Comm, "Secondary communication task", COMMUNICATION_TASK_PRIORITY, UART_SecondaryTask, StackComm);
   }
   return 0;
@@ -67,7 +67,7 @@ int handleCommand() {
   res = SecondaryReceive(&incoming, NULL);
   
   if(incoming.cmd_type == COMMAND_TYPE_WRITE) {
-    safeCopy(readBuffer, incoming.data, incoming.size, &readMutex);
+    safeCopy(readBuffer + incoming.address, incoming.data, incoming.size, &readMutex);
     return SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, incoming.address, "");
   }
   else if(incoming.cmd_type == COMMAND_TYPE_READ) {
