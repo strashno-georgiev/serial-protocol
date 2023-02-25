@@ -581,7 +581,7 @@
       <folder Name="Lib">
         <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
-          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="No" />
         </file>
         <file file_name="../../../GUI/Lib/libGUI_v7m_t_vfpv4_le_d.a">
           <configuration Name="Release" build_exclude_from_build="Yes" />
@@ -605,7 +605,7 @@
           <file file_name="../../../GUI/Setup/STM32F769_ST_STM32F769I_Discovery/SysConf.h" />
         </folder>
       </folder>
-      <configuration Name="Release" build_exclude_from_build="Yes" />
+      <configuration Name="Release" build_exclude_from_build="No" />
     </folder>
     <folder Name="IOT">
       <folder Name="Config">
@@ -842,14 +842,14 @@
       </folder>
       <folder Name="Lib">
         <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_dp.a">
-          <configuration Name="Release" build_exclude_from_build="No" />
+          <configuration Name="Release" build_exclude_from_build="Yes" />
           <configuration
             Name="Release_SystemView"
             build_exclude_from_build="Yes" />
         </file>
         <file file_name="../../../OS/Lib/libos_v7m_t_vfpv4_le_r.a">
           <configuration Name="Debug" build_exclude_from_build="Yes" />
-          <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration Name="Release" build_exclude_from_build="No" />
           <configuration
             Name="Release_SystemView"
             build_exclude_from_build="Yes" />

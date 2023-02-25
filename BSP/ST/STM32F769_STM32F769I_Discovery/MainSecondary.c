@@ -37,7 +37,6 @@ static void HPTask(void) {
 void MainTask(void) {
 	//OS_TASK_EnterRegion();
 	printf("Waiting for connection initialization\n");
-	fflush(stdout);
 	OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
 	communicationStart(UART5, SECONDARY, MULTI_CONTROLLER_MODE);
 
@@ -62,7 +61,6 @@ int main(void) {
   BSP_Init();                      /* Initialize LED ports          */
   BSP_SetLED(0);                   /* Initially set LED             */
   /* You need to create at least one task before calling OS_Start() */
-  printf("Waiting for connection initialization\n");
   OS_CREATETASK(&TCB0, "MainTask", MainTask, 100, Stack0);
   OS_Start();                      /* Start multitasking            */
   printf("return from main\n");

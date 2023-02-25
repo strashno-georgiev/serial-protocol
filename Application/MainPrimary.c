@@ -38,7 +38,6 @@ void MainTask(void) {
 	OS_TASK_EnterRegion();
 	OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
 	communicationStart(UART5, PRIMARY, MULTI_CONTROLLER_MODE);
-	printf("OOO\n");
 	OS_TASK_Terminate(NULL);
 }
 
@@ -57,9 +56,7 @@ int main(void) {
 	BSP_Init();                      /* Initialize LED ports          */
 	BSP_SetLED(0);                   /* Initially set LED             */
 	/* You need to create at least one task before calling OS_Start() */
-	printf("da\n");
 	OS_TASK_CREATE(&TCB0, "MainTask", 100, MainTask, Stack0);
-	printf("2\n");
 	OS_Start();                      /* Start multitasking            */
 	return 0;
 }
