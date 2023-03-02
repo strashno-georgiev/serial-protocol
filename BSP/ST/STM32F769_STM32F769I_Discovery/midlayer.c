@@ -22,9 +22,10 @@ packet_t END_PACKET = {END_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, END_PACKET_SIZ
 
 byte_t ID = 0x00;
 
-//CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (MSB discarded)
-const uint8_t GENERATOR_POLYNOMIAL = 0x31; 
-
+//CRC-8 DALLAS/MAXIM x^8 + x^5 + x^4 + 1 (NOT USED)
+//CRC-8-CCIT ITU-T x^8 + x^2 + x + 1 (MSB Dicarded) = 0x07
+const uint8_t GENERATOR_POLYNOMIAL = 0x07; 
+const uint8_t XOR_OUT = 0x55;
 
 //Int to string hex copy
 //numsize - size of number in bytes
@@ -79,15 +80,16 @@ void PacketDeencapsulate(char *str, packet_t * p) {
 uint8_t CRC_f(char* data, int len) {
   uint8_t crc8 = data[0];
   uint8_t shift_counter = 0;
-  char flag = 0;
-  for(int i=0; i < len-1;) {
+  char flag = 0; 
+  data[len] = 0;
+  for(int i=0; i < len;) {
     if(!!(crc8 & (1 << (BYTE_SIZE-1)))) {
       flag = 1;
     }
 	//Discarding the first bit
     crc8 = crc8 << 1;
 	//Adding the (BYTE_SIZE-shift_counter)th bit from the next octet
-    crc8 |= ((data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1);
+    crc8 |= (data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1;
     shift_counter++;
     //If the discarded bit was set, XOR the polynomial
 	if(flag) {
@@ -99,7 +101,7 @@ uint8_t CRC_f(char* data, int len) {
       i++;
     }
   }
-  return crc8;
+  return crc8 ^ XOR_OUT;
 }
 
 void PacketEncapsulateCRC(packet_t *packet, char *str) {
@@ -130,7 +132,7 @@ void PacketEncapsulateCRC(packet_t *packet, char *str) {
     }
   }
 
-  isxcpy(CRC_f(str, offset), str + offset, PACKET_CRC_SIZE);
+  isxcpy(dallas_crc8(str, offset), str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
   memcpy(str + offset, ";\n", 2);
