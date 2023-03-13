@@ -132,7 +132,7 @@ void PacketEncapsulateCRC(packet_t *packet, char *str) {
     }
   }
 
-  isxcpy(dallas_crc8(str, offset), str + offset, PACKET_CRC_SIZE);
+  isxcpy(CRC_f(str, offset), str + offset, PACKET_CRC_SIZE);
   offset += PACKET_CRC_HEX_LEN;
 
   memcpy(str + offset, ";\n", 2);
