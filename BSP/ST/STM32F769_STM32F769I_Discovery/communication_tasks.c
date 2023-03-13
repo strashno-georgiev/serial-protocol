@@ -4,7 +4,6 @@ void UART_PrimaryTask(void) {
   printf("Transmit task\n");
   printf("Successfully initialized main device\n");
   while(1) {
-    //BSP_ToggleLED(0);
     uint8_t size = 8;
     uint16_t addr = 0x0000;
     for(int i=0; i < 9; i++) {
