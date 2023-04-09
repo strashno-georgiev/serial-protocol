@@ -14,21 +14,6 @@
   <ProjectSessionItem path="Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;COMPRESS"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;CRYPTO"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;FS"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;GUI"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;GUI_FS_CRYPTO_SECURE_Demo"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;GUI_NormalMapping"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;IOT"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;MB"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;OS"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;SECURE"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;SSH"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;SSL"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;USBD"/>
-  <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Excluded;USBH"/>
   <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;Inc"/>
   <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS"/>
   <ProjectSessionItem path="Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup"/>
@@ -56,11 +41,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="60" useTextEdit="1" path="../../../Application/Main.c" left="0" selected="1" top="47" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="8" y="25" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/Application/Main.c" path="Setup/BSP.c" left="0" top="25" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/USBD/USB_Audio_Speaker_Microphone.c" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/USBD/USB_MSD_FS_Start.c" left="0" top="202" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="54" useTextEdit="1" path="../../../Application/OS/OS_StartLEDBlink.c" left="0" top="30" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="54" useTextEdit="1" path="../../../Application/OS/OS_StartLEDBlink.c" left="0" top="30" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/GUI/GUI_HelloWorld.c" left="0" top="7" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/FS/FS_CheckDisk.c" left="0" top="57" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/CRYPTO/CRYPTO_Bench_AES.c" left="0" top="0" codecName="Default"/>
@@ -69,6 +53,17 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/USBH/USBH_AUDIO_Speaker.c" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/SSL/SSL_OS_SimpleWebClient.c" left="0" top="51" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/SSH/SSH_Shell6.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="applayer.c" left="0" top="60" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="communication_tasks.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="hardware_layer.c" left="0" top="195" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../Application/MainPrimary.c" left="0" top="51" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="MainSecondary.c" left="0" top="42" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="midlayer.c" left="0" top="346" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="protocol_data.h" left="0" top="18" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="midlayer.h" left="0" top="35" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="hardware_layer.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="applayer.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="Setup/HardFaultHandler.S" left="0" selected="1" top="172" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="Start_STM32F769I_Discovery" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

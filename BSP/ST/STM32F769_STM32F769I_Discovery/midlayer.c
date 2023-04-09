@@ -77,11 +77,11 @@ void PacketDeencapsulate(char *str, packet_t * p) {
     p->crc = strnxtoi(str + offset, PACKET_CRC_HEX_LEN);
 }
 
-uint8_t CRC_f(char* data, int len) {
+uint8_t CRC_f(char* data, int len) { 
   uint8_t crc8 = data[0];
   uint8_t shift_counter = 0;
   char flag = 0; 
-  data[len] = 0;
+  //data[len] = 0;
   for(int i=0; i < len;) {
     if(!!(crc8 & (1 << (BYTE_SIZE-1)))) {
       flag = 1;
@@ -89,7 +89,7 @@ uint8_t CRC_f(char* data, int len) {
 	//Discarding the first bit
     crc8 = crc8 << 1;
 	//Adding the (BYTE_SIZE-shift_counter)th bit from the next octet
-    crc8 |= (data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1;
+    crc8 |= (i+1 != len ? ((data[i+1] >> (BYTE_SIZE - shift_counter - 1)) & (uint8_t)1) : 0);
     shift_counter++;
     //If the discarded bit was set, XOR the polynomial
 	if(flag) {

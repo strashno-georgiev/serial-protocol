@@ -288,10 +288,10 @@
       <file file_name="communication_tasks.c" />
       <file file_name="../../../Application/MainPrimary.c">
         <configuration Name="Release" build_exclude_from_build="No" />
-        <configuration Name="Debug" build_exclude_from_build="No" />
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
       </file>
       <file file_name="MainSecondary.c">
-        <configuration Name="Debug" build_exclude_from_build="Yes" />
+        <configuration Name="Debug" build_exclude_from_build="No" />
         <configuration Name="Release" build_exclude_from_build="Yes" />
         <configuration Name="ReleasePrimary" build_exclude_from_build="Yes" />
       </file>
@@ -353,6 +353,7 @@
       <folder Name="IP">
         <file file_name="../../../GUI/IP/GUI_VNC_X_StartServer.c" />
         <configuration Name="Release" build_exclude_from_build="Yes" />
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
       </folder>
       <folder Name="Inc">
         <file file_name="../../../GUI/Inc/BSP_GUI.h" />
@@ -873,6 +874,7 @@
         <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IO_RTT.c" />
         <file file_name="../../../SEGGER/SYS/SEGGER_SYS_IP_embOSIP.c">
           <configuration Name="Release" build_exclude_from_build="Yes" />
+          <configuration Name="Debug" build_exclude_from_build="Yes" />
         </file>
         <file file_name="../../../SEGGER/SYS/SEGGER_SYS_OS_embOS.c" />
       </folder>
