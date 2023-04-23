@@ -4,20 +4,8 @@ void UART_PrimaryTask(void) {
   printf("Transmit task\n");
   printf("Successfully initialized main device\n");
   while(1) {
-    uint8_t size = 8;
-    uint16_t addr = 0x0000;
-    for(int i=0; i < 9; i++) {
-      write(size, addr);
-      OS_TASK_Delay(250);
-      read(size, addr);
-      addr += size;
-      if(i == 0) {
-        size = 4;
-      }
-      else if(i == 2) {
-        size = 2;
-      }
-    }
+	OS_TASK_Delay(250);
+	write(sizeof(uint16_t), 0);
   }
   OS_TASK_Terminate(NULL);
 }
