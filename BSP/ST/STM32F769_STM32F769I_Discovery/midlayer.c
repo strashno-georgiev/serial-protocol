@@ -14,6 +14,8 @@
 #include "hardware_layer.h"
 #define BYTE_SIZE 8
 #define TIMEOUT 250
+
+
 enum mode MODE = UNDEFINED_MODE;
 
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
@@ -81,7 +83,6 @@ uint8_t CRC_f(char* data, int len) {
   uint8_t crc8 = data[0];
   uint8_t shift_counter = 0;
   char flag = 0; 
-  //data[len] = 0;
   for(int i=0; i < len;) {
     if(!!(crc8 & (1 << (BYTE_SIZE-1)))) {
       flag = 1;
@@ -235,11 +236,9 @@ enum main_state MainControlled_AwaitingResponse(packet_t * packet, packet_t * in
 }
 
 int MainControlled(packet_t * packet, packet_t * incoming) {
-  //Finite automaton here
   enum main_state MAIN_STATE = STATE_TRANSMITTING_COMMAND;
   while(MAIN_STATE != STATE_MAIN_DONE) {
     switch(MAIN_STATE) {
-      //
       case STATE_TRANSMITTING_COMMAND:
         MAIN_STATE = MainControlled_TransmittingCommand(packet);
         break;
@@ -257,7 +256,9 @@ int MainControlled(packet_t * packet, packet_t * incoming) {
   return 0;
 }
 
-
+// ---------------------------------------------
+// Ensures the whole cycle of receiving a command and returns when a response is received
+// Gets called directly by the application layer for transmission by the main (primary) device
 int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, char *str, packet_t* response) {
   packet_t p;
   p.address = address;
@@ -271,6 +272,9 @@ int TransmitCommandControlled(uint8_t cmd_type, uint8_t size, uint16_t address, 
   return MainControlled(&p, response);
 }
 
+// ------------------------------------------
+// Handles the acknowledgement (transmission) cycle of the secondary device
+// Gets called directly by the application layer
 int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char *str) {
   packet_t p;
   p.address = address;
@@ -281,7 +285,9 @@ int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char 
   return TransmitPacket(&p);
 }
 
-
+// ------------------------------------------
+// Handles the receive cycle of the secondary device
+// Gets called directly by the application layer
 int SecondaryReceive(packet_t *incoming, enum special_packet *spp) {
   int res;
   enum secondary_state state = STATE_AWAITING_COMMAND;
