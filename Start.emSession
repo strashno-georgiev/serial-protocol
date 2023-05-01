@@ -29,16 +29,9 @@
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery"/>
   <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;GUI"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;GUI;Lib"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;GUI;Setup"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;GUI;Setup;STM32F769_ST_STM32F769I_Discovery"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Lib"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System;STM32F7xx_HAL_Driver"/>
-  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;OS;Setup;System;STM32F7xx_HAL_Driver;Src"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;LayerApplication"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;LayerHardware"/>
+  <ProjectSessionItem path="Start;Start_STM32F769I_Discovery;Start_STM32F769I_Discovery;Application;LayerMiddle"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="UART5/CR1;UART5/CR2;UART5/CR3;UART5/BRR;UART5/GTPR;UART5/RTOR;UART5/RQR;UART5/ISR;UART5/ICR;UART5/RDR;UART5/TDR;USART6/CR1;USART6/CR2;USART6/CR3;USART6/BRR;USART6/GTPR;USART6/RTOR;USART6/RQR;USART6/ISR;USART6/ICR;USART6/RDR;USART6/TDR" binaryNodes="" asciiNodes="" openNodes="UART5;UART5/CR1;UART5/ISR;UART5/ICR;UART5/RDR;UART5/TDR;USART6;USART6/CR1;USART6/ISR;USART6/RDR;USART6/TDR" name="Start_STM32F769I_Discovery_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -76,22 +69,26 @@
  </Watch4>
  <Files>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="226" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/RTOSInit_STM32F7xx.c" left="0" top="219" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="6" y="7" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/applayer.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/communication_tasks.c" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="110" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.c" left="0" top="93" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="19" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/applayer.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/communication_tasks.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="133" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.c" left="0" top="109" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/hardware_layer.h" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/System/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio_ex.h" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="21" y="1269" useTextEdit="1" path="GUI/Setup/STM32F769_ST_STM32F769I_Discovery/LCDConf.c" left="0" top="1256" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="1291" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/GUI/Setup/STM32F769_ST_STM32F769I_Discovery/LCDConf.c" path="GUI/Inc/GUI.h" left="0" top="1278" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="GUI/Setup/STM32F769_ST_STM32F769I_Discovery/GUIConf.h" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="GUI/Setup/STM32F769_ST_STM32F769I_Discovery/GUIConf.c" left="0" top="47" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="46" useTextEdit="1" path="Application/MainPrimary.c" left="0" top="45" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="48" y="7" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/applayer.h" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="56" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/MainSecondary.c" left="0" top="32" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="54" y="91" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.c" left="0" top="71" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="10" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/MainSecondary.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/applayer.c" left="0" selected="1" top="32" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="50" y="30" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/applayer.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.c" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="10" y="1" useTextEdit="1" openedFrom="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/MainSecondary.c" path="BSP/ST/STM32F769_STM32F769I_Discovery/applayer.c" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="1348" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/Setup/System/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c" left="0" top="1326" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="18" y="17" path="BSP/ST/STM32F769_STM32F769I_Discovery/Output/Release/Start_STM32F769I_Discovery.elf" left="0" top="0" codecName=""/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="Application/OS/OS_StartLEDBlink.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="2" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/midlayer.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/MainPrimary.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/protocol_data.h" left="0" top="13" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/midlayer_utils.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="4" useTextEdit="1" path="BSP/ST/STM32F769_STM32F769I_Discovery/midlayer_utils.h" left="0" top="0" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="Start_STM32F769I_Discovery(Start_STM32F769I_Discovery)" fileDialogDefaultFilter="*.asm;*.s;*.inc" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/SEGGER_THUMB_Startup.s&#xa;/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/SEGGER_THUMB_Startup.s" fileDialogInitialDirectory="/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="Start_STM32F769I_Discovery(Start_STM32F769I_Discovery)" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="/home/kaloyangeorgiev/Downloads/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/SEGGER_THUMB_Startup.s&#xa;/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery/Setup/SEGGER_THUMB_Startup.s&#xa;/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/Application/MainPrimary.c&#xa;" fileDialogInitialDirectory="/home/kaloyangeorgiev/Downloads/directory/SeggerEval/SeggerEval_STM32F769_ST_STM32F769I_Discovery_CortexM_SES_220712/BSP/ST/STM32F769_STM32F769I_Discovery" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

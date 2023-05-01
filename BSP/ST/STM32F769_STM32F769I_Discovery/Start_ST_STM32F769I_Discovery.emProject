@@ -279,23 +279,30 @@
         <configuration Name="Release" build_exclude_from_build="Yes" />
         <configuration Name="ReleasePrimary" build_exclude_from_build="Yes" />
       </file>
-      <file file_name="midlayer.c" />
-      <file file_name="midlayer.h" />
-      <file file_name="protocol_data.h" />
-      <file file_name="hardware_layer.c" />
-      <file file_name="applayer.c" />
-      <file file_name="applayer.h" />
-      <file file_name="communication_tasks.c" />
-      <file file_name="../../../Application/MainPrimary.c">
-        <configuration Name="Release" build_exclude_from_build="No" />
-        <configuration Name="Debug" build_exclude_from_build="Yes" />
-      </file>
       <file file_name="MainSecondary.c">
         <configuration Name="Debug" build_exclude_from_build="No" />
         <configuration Name="Release" build_exclude_from_build="Yes" />
         <configuration Name="ReleasePrimary" build_exclude_from_build="Yes" />
       </file>
-      <file file_name="hardware_layer.h" />
+      <file file_name="MainPrimary.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
+      <folder Name="LayerMiddle">
+        <file file_name="midlayer.c" />
+        <file file_name="midlayer.h" />
+        <file file_name="protocol_data.h" />
+        <file file_name="midlayer_utils.c" />
+        <file file_name="midlayer_utils.h" />
+      </folder>
+      <folder Name="LayerApplication">
+        <file file_name="applayer.c" />
+        <file file_name="applayer.h" />
+        <file file_name="communication_tasks.c" />
+      </folder>
+      <folder Name="LayerHardware">
+        <file file_name="hardware_layer.c" />
+        <file file_name="hardware_layer.h" />
+      </folder>
     </folder>
     <folder Name="Doc">
       <file file_name="../../../Doc/UM01001_embOS.pdf">
