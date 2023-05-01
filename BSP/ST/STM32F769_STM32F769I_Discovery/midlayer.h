@@ -30,7 +30,7 @@ int SecondaryReceive(packet_t *incoming, enum special_packet *spp);
 int SecondaryAcknowledge(uint8_t ack_type, uint8_t size, uint16_t address, char *str);
 
 
-int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole, enum mode);
+int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole);
 
 #define INIT_PACKET_DATA {0xBE, 0xEF}
 #define INIT_PACKET_SIZE 4 / DATA_WORD_LEN

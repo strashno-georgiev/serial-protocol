@@ -16,8 +16,6 @@
 #define TIMEOUT 250
 
 
-enum mode MODE = UNDEFINED_MODE;
-
 byte_t ID = 0x00;
 
 enum ReceiveStatus ReceivePacket(packet_t* packet) {
@@ -194,24 +192,19 @@ int SecondaryReceive(packet_t *incoming, enum special_packet *spp) {
 }
 
 
-int CommunicationInitMain(enum mode com_mode) {
+int CommunicationInitMain() {
   //Let a communication init be a write on address 0x00 of 'IN'
   packet_t incoming_packet;
-  MODE = com_mode;
   return MainControlled(&INIT_PACKET, &incoming_packet);
 }
 
-int CommunicationInitSecondary(enum mode com_mode) {
+int CommunicationInitSecondary() {
   enum special_packet flag = NOT_SPECIAL;
   packet_t inc;
-  while(MODE == UNDEFINED_MODE && com_mode == UNDEFINED_MODE) {}
-  MODE = com_mode;
-  if(MODE == MULTI_CONTROLLER_MODE) {
-    ID = 1;
-  }
 
   SecondaryReceive(&inc, &flag);
   SecondaryAcknowledge(COMMAND_TYPE_ACK_WRITE, 0, 0, "");
+  
   if(flag != INIT) {
     return -1;
   }
@@ -222,13 +215,13 @@ int CommunicationEndMain(packet_t * res) {
   return MainControlled(&END_PACKET, res);
 }
 
-int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
+int initMidLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance, enum deviceRole role) {
   initHardwareLayer(huart, instance);
   if(role == PRIMARY) {
-    return CommunicationInitMain(mode);
+    return CommunicationInitMain();
   }
   else if(role == SECONDARY) {
-    return CommunicationInitSecondary(mode);
+    return CommunicationInitSecondary();
   }
   return -1;
 }

@@ -38,7 +38,7 @@ void MainTask(void) {
 	//OS_TASK_EnterRegion();
 	printf("Waiting for connection initialization\n");
 	OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
-	communicationStart(UART5, SECONDARY, MULTI_CONTROLLER_MODE);
+	communicationStart(UART5, SECONDARY);
 
 	safeWrite("ab", 0x0000, 2);
 

@@ -22,13 +22,13 @@ void safeRead(void *buf, uint16_t address, uint16_t size) {
   safeCopy(buf, readBuffer+address, size, &readMutex);
 }
 
-int communicationStart(USART_TypeDef *instance, enum deviceRole role, enum mode mode) {
+int communicationStart(USART_TypeDef *instance, enum deviceRole role) {
   memset(writeBuffer, 0, 2*K);
   memset(readBuffer, 0, 2*K);
   OS_MUTEX_Create(&writeMutex);
   OS_MUTEX_Create(&readMutex);
 
-  initMidLayer(&HUART, instance, role, mode);
+  initMidLayer(&HUART, instance, role);
 
 
   if(role == PRIMARY) {

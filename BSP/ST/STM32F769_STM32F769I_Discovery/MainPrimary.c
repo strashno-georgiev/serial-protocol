@@ -47,7 +47,7 @@ void MainTask(void) {
 	OS_TASK_EnterRegion();
 	OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
 	OS_TASK_CREATE(&TCB_Tim, "timer", 10, TimerTask, StackTimer);
-	communicationStart(UART5, PRIMARY, MULTI_CONTROLLER_MODE);
+	communicationStart(UART5, PRIMARY);
 	OS_TASK_Terminate(NULL);
 }
 
