@@ -852,6 +852,9 @@
     <file file_name="../../../Getting_started_with_SEGGER_Eval_Software.mp4">
       <configuration Name="Common" file_open_with="Web Browser" />
     </file>
+    <configuration
+      Name="Debug"
+      c_user_include_directories=".;$(ProjectDir)/" />
   </project>
   <configuration
     Name="Debug"
