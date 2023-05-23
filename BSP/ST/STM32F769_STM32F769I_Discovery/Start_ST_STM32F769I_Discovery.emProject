@@ -274,18 +274,14 @@
       <folder Name="Inc">
         <file file_name="../../../Application/Inc/TaskPrio.h" />
       </folder>
-      <file file_name="../../../Application/OS/OS_StartLEDBlink.c">
-        <configuration Name="Debug" build_exclude_from_build="Yes" />
-        <configuration Name="Release" build_exclude_from_build="Yes" />
-        <configuration Name="ReleasePrimary" build_exclude_from_build="Yes" />
-      </file>
       <file file_name="MainSecondary.c">
         <configuration Name="Debug" build_exclude_from_build="No" />
-        <configuration Name="Release" build_exclude_from_build="Yes" />
+        <configuration Name="Release" build_exclude_from_build="No" />
         <configuration Name="ReleasePrimary" build_exclude_from_build="Yes" />
       </file>
       <file file_name="MainPrimary.c">
         <configuration Name="Debug" build_exclude_from_build="Yes" />
+        <configuration Name="Release" build_exclude_from_build="Yes" />
       </file>
       <folder Name="LayerMiddle">
         <file file_name="midlayer.c" />
@@ -303,58 +299,8 @@
         <file file_name="hardware_layer.c" />
         <file file_name="hardware_layer.h" />
       </folder>
-    </folder>
-    <folder Name="Doc">
-      <file file_name="../../../Doc/UM01001_embOS.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM01061_embOS_CortexM_ES.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM02001_emFile.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM03001_emWin.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM07001_emNet.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM07002_emWeb.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM09001_emUSBD.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM10001_emUSBH.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM12002_emSecureRSA.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM12004_emSecureECDSA.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM12006_emCrypt.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM14001_emModbus.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM15001_emSSL.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM15004_IoTToolkit.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM17001_emCompress_Embed.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <file file_name="../../../Doc/UM20001_emSSH.pdf">
-        <configuration Name="Common" file_open_with="Web Browser" />
-      </file>
-      <configuration Name="Debug" build_exclude_from_build="Yes" />
-      <configuration Name="Release" build_exclude_from_build="Yes" />
+      <file file_name="fault_injection.c" />
+      <file file_name="fault_injection.h" />
     </folder>
     <folder Name="GUI">
       <folder Name="IP">

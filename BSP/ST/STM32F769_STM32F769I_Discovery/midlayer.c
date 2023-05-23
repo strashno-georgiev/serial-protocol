@@ -13,6 +13,7 @@
 #include "protocol_data.h"
 #include "hardware_layer.h"
 #include "midlayer_utils.h"
+#include "fault_injection.h"
 #define TIMEOUT 250
 
 
@@ -32,6 +33,9 @@ enum ReceiveStatus ReceivePacket(packet_t* packet) {
   crc = CRC_f(received, res - PACKET_CRC_HEX_LEN - PACKET_ENDING_HEX_LEN);
   
   PacketDeencapsulate(received, packet);
+  if(check_fault()) {
+	packet->crc++;
+  }
   if(crc != packet->crc) {
     return RECEIVE_BAD_CRC;
   }
