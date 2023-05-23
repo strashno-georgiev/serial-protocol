@@ -2,7 +2,7 @@
 #define HARDWARE_LAYER_HH
 
 #include "stm32f7xx_hal.h"
-#include "protocol_data.h"
+#include "../LayerMiddle/protocol_data.h"
 #include "RTOS.h"
 #define DEBUG_PRINT 1
 

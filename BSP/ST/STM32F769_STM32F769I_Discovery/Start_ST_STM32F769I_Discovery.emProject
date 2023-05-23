@@ -284,23 +284,26 @@
         <configuration Name="Release" build_exclude_from_build="Yes" />
       </file>
       <folder Name="LayerMiddle">
-        <file file_name="midlayer.c" />
-        <file file_name="midlayer.h" />
+        <file file_name="LayerMiddle/midlayer_utils.h" />
+        <file file_name="LayerMiddle/midlayer_utils.c" />
+        <file file_name="LayerMiddle/midlayer.h" />
+        <file file_name="LayerMiddle/midlayer.c" />
         <file file_name="protocol_data.h" />
-        <file file_name="midlayer_utils.c" />
-        <file file_name="midlayer_utils.h" />
       </folder>
       <folder Name="LayerApplication">
-        <file file_name="applayer.c" />
-        <file file_name="applayer.h" />
-        <file file_name="communication_tasks.c" />
+        <file file_name="LayerApplication/applayer.h" />
+        <file file_name="LayerApplication/communication_tasks.c" />
+        <file file_name="LayerApplication/applayer.c" />
       </folder>
       <folder Name="LayerHardware">
-        <file file_name="hardware_layer.c" />
-        <file file_name="hardware_layer.h" />
+        <file file_name="LayerHardware/hardware_layer.h" />
+        <file file_name="LayerHardware/hardware_layer.c" />
       </folder>
-      <file file_name="fault_injection.c" />
-      <file file_name="fault_injection.h" />
+      <folder Name="FIF">
+        <file file_name="FIF/fault_injection.h" />
+        <file file_name="FIF/fault_injection.c" />
+      </folder>
+      <configuration Name="Debug" c_user_include_directories="." />
     </folder>
     <folder Name="GUI">
       <folder Name="IP">

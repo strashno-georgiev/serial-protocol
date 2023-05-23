@@ -1,6 +1,6 @@
 #include "RTOS.h"
 #include "BSP.h"
-#include "../BSP/ST/STM32F769_STM32F769I_Discovery/applayer.h"
+#include "LayerApplication/applayer.h"
 #define MAIN 1
 #define SEC 2
 

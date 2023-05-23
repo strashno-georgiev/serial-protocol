@@ -9,11 +9,11 @@
 #include <stm32f7xx_hal.h>
 #include "RTOS.h"
 #include "midlayer.h"
-#include "applayer.h"
+#include "../LayerApplication/applayer.h"
 #include "protocol_data.h"
-#include "hardware_layer.h"
+#include "../LayerHardware/hardware_layer.h"
 #include "midlayer_utils.h"
-#include "fault_injection.h"
+#include "../FIF/fault_injection.h"
 #define TIMEOUT 250
 
 
