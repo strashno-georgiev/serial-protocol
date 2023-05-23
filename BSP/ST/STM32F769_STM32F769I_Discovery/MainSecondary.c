@@ -50,7 +50,7 @@ void MainTask(void) {
 	OS_TASK_CREATE(&TCB_Rdr, "reader task", 10, ReaderTask, StackReader);
 	communicationStart(UART5, SECONDARY);
 
-	safeWrite("ab", 0x0000, 2);
+	safeWrite("Hello", 0x0000, strlen("Hello"));
 
 	
 	OS_TASK_Terminate(NULL);
