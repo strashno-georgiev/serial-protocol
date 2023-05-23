@@ -22,8 +22,8 @@ void MainTask(void);
 static OS_STACKPTR int Stack0[2048];                  /* Task stack */
 static OS_TASK         TCB0;                  /* Task-control-block */
 
-static OS_STACKPTR int StackHP[256];  // Task stacks
-static OS_TASK         TCB_HP;  
+static OS_STACKPTR int StackHP[256], StackReader[256];  // Task stacks
+static OS_TASK         TCB_HP, TCB_Rdr;  
 static int LED_no = 1;
 
 static void HPTask(void) {
@@ -34,10 +34,20 @@ static void HPTask(void) {
 	}
 }
 
+static void ReaderTask(void) {
+	uint16_t timer = 0;
+	while(1) {
+		safeRead(&timer, 0, sizeof(timer));
+		printf("Timer: %d\n", timer);
+		OS_TASK_Delay(250);
+	}
+}
+
 void MainTask(void) {
 	//OS_TASK_EnterRegion();
 	printf("Waiting for connection initialization\n");
 	OS_TASK_CREATE(&TCB_HP, "led blink", 10, HPTask, StackHP);
+	OS_TASK_CREATE(&TCB_Rdr, "reader task", 10, ReaderTask, StackReader);
 	communicationStart(UART5, SECONDARY);
 
 	safeWrite("ab", 0x0000, 2);

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDLAYER_UTILS_HH
+#define MIDLAYER_UTILS_HH
 
 packet_t INIT_PACKET = {INIT_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, INIT_PACKET_SIZE, 0, INIT_PACKET_DATA};
 packet_t BAD_CRC_PACKET = {BAD_CRC_PACKET_ADDRESS, 0, COMMAND_TYPE_WRITE, BAD_CRC_PACKET_SIZE, 0, BAD_CRC_PACKET_DATA};
@@ -10,3 +11,5 @@ void PacketDeencapsulate(char *str, packet_t * p);
 uint8_t CRC_f(char* data, int len);
 void PacketEncapsulateCRC(packet_t *packet, char *str);
 int comparePackets(packet_t *p1, packet_t *p2);
+
+#endif

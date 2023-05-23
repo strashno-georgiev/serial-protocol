@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDLAYER_HH
+#define MIDLAYER_HH
 
 #include "protocol_data.h"
 #include "applayer.h"
@@ -43,4 +44,6 @@ int initMidLayer(UART_HandleTypeDef* huart, USART_TypeDef *, enum deviceRole);
 #define END_PACKET_DATA {0xDE, 0xAD}
 #define END_PACKET_SIZE 4 / DATA_WORD_LEN
 #define END_PACKET_ADDRESS 0x0000
+
+#endif
 

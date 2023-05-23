@@ -132,7 +132,9 @@ int initHardwareLayer(UART_HandleTypeDef *huart, USART_TypeDef *instance) {
 }
 
 int Transmit(char* str, int len) {
+  #if DEBUG_PRINT==1
   printf("Tx: %s\n", str);
+  #endif
   HAL_StatusTypeDef res;
   for(int i=0; i < len; i++) {
     do {
@@ -165,7 +167,9 @@ int Receive(char* str) {
   }
   i++;
   str[i] = 0;
+  #if DEBUG_PRINT==1
   printf("Rx: %s\n", str);
+  #endif
   return i;
 }
 

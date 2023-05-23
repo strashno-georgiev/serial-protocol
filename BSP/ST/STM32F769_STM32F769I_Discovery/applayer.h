@@ -1,4 +1,6 @@
-#pragma once
+#ifndef APPLAYER_HH
+#define APPLAYER_HH
+
 #include <stdint.h>
 #include <string.h>
 #include "stm32f7xx_hal.h"
@@ -23,3 +25,5 @@ void safeWrite(void *data, uint16_t address, uint16_t size);
 
 void UART_PrimaryTask(void);
 void UART_SecondaryTask(void);
+
+#endif

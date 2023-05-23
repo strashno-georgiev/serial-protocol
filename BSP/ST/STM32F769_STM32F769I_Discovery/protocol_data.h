@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROTOCOL_DATA_HH
+#define PROTOCOL_DATA_HH
 
 //Length of a single character of data encoded in the packet
 #define DATA_WORD_LEN 2
@@ -34,3 +35,6 @@
 #define COMMAND_TYPE_WRITE 0x0E
 #define COMMAND_TYPE_ACK_WRITE 0x0A
 #define COMMAND_TYPE_READ 0x0D
+
+
+#endif

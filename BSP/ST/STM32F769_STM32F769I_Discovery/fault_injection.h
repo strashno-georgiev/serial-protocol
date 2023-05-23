@@ -1,6 +1,7 @@
 #define FAULT_HH
 
 #ifndef FAULT_HH
+#define FAULT_HH
 #include <stdint.h>
 
 const uint8_t FAULT_CRC = 1;
