@@ -13,7 +13,7 @@ void UART_IRQHandler(void) {
   //huart_used = &HUART5;
   //__HAL_UART_CLEAR_IT(huart_used, UART_CLEAR_OREF);
   //printf("it\n");
-  if(((huart_used->Instance->ISR & UART_FLAG_RXNE) == UART_FLAG_RXNE) || ((huart_used->Instance->ISR & UART_FLAG_ORE) == UART_FLAG_ORE)) {
+  if(((huart_used->Instance->ISR & UART_FLAG_RXNE) > 0) || ((huart_used->Instance->ISR & UART_FLAG_ORE) > 0)) {
     C = huart_used->Instance->RDR & 0xFF;
     OS_MAILBOX_Put1(&receivedMailBox, &C);
     if(huart_used->Instance->ISR & UART_FLAG_ORE) 
